@@ -14,12 +14,12 @@ export const PLAN_FEATURES: Record<PlanTier, Set<string>> = {
   PRO: new Set([
     "clients", "tasks", "tickets", "messages", "notifications",
     "team", "onboarding", "portal", "contacts",
-    "reports", "blog", "leads", "approvals", "projects",
+    "reports", "blog", "leads", "approvals", "projects", "seo",
   ]),
   ENTERPRISE: new Set([
     "clients", "tasks", "tickets", "messages", "notifications",
     "team", "onboarding", "portal", "contacts",
-    "reports", "blog", "leads", "approvals", "projects",
+    "reports", "blog", "leads", "approvals", "projects", "seo",
     "agent", "whitelabel",
   ]),
 };
@@ -48,6 +48,11 @@ export const FEATURE_LABELS: Record<string, { name: string; minPlan: string; blu
     name: "Approvals",
     minPlan: "Pro",
     blurb: "Send work to clients for approval and track sign-off.",
+  },
+  seo: {
+    name: "SEO tools",
+    minPlan: "Pro",
+    blurb: "Track keywords, SERPs, content projects, and social planning.",
   },
   agent: {
     name: "AI agent runs",

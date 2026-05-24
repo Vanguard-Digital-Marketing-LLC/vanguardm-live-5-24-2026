@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { checkRateLimit } from "@/lib/api-rate-limit";
-import { requireAdminAuth } from "@/lib/api-middleware";
+import { requireAdminFeature } from "@/lib/api-middleware";
 
 export const dynamic = "force-dynamic";
 
@@ -11,14 +11,11 @@ export async function PATCH(
 ) {
   const blocked = await checkRateLimit(request, "admin");
   if (blocked) return blocked;
-  const auth = await requireAdminAuth("ADMIN");
+  const auth = await requireAdminFeature("leads", "ADMIN");
   if (auth.errorResponse) return auth.errorResponse;
   const { agencyId } = auth;
 
   const { id } = await params;
-  const existing = await prisma.exitPopupConfig.findFirst({ where: { id, agencyId } });
-  if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
-
   const body = await request.json().catch(() => null);
   if (!body) return NextResponse.json({ error: "invalid body" }, { status: 400 });
 
@@ -33,7 +30,15 @@ export async function PATCH(
   if (Array.isArray(body.showOnPaths) || body.showOnPaths === null)
     data.showOnPaths = body.showOnPaths ?? null;
 
-  const config = await prisma.exitPopupConfig.update({ where: { id }, data });
+  const result = await prisma.exitPopupConfig.updateMany({
+    where: { id, agencyId },
+    data,
+  });
+  if (result.count === 0) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  const config = await prisma.exitPopupConfig.findFirst({ where: { id, agencyId } });
   return NextResponse.json(config);
 }
 
@@ -43,14 +48,15 @@ export async function DELETE(
 ) {
   const blocked = await checkRateLimit(request, "admin");
   if (blocked) return blocked;
-  const auth = await requireAdminAuth("ADMIN");
+  const auth = await requireAdminFeature("leads", "ADMIN");
   if (auth.errorResponse) return auth.errorResponse;
   const { agencyId } = auth;
 
   const { id } = await params;
-  const existing = await prisma.exitPopupConfig.findFirst({ where: { id, agencyId } });
-  if (!existing) return NextResponse.json({ error: "Not found" }, { status: 404 });
+  const result = await prisma.exitPopupConfig.deleteMany({ where: { id, agencyId } });
+  if (result.count === 0) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
 
-  await prisma.exitPopupConfig.delete({ where: { id } });
   return NextResponse.json({ ok: true });
 }

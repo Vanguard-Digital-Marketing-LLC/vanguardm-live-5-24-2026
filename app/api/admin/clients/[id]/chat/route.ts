@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { prisma } from "@/lib/db";
 import { checkRateLimit } from "@/lib/api-rate-limit";
-import { requireAdminAuth } from "@/lib/api-middleware";
-import { hasFeature } from "@/lib/plan-limits";
+import { requireAdminFeature } from "@/lib/api-middleware";
 import { buildSystemPrompt } from "@/lib/ai/system-prompt";
 
 export const dynamic = "force-dynamic";
@@ -66,7 +65,7 @@ export async function GET(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const { session, agencyId, errorResponse } = await requireAdminAuth("ADMIN");
+  const { session, agencyId, errorResponse } = await requireAdminFeature("agent", "ADMIN");
   if (errorResponse) return errorResponse;
 
   const { id: clientId } = await params;
@@ -88,23 +87,8 @@ export async function POST(
   const blocked = await checkRateLimit(req, "admin");
   if (blocked) return blocked;
 
-  const { session, agencyId, errorResponse } = await requireAdminAuth("ADMIN");
+  const { session, agencyId, errorResponse } = await requireAdminFeature("agent", "ADMIN");
   if (errorResponse) return errorResponse;
-
-  const agency = await prisma.agency.findUnique({
-    where: { id: agencyId },
-    select: { planTier: true },
-  });
-  if (!agency || !hasFeature(agency.planTier, "agent")) {
-    return NextResponse.json(
-      {
-        error: "AI chat requires the Enterprise plan",
-        code: "PLAN_UPGRADE_REQUIRED",
-        currentPlan: agency?.planTier ?? "STARTER",
-      },
-      { status: 402 },
-    );
-  }
 
   const apiKey = process.env.ANTHROPIC_API_KEY;
   if (!apiKey) {
@@ -178,7 +162,7 @@ export async function DELETE(
   _req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  const { session, agencyId, errorResponse } = await requireAdminAuth("ADMIN");
+  const { session, agencyId, errorResponse } = await requireAdminFeature("agent", "ADMIN");
   if (errorResponse) return errorResponse;
   const { id: clientId } = await params;
 

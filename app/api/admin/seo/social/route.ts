@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { checkRateLimit } from "@/lib/api-rate-limit";
-import { requireAdminAuth } from "@/lib/api-middleware";
+import { requireAdminFeature } from "@/lib/api-middleware";
 import { createSocialPostSchema } from "@/lib/validations/seo";
 
 /* ──────────────────────────────────────────────
@@ -13,7 +13,7 @@ import { createSocialPostSchema } from "@/lib/validations/seo";
 export async function GET(request: NextRequest) {
   const blocked = await checkRateLimit(request, "admin");
   if (blocked) return blocked;
-  const { agencyId, errorResponse } = await requireAdminAuth();
+  const { agencyId, errorResponse } = await requireAdminFeature("seo");
   if (errorResponse) return errorResponse;
 
   const { searchParams } = new URL(request.url);
@@ -56,7 +56,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const blocked = await checkRateLimit(request, "admin");
   if (blocked) return blocked;
-  const { session, agencyId, errorResponse } = await requireAdminAuth();
+  const { session, agencyId, errorResponse } = await requireAdminFeature("seo");
   if (errorResponse) return errorResponse;
 
   try {

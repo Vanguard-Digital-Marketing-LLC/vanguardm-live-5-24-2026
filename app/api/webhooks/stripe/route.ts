@@ -33,7 +33,8 @@ async function syncSubscription(subscription: Stripe.Subscription) {
   if (!agencyId) return;
 
   const status = mapSubStatus(subscription.status);
-  const priceId = subscription.items.data[0]?.price.id;
+  const subscriptionItem = subscription.items.data[0];
+  const priceId = subscriptionItem?.price.id;
   const resolved = priceId ? resolvePlan(priceId) : null;
 
   // On cancellation Stripe drops items; force STARTER limits so a former PRO
@@ -48,7 +49,9 @@ async function syncSubscription(subscription: Stripe.Subscription) {
     data: {
       subscriptionId: subscription.id,
       subscriptionStatus: status,
-      currentPeriodEnd: new Date(subscription.items.data[0]?.current_period_end * 1000),
+      currentPeriodEnd: subscriptionItem?.current_period_end
+        ? new Date(subscriptionItem.current_period_end * 1000)
+        : null,
       ...(plan && { planTier: plan.planTier, maxClients: plan.maxClients }),
     },
   });

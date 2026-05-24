@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { checkRateLimit } from "@/lib/api-rate-limit";
-import { requireAdminAuth } from "@/lib/api-middleware";
+import { requireAdminFeature } from "@/lib/api-middleware";
 import { updateKeywordListSchema } from "@/lib/validations/seo";
 
 type RouteCtx = { params: Promise<{ id: string }> };
@@ -15,7 +15,7 @@ type RouteCtx = { params: Promise<{ id: string }> };
 export async function GET(request: NextRequest, { params }: RouteCtx) {
   const blocked = await checkRateLimit(request, "admin");
   if (blocked) return blocked;
-  const { agencyId, errorResponse } = await requireAdminAuth();
+  const { agencyId, errorResponse } = await requireAdminFeature("seo");
   if (errorResponse) return errorResponse;
 
   const { id } = await params;
@@ -48,7 +48,7 @@ export async function GET(request: NextRequest, { params }: RouteCtx) {
 export async function PATCH(request: NextRequest, { params }: RouteCtx) {
   const blocked = await checkRateLimit(request, "admin");
   if (blocked) return blocked;
-  const { agencyId, errorResponse } = await requireAdminAuth();
+  const { agencyId, errorResponse } = await requireAdminFeature("seo");
   if (errorResponse) return errorResponse;
 
   const { id } = await params;
@@ -92,7 +92,7 @@ export async function PATCH(request: NextRequest, { params }: RouteCtx) {
 export async function DELETE(request: NextRequest, { params }: RouteCtx) {
   const blocked = await checkRateLimit(request, "admin");
   if (blocked) return blocked;
-  const { agencyId, errorResponse } = await requireAdminAuth("ADMIN");
+  const { agencyId, errorResponse } = await requireAdminFeature("seo", "ADMIN");
   if (errorResponse) return errorResponse;
 
   const { id } = await params;
@@ -116,7 +116,7 @@ export async function DELETE(request: NextRequest, { params }: RouteCtx) {
 export async function POST(request: NextRequest, { params }: RouteCtx) {
   const blocked = await checkRateLimit(request, "admin");
   if (blocked) return blocked;
-  const { agencyId, errorResponse } = await requireAdminAuth();
+  const { agencyId, errorResponse } = await requireAdminFeature("seo");
   if (errorResponse) return errorResponse;
 
   const { id } = await params;

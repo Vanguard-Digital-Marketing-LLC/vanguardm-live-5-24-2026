@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { checkRateLimit } from "@/lib/api-rate-limit";
-import { requireAdminAuth } from "@/lib/api-middleware";
+import { requireAdminFeature } from "@/lib/api-middleware";
 import { updateContentProjectSchema } from "@/lib/validations/seo";
 
 /* ──────────────────────────────────────────────
@@ -15,7 +15,7 @@ export async function GET(
 ) {
   const blocked = await checkRateLimit(request, "admin");
   if (blocked) return blocked;
-  const { agencyId, errorResponse } = await requireAdminAuth();
+  const { agencyId, errorResponse } = await requireAdminFeature("seo");
   if (errorResponse) return errorResponse;
 
   const { id } = await params;
@@ -46,7 +46,7 @@ export async function PATCH(
 ) {
   const blocked = await checkRateLimit(request, "admin");
   if (blocked) return blocked;
-  const { agencyId, errorResponse } = await requireAdminAuth();
+  const { agencyId, errorResponse } = await requireAdminFeature("seo");
   if (errorResponse) return errorResponse;
 
   const { id } = await params;
@@ -94,7 +94,7 @@ export async function DELETE(
 ) {
   const blocked = await checkRateLimit(request, "admin");
   if (blocked) return blocked;
-  const { agencyId, errorResponse } = await requireAdminAuth("ADMIN");
+  const { agencyId, errorResponse } = await requireAdminFeature("seo", "ADMIN");
   if (errorResponse) return errorResponse;
 
   const { id } = await params;

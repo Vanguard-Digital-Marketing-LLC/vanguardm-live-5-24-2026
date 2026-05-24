@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { checkRateLimit } from "@/lib/api-rate-limit";
-import { requireAdminAuth } from "@/lib/api-middleware";
+import { requireAdminFeature } from "@/lib/api-middleware";
 
 export const dynamic = "force-dynamic";
 
@@ -11,7 +11,7 @@ export const dynamic = "force-dynamic";
 export async function GET(request: NextRequest) {
   const blocked = await checkRateLimit(request, "admin");
   if (blocked) return blocked;
-  const { agencyId, errorResponse } = await requireAdminAuth();
+  const { agencyId, errorResponse } = await requireAdminFeature("leads");
   if (errorResponse) return errorResponse;
 
   const forms = await prisma.multiStepForm.findMany({
@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const blocked = await checkRateLimit(request, "admin");
   if (blocked) return blocked;
-  const { agencyId, errorResponse } = await requireAdminAuth("ADMIN");
+  const { agencyId, errorResponse } = await requireAdminFeature("leads", "ADMIN");
   if (errorResponse) return errorResponse;
 
   const body = await request.json().catch(() => null);
