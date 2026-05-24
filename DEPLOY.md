@@ -4,7 +4,7 @@ This branch (`main`) holds the changes from local development against
 `vanguardm_vanguard_dev` (a clone of prod's `vanguardm_vanguard_app`).
 The production app lives on the VPS at:
 
-- Host: `vps66822.nodevm.com` (`103.120.48.66`, ssh port `37980`)
+- Host: `hs.vdm-smtp.net` (`103.120.48.66`, ssh port `37980`)
 - Path: `/home/vanguardm/public_html/`
 - Process: `pm2-vanguardm.service` → `pm2 process "vanguardm"` (port `3010`)
 - Web: nginx → `127.0.0.1:3010`
