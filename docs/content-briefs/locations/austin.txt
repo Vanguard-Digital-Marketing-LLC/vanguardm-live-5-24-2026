@@ -1,0 +1,95 @@
+LOCATION PAGE CONTENT BRIEF: Austin, TX
+=========================================
+
+URL: /locations/austin
+Target Keywords: digital marketing Austin, SEO agency Austin, web design Austin TX, marketing company Austin
+
+SEO METADATA
+------------
+Title: Digital Marketing Agency in Austin, TX | Vanguard Digital Marketing
+Description: Austin's trusted digital marketing agency. SEO, web design, PPC, social media, and branding services for Austin businesses. Free consultation — call today.
+Keywords: digital marketing Austin, Austin SEO, Austin web design, marketing agency Austin TX, PPC Austin, social media marketing Austin
+
+H1: Austin Digital Marketing Agency
+Subtitle label: Austin, Texas
+
+PAGE SECTIONS
+-------------
+
+1. HERO
+   - H1 (above)
+   - Subtext: Vanguard Digital Marketing helps Austin businesses grow with data-driven SEO, custom web design, PPC campaigns, and social media strategies. Local expertise, nationwide results.
+   - CTA: "Get a Free Consultation" + "Call (XXX) XXX-XXXX"
+
+2. WHY AUSTIN BUSINESSES CHOOSE VANGUARD
+   - H2: Digital Marketing for Austin Businesses
+   - Local knowledge angle:
+     * We understand the Austin market — tech startups, restaurants, real estate, local services
+     * Austin is competitive — you need a marketing partner who knows the landscape
+     * From South Congress to the Domain, we help Austin brands stand out online
+   - Brief paragraph about Austin's business ecosystem and why digital marketing is essential there
+
+3. SERVICES WE OFFER IN AUSTIN
+   - H2: Our Austin Marketing Services
+   - Cards linking to each service page:
+     * SEO & Search Marketing → /services/seo
+     * Web Design & Development → /services/web-design
+     * PPC & Google Ads → /services/ppc
+     * Social Media Marketing → /services/social-media
+     * Branding & Identity → /services/branding
+     * Content Marketing → /services/content-marketing
+   - Each card: brief 1-2 sentence Austin-specific description
+
+4. LOCAL SEO FOCUS
+   - H2: Austin Local SEO Experts
+   - Content specific to Austin local search:
+     * Google Business Profile optimization for Austin
+     * Austin-specific citation building (Yelp, Austin Chamber, local directories)
+     * "Near me" search optimization for Austin neighborhoods
+     * Review management strategies for Austin businesses
+   - Mention neighborhoods/areas: Downtown, South Congress, East Austin, Domain, Round Rock, Cedar Park, Georgetown
+
+5. INDUSTRIES WE SERVE IN AUSTIN
+   - H2: Industries We Serve
+   - Grid:
+     * Tech & SaaS Startups
+     * Restaurants & Hospitality
+     * Real Estate & Property Management
+     * Healthcare & Wellness
+     * Professional Services (Legal, Accounting)
+     * Home Services (HVAC, Plumbing, Electrical)
+     * E-Commerce & Retail
+     * Fitness & Recreation
+
+6. AUSTIN STATS / LOCAL PROOF
+   - H2: Our Austin Results
+   - Localized stats or testimonials:
+     * "X Austin businesses served"
+     * Specific Austin client results (anonymized if needed)
+     * Map or area indicator showing Austin service area
+
+7. FAQ (Austin-specific)
+   - Q: Do you work with Austin startups?
+   - Q: What areas around Austin do you serve?
+   - Q: Can I meet with your team in person in Austin?
+   - Q: How do I rank higher on Google Maps in Austin?
+
+8. CTA SECTION
+   - "Ready to Grow Your Austin Business?" + contact form/link
+   - Include phone number and address/service area
+
+INTERNAL LINKS
+--------------
+- All 6 service pages
+- /locations/dallas, /locations/houston (sister locations)
+- /portfolio
+- /contact
+- /academy (educational resources)
+
+SCHEMA MARKUP
+-------------
+- LocalBusiness schema with Austin address/service area
+- Service schema
+- FAQ schema
+- BreadcrumbList: Home > Locations > Austin
+- GeoCoordinates: 30.2672, -97.7431

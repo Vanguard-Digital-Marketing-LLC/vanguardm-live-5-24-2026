@@ -1,0 +1,86 @@
+SERVICE PAGE CONTENT BRIEF: Branding & Identity
+=================================================
+
+URL: /services/branding
+Parent: /services (links from "Branding & Identity" card)
+
+SEO METADATA
+------------
+Title: Branding & Identity Design Services | Vanguard Digital Marketing
+Description: Build a brand that stands out. Logo design, brand messaging, visual identity systems, style guides, and competitive positioning from Vanguard Digital Marketing.
+Keywords: branding services, brand identity, logo design, brand strategy, visual identity, brand messaging, style guide
+
+H1: Build a Brand That Commands Attention
+Subtitle label: Branding & Identity
+
+PAGE SECTIONS
+-------------
+
+1. HERO
+   - H1 (above)
+   - Subtext: Your brand is more than a logo. We build complete identity systems — visual, verbal, and strategic — that make your business unforgettable.
+   - CTA: "Start Your Brand Project" + "View Brand Work"
+
+2. WHY BRANDING MATTERS
+   - H2: Why Strong Branding Is Your Best Investment
+   - Key points:
+     * Consistent branding increases revenue by up to 23%
+     * It takes 5-7 impressions for someone to remember a brand
+     * 59% of consumers prefer to buy from brands they trust
+   - Position: good branding is the foundation of all marketing (SEO, social, ads all perform better with strong brand)
+
+3. OUR BRANDING SERVICES
+   - H2: Branding & Identity Services
+   - Cards:
+     a) Brand Strategy & Positioning — market research, competitive analysis, unique value proposition, target audience personas
+     b) Logo Design — primary logo, secondary marks, icon variations, responsive logo system
+     c) Visual Identity System — color palette, typography, imagery style, iconography, patterns
+     d) Brand Messaging Framework — brand voice, tone guidelines, taglines, elevator pitch, key messages
+     e) Brand Style Guide — comprehensive guidelines document covering all visual and verbal standards
+     f) Brand Audit & Refresh — evaluate existing brand, identify gaps, modernize without losing equity
+     g) Collateral Design — business cards, letterheads, email signatures, social media templates
+
+4. OUR PROCESS
+   - H2: Our Branding Process
+   - Phase 1: Discovery — stakeholder interviews, audience research, competitive landscape
+   - Phase 2: Strategy — positioning, differentiation, brand architecture
+   - Phase 3: Creative Exploration — mood boards, concept directions, initial designs
+   - Phase 4: Refinement — feedback rounds, iterations, finalization
+   - Phase 5: Brand Guide & Delivery — comprehensive style guide, all file formats, usage rules
+
+5. BRAND DELIVERABLES
+   - H2: What You'll Receive
+   - Checklist of deliverables:
+     * Primary logo + variations (horizontal, stacked, icon-only)
+     * Full color palette with hex, RGB, CMYK, and Pantone codes
+     * Typography system (primary + secondary fonts, usage hierarchy)
+     * Brand voice & messaging guide
+     * Social media profile templates
+     * Business card & stationery designs
+     * Comprehensive brand style guide (PDF)
+     * All source files (AI, PSD, Figma)
+
+6. FAQ
+   - Q: How long does a branding project take?
+   - Q: How much does branding cost?
+   - Q: What if I already have a logo but need a full identity?
+   - Q: How many logo concepts will I see?
+   - Q: Do you do packaging design?
+   - Q: Will I own the final brand assets?
+
+7. CTA SECTION
+   - "Ready to Build a Brand People Remember?" + contact link
+
+INTERNAL LINKS
+--------------
+- Link to /services/web-design (brand-aligned website)
+- Link to /services/social-media (brand consistency across social)
+- Link to /services/content-marketing (brand voice in content)
+- Link to /portfolio
+- Link to /contact
+
+SCHEMA MARKUP
+-------------
+- Service schema (Branding & Identity Design)
+- FAQ schema
+- BreadcrumbList: Home > Services > Branding

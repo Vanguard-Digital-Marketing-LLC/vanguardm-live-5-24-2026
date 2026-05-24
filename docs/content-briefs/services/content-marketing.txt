@@ -1,0 +1,89 @@
+SERVICE PAGE CONTENT BRIEF: Content Marketing
+===============================================
+
+URL: /services/content-marketing
+Parent: /services (links from "Content Marketing" card)
+
+SEO METADATA
+------------
+Title: Content Marketing Services | Vanguard Digital Marketing
+Description: Strategic content marketing that attracts, engages, and converts. Blog writing, video strategy, email campaigns, lead magnets, and full content calendar management.
+Keywords: content marketing services, blog writing, content strategy, email marketing, video marketing, lead magnets, content calendar
+
+H1: Content That Attracts, Engages & Converts
+Subtitle label: Content Marketing
+
+PAGE SECTIONS
+-------------
+
+1. HERO
+   - H1 (above)
+   - Subtext: Strategic content is the engine behind every successful marketing channel. We create content that drives traffic, builds trust, and generates leads.
+   - CTA: "Get a Content Strategy" + "See Examples"
+
+2. WHY CONTENT MARKETING
+   - H2: Why Content Marketing Works
+   - Stats:
+     * Content marketing generates 3x more leads than paid search per dollar spent
+     * Companies with blogs get 67% more leads than those without
+     * 70% of consumers prefer learning about a company through articles over ads
+   - Position: content is the foundation of SEO, social, email, and thought leadership
+
+3. OUR CONTENT SERVICES
+   - H2: Content Marketing Services
+   - Cards:
+     a) Content Strategy — audience research, content pillars, editorial calendar, funnel mapping
+     b) Blog & Article Writing — SEO-optimized long-form content, guest posts, thought leadership
+     c) Video Content Strategy — YouTube strategy, social video, explainer videos, script writing
+     d) Email Marketing — drip campaigns, newsletters, automated sequences, segmentation
+     e) Lead Magnets — whitepapers, eBooks, checklists, templates, gated content
+     f) Case Studies & Testimonials — customer success stories, social proof content
+     g) Content Repurposing — turn one piece into blog, social posts, email, video, infographic
+     h) Content Calendar Management — planning, scheduling, publishing, maintaining consistency
+
+4. CONTENT TYPES WE CREATE
+   - H2: Content Formats
+   - Grid of content types with icons:
+     * Blog posts & articles
+     * Whitepapers & eBooks
+     * Infographics
+     * Video scripts
+     * Email sequences
+     * Social media content
+     * Case studies
+     * Landing page copy
+     * Product descriptions
+     * Press releases
+
+5. OUR PROCESS
+   - H2: How We Build Your Content Engine
+   - Step 1: Audit & Research — existing content audit, competitor analysis, keyword opportunities
+   - Step 2: Strategy & Calendar — content pillars, topic clusters, editorial calendar
+   - Step 3: Creation & Review — writing, design, revision, client approval
+   - Step 4: Publish & Distribute — publishing, social sharing, email distribution
+   - Step 5: Measure & Optimize — traffic, engagement, conversions, iterative improvement
+
+6. FAQ
+   - Q: How often should we publish new content?
+   - Q: Do you write content for our industry even if it's technical?
+   - Q: How do you measure content marketing ROI?
+   - Q: Can you work with our existing content team?
+   - Q: What's the difference between content marketing and copywriting?
+   - Q: How long until we see results from content marketing?
+
+7. CTA SECTION
+   - "Let's Build Your Content Engine" + contact link
+
+INTERNAL LINKS
+--------------
+- Link to /services/seo (content + SEO synergy)
+- Link to /services/social-media (content distribution)
+- Link to /services/branding (brand voice consistency)
+- Link to /academy (educational content example)
+- Link to /contact
+
+SCHEMA MARKUP
+-------------
+- Service schema (Content Marketing)
+- FAQ schema
+- BreadcrumbList: Home > Services > Content Marketing

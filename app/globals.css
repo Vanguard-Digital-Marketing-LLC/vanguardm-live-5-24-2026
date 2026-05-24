@@ -1,0 +1,388 @@
+@import "tailwindcss";
+
+@theme {
+  --color-slate-950: #0a0f1a;
+  --color-slate-900: #0f1729;
+  --color-slate-800: #1a2332;
+  --color-emerald: #10b981;
+  --color-emerald-400: #34d399;
+  --color-emerald-500: #10b981;
+  --color-emerald-600: #059669;
+  --color-amber: #f59e0b;
+  --color-amber-400: #fbbf24;
+  --color-amber-500: #f59e0b;
+  --color-teal: #0891b2;
+  --color-teal-400: #22d3ee;
+  --color-teal-500: #06b6d4;
+  --color-teal-600: #0891b2;
+  --font-display: var(--font-chakra-petch), "Chakra Petch", sans-serif;
+  --font-body: var(--font-outfit), "Outfit", sans-serif;
+}
+
+/* Base styles — Tailwind v4 preflight handles margin/padding/box-sizing reset via @layer base.
+   Custom resets must also be layered, otherwise they override @layer utilities (like mx-auto). */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--theme-body-bg, #0a0f1a);
+    color: var(--theme-body-color, #e2e8f0);
+    font-family: var(--font-body, var(--font-outfit), "Outfit", sans-serif);
+    overflow-x: hidden;
+  }
+}
+
+/* Glassmorphism utilities — use CSS vars so light themes can override */
+@utility glass {
+  background: var(--theme-glass-bg, rgba(10, 15, 26, 0.7));
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--theme-glass-border, rgba(255, 255, 255, 0.08));
+}
+
+@utility glass-strong {
+  background: var(--theme-glass-bg, rgba(10, 15, 26, 0.85));
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid var(--theme-glass-border, rgba(255, 255, 255, 0.12));
+}
+
+@utility section-bg {
+  background: var(--theme-glass-bg, rgba(10, 15, 26, 0.6));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+@utility code-block {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  overflow-x: auto;
+  font-family: monospace;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  color: #e2e8f0;
+}
+
+/* ─── Rocket Flyby Page Transition Animations ─── */
+
+/* Rocket zooms from bottom to beyond top of viewport */
+@keyframes rocketFlyby {
+  0% {
+    transform: translateX(-50%) translateY(0);
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-50%) translateY(calc(-100vh - 120px));
+    opacity: 0.6;
+  }
+}
+
+/* Speed lines streak downward as rocket flies up */
+@keyframes speedLine {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(100vh);
+    opacity: 0;
+  }
+}
+
+/* Exhaust glow flicker */
+@keyframes exhaustFlicker {
+  0% {
+    opacity: 0.6;
+    transform: translateX(-50%) scaleY(1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) scaleY(1.3);
+  }
+}
+
+/* Page content fades out on exit */
+@keyframes pageExit {
+  0% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(20px) scale(0.99);
+  }
+}
+
+/* New page slides in */
+@keyframes pageEnter {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.99);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Utility classes for component use */
+@utility animate-pageExit {
+  animation: pageExit 0.35s ease-in forwards;
+}
+
+@utility animate-pageEnter {
+  animation: pageEnter 0.45s ease-out forwards;
+}
+
+/* ─── Rocket Chaser CTA Bubble Animation ─── */
+
+@keyframes rocketBubble {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -100%) scale(0.7);
+  }
+  8% {
+    opacity: 1;
+    transform: translate(-50%, -100%) scale(1);
+  }
+  75% {
+    opacity: 1;
+    transform: translate(-50%, calc(-100% - 18px)) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, calc(-100% - 30px)) scale(0.95);
+  }
+}
+
+@utility animate-rocketBubble {
+  animation: rocketBubble 5.5s ease-out forwards;
+}
+
+/* ─── ChatBot Panel Animation ─── */
+
+@keyframes chatOpen {
+  0% {
+    opacity: 0;
+    transform: translateY(12px) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@utility animate-chatOpen {
+  animation: chatOpen 0.25s ease-out forwards;
+}
+
+/* ─── Agent Progress Bar ─── */
+
+@keyframes progress {
+  0% {
+    width: 0%;
+    opacity: 0.6;
+  }
+  50% {
+    width: 70%;
+    opacity: 1;
+  }
+  100% {
+    width: 100%;
+    opacity: 0.6;
+  }
+}
+
+@utility animate-progress {
+  animation: progress 2s ease-in-out infinite;
+}
+
+/* ─── Nav Link Underline Slide ─── */
+
+.nav-link-underline {
+  position: relative;
+}
+.nav-link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 100%;
+  height: 1.5px;
+  background: var(--color-emerald, #10b981);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.3s ease;
+}
+.nav-link-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* ─── Form Focus Glow ─── */
+
+@keyframes focusGlow {
+  0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.3); }
+  70% { box-shadow: 0 0 0 4px rgba(16, 185, 129, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+.focus-glow:focus {
+  animation: focusGlow 0.6s ease-out;
+}
+
+/* ─── Spinner ─── */
+
+@keyframes spin-emerald {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@utility animate-spin-emerald {
+  animation: spin-emerald 0.8s linear infinite;
+}
+
+/* Native select dropdown — theme-aware option elements */
+select option {
+  background: #0f1729;
+  color: #e2e8f0;
+}
+
+/* ─── Light Theme Overrides (agency subdomains) ─── */
+
+[data-theme="light"] select option {
+  background: #ffffff;
+  color: #333333;
+}
+
+/* Form inputs — bg-white/5 is invisible on white backgrounds */
+[data-theme="light"] input[type="text"],
+[data-theme="light"] input[type="email"],
+[data-theme="light"] input[type="password"],
+[data-theme="light"] input[type="tel"],
+[data-theme="light"] input[type="url"],
+[data-theme="light"] input[type="search"],
+[data-theme="light"] input[type="number"],
+[data-theme="light"] textarea,
+[data-theme="light"] select {
+  background: #f9fafb !important;
+  border-color: #d1d5db !important;
+  color: #1a1a1a !important;
+}
+
+[data-theme="light"] input::placeholder,
+[data-theme="light"] textarea::placeholder {
+  color: #9ca3af !important;
+}
+
+/* Focus rings for light theme */
+[data-theme="light"] input:focus,
+[data-theme="light"] textarea:focus,
+[data-theme="light"] select:focus {
+  border-color: var(--color-teal, #149A9A) !important;
+  box-shadow: 0 0 0 2px rgba(20, 154, 154, 0.15) !important;
+}
+
+/* ─── Skeleton Shimmer ─── */
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@utility skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.03) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.03) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* ─── Smooth Spinner ─── */
+
+@keyframes spin-smooth {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@utility animate-spin-smooth {
+  animation: spin-smooth 0.8s linear infinite;
+}
+
+/* ─── CTA Float Effect ─── */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@utility animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+/* ─── Trust Bar Marquee ─── */
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@utility animate-marquee {
+  animation: marquee 30s linear infinite;
+}
+
+/* ─── Glow Pulse Border ─── */
+
+@keyframes glow-pulse {
+  0%, 100% { border-color: rgba(16, 185, 129, 0.1); }
+  50% { border-color: rgba(16, 185, 129, 0.3); }
+}
+
+@utility animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+/* ─── Reduced Motion Safety Net ─── */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0f1a;
+}
+::-webkit-scrollbar-thumb {
+  background: #10b98144;
+  border-radius: 3px;
+}
+
+/* Light theme scrollbar */
+[data-theme="light"] ::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+[data-theme="light"] ::-webkit-scrollbar-thumb {
+  background: rgba(20, 154, 154, 0.3);
+}

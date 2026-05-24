@@ -1,0 +1,545 @@
+PAID ACADEMY COURSES — 30 NEW COURSES
+=======================================
+
+These courses expand the Vanguard Academy beyond free SEO courses into
+paid marketing education. They use the existing Course interface and
+QuizQuestion discriminated union (multiple-choice, true-false, multi-select, ordering).
+
+IMPLEMENTATION NOTES FOR GEMINI:
+- SEE course-specs.txt FOR FULL BUILD SPECIFICATIONS
+- Add a "tier" field to the Course interface: "free" | "paid"
+- Existing 10 courses should be marked tier: "free"
+- All 30 new courses below are tier: "paid"
+- Each paid course needs a quiz file in lib/quizzes/{slug}.ts
+- Each paid course exam has 60 QUESTIONS (see course-specs.txt for type distribution)
+- Each course page has exactly 5 BODY SECTIONS (see course-specs.txt for section structure)
+- Create course detail pages at app/academy/[slug]/page.tsx (already dynamic)
+- Add a pricing/access gate component for paid courses
+- Update the academy listing page to show free vs paid sections
+- Add fields: tier, category, price (cents), examQuestionCount (60), certificate (true)
+
+CATEGORY STRUCTURE (for filtering on /academy page):
+- SEO & Search (existing free courses)
+- PPC & Paid Advertising
+- Social Media Marketing
+- Content Marketing & Email
+- Branding & Creative
+- Analytics & Data
+- Strategy & Growth
+- E-Commerce & Industry
+
+
+================================================================================
+CATEGORY: PPC & PAID ADVERTISING (5 courses)
+================================================================================
+
+COURSE 1:
+---------
+slug: google-ads-fundamentals
+title: Google Ads Fundamentals
+description: Master the Google Ads platform — account structure, campaign types, keyword match types, bidding strategies, and quality score optimization.
+longDescription: [Gemini to write 150-200 word description covering: what Google Ads is, how the auction works, campaign types (Search, Display, Shopping, Video), account structure best practices, keyword research for PPC, match types (broad/phrase/exact), bidding strategies (manual CPC, maximize conversions, target ROAS), quality score components, ad extensions, and how to read performance metrics. Position this as the essential starting point for anyone managing ad spend.]
+icon: 💰
+difficulty: Beginner
+duration: 30 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Google Ads & How the Auction Works, Core Concepts — Campaign Types / Match Types / Quality Score, Strategy — Account Structure / Keyword Research / Bidding, Execution — Building Campaigns / Ad Extensions / A/B Testing, Measurement — Performance Metrics / ROAS / Optimization Loops]
+whatYouWillLearn: [How the Google Ads auction determines ad placement and cost, Setting up campaigns with proper structure (campaigns > ad groups > ads), Choosing the right keyword match types for your goals, Understanding and improving Quality Score, Selecting the right bidding strategy for your budget, Using ad extensions to increase click-through rates, Reading and interpreting key PPC metrics (CPC/CTR/ROAS/CPA)]
+prerequisites: [No prior Google Ads experience required, Basic understanding of digital marketing concepts helpful]
+
+COURSE 2:
+---------
+slug: facebook-instagram-ads
+title: Facebook & Instagram Advertising
+description: Build high-converting ad campaigns on Meta's platforms — audience targeting, creative formats, Advantage+ campaigns, and measurement.
+longDescription: [Gemini to write — cover: Meta Ads Manager, campaign objectives, audience targeting (custom/lookalike/interest-based), ad creative formats (image, video, carousel, Stories, Reels), Advantage+ automation, the Meta Pixel and Conversions API, retargeting strategies, A/B testing, budgeting, and reading Meta's reporting dashboard.]
+icon: 📱
+difficulty: Intermediate
+duration: 35 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Meta Advertising & the Ads Manager Platform, Core Concepts — Campaign Objectives / Audience Types / Ad Formats, Strategy — Funnel Alignment / Targeting Layering / Budget Planning, Execution — Building Campaigns / Advantage+ Setup / Pixel & Conversions API, Measurement — Reporting Dashboard / A/B Testing / Scaling Winners]
+whatYouWillLearn: [Navigate Meta Ads Manager and set up campaigns, Build custom and lookalike audiences for precise targeting, Create scroll-stopping ad creative for Feed/Stories/Reels, Set up the Meta Pixel and Conversions API for tracking, Use Advantage+ campaigns for AI-powered optimization, Implement retargeting funnels that recover lost conversions, A/B test creative and audiences systematically, Scale winning campaigns without tanking performance]
+prerequisites: [Basic understanding of social media marketing, A Facebook Business Page or access to one]
+
+COURSE 3:
+---------
+slug: linkedin-advertising
+title: LinkedIn Advertising for B2B
+description: Generate high-quality B2B leads with LinkedIn Ads — targeting by job title, company, and intent. Campaign types, lead gen forms, and ABM strategies.
+longDescription: [Gemini to write — cover: why LinkedIn for B2B, Campaign Manager, campaign objectives, targeting by job title/company/industry/seniority/skills, matched audiences, lead gen forms, Sponsored Content vs Message Ads vs Dynamic Ads, document ads, event ads, ABM (account-based marketing) with LinkedIn, budget considerations (higher CPC but higher lead quality), conversion tracking, and LinkedIn-specific creative best practices.]
+icon: 💼
+difficulty: Intermediate
+duration: 25 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to LinkedIn Advertising & Why It Works for B2B, Core Concepts — Targeting Options / Ad Formats / Lead Gen Forms, Strategy — ABM Planning / Audience Segmentation / Budget Allocation, Execution — Campaign Manager Setup / Matched Audiences / Creative Best Practices, Measurement — Conversion Tracking / Cost Benchmarks / ROI Analysis]
+whatYouWillLearn: [Why LinkedIn Ads command higher CPCs but deliver superior B2B lead quality, Set up LinkedIn Campaign Manager and choose the right objectives, Target decision-makers by job title/seniority/company size/industry, Build matched audiences using email lists and website visitors, Create native lead gen forms that convert without leaving LinkedIn, Choose between Sponsored Content/Message Ads/Dynamic Ads/Document Ads, Implement account-based marketing strategies on LinkedIn, Set realistic budgets and benchmark costs for B2B campaigns]
+prerequisites: [Basic understanding of B2B sales cycles, Experience with at least one other ad platform helpful]
+
+COURSE 4:
+---------
+slug: retargeting-remarketing
+title: Retargeting & Remarketing Strategies
+description: Bring back lost visitors and nurture warm audiences. Cross-platform retargeting, audience segmentation, frequency capping, and sequential messaging.
+longDescription: [Gemini to write — cover: the difference between retargeting and remarketing, pixel-based vs list-based retargeting, setting up retargeting on Google/Meta/LinkedIn, audience segmentation by behavior (cart abandoners, page viewers, time on site), frequency capping to avoid ad fatigue, sequential messaging (telling a story across touchpoints), cross-platform retargeting strategies, dynamic retargeting for e-commerce, measuring retargeting ROI, and privacy/cookie considerations in a post-iOS 14.5 world.]
+icon: 🔄
+difficulty: Intermediate
+duration: 25 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Retargeting & Remarketing — Definitions & Why They Matter, Core Concepts — Pixel-Based vs List-Based / Audience Segmentation / Ad Fatigue, Strategy — Sequential Messaging Frameworks / Cross-Platform Planning / Privacy Compliance, Execution — Setting Up Retargeting on Google / Meta / LinkedIn / Dynamic Product Ads, Measurement — Retargeting ROI / Frequency Analysis / Incremental Lift Testing]
+whatYouWillLearn: [The difference between retargeting and remarketing, Set up tracking pixels on Google/Meta/LinkedIn for retargeting, Segment audiences by engagement level and purchase intent, Apply frequency caps to prevent ad fatigue, Build sequential ad narratives that guide users to conversion, Coordinate retargeting across Google Display/Meta/LinkedIn, Set up dynamic product retargeting for e-commerce, Navigate cookie deprecation and privacy-first retargeting strategies]
+prerequisites: [Experience running at least one ad campaign, Understanding of tracking pixels (Google Tag/Meta Pixel)]
+
+COURSE 5:
+---------
+slug: ad-copywriting-testing
+title: Ad Copywriting & A/B Testing
+description: Write ads that convert — headline formulas, description patterns, CTAs, and the science of A/B testing for continuous improvement.
+longDescription: [Gemini to write — cover: principles of direct-response copywriting for ads, headline formulas (problem-agitation-solution, benefit-driven, curiosity gap, social proof), character limits and writing for constraints, call-to-action best practices, emotional vs rational appeals, the scientific method applied to ad testing, what to test (headlines, descriptions, CTAs, images, audiences), statistical significance, when to declare a winner, building a testing roadmap, and compounding gains from systematic testing.]
+icon: ✏️
+difficulty: Beginner
+duration: 20 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Ad Copywriting & Direct-Response Principles, Core Concepts — Headline Formulas / CTA Psychology / Character Constraints, Strategy — Testing Roadmaps / Variable Isolation / Hypothesis Design, Execution — Writing Ads / Launching A/B Tests / Creative Variations, Measurement — Statistical Significance / Declaring Winners / Compounding Gains]
+whatYouWillLearn: [Apply direct-response copywriting principles to ad copy, Use proven headline formulas (PAS, benefit-driven, curiosity, social proof), Write compelling ads within platform character limits, Craft CTAs that drive clicks and conversions, Set up proper A/B tests with single-variable isolation, Determine statistical significance and when to declare winners, Build a testing roadmap that compounds performance gains, Avoid common testing mistakes that waste budget]
+prerequisites: [Basic familiarity with at least one ad platform, No copywriting experience required]
+
+
+================================================================================
+CATEGORY: SOCIAL MEDIA MARKETING (5 courses)
+================================================================================
+
+COURSE 6:
+---------
+slug: social-media-strategy
+title: Social Media Strategy Blueprint
+description: Build a complete social media strategy — platform selection, content pillars, posting cadence, audience personas, and KPI frameworks.
+longDescription: [Gemini to write]
+icon: 📋
+difficulty: Beginner
+duration: 30 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Social Media Strategy & Why Brands Need One, Core Concepts — Audience Personas / Content Pillars / Platform Algorithms, Strategy — Platform Selection / Posting Cadence / Competitive Analysis, Execution — Content Calendar Creation / Engagement Tactics / Community Building, Measurement — KPI Frameworks / Social Analytics Tools / Reporting Cadence]
+whatYouWillLearn: [Build detailed audience personas for social media targeting, Choose the right platforms based on your business and audience, Develop content pillars that balance promotion/education/entertainment, Create a sustainable posting cadence with optimal timing, Build a 30-day content calendar from scratch, Design an engagement strategy that builds community, Set meaningful KPIs and track them with free tools, Analyze competitor social strategies to find opportunities]
+prerequisites: [No prior social media marketing experience required, Access to at least one business social media account]
+
+COURSE 7:
+---------
+slug: instagram-marketing
+title: Instagram Marketing & Growth
+description: Grow an engaged Instagram following — Reels strategy, hashtag research, Stories engagement, Instagram SEO, and shopping features.
+longDescription: [Gemini to write]
+icon: 📸
+difficulty: Beginner
+duration: 25 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Instagram Marketing & How the Algorithm Works, Core Concepts — Content Formats / Hashtag Strategy / Instagram SEO, Strategy — Reels Planning / Growth Tactics / Collaboration Frameworks, Execution — Content Creation Workflow / Stories Engagement / Shopping Setup, Measurement — Instagram Insights / Engagement Metrics / Growth Tracking]
+whatYouWillLearn: [How the Instagram algorithm ranks Feed/Reels/Stories/Explore, Create Reels that get recommended to non-followers, Research and use hashtags strategically (not just 30 random ones), Use Stories features to drive engagement and build relationships, Optimize your profile and content for Instagram Search, Set up Instagram Shopping for product-based businesses, Build a repeatable content creation workflow, Grow organically using collaborations and UGC strategies]
+prerequisites: [An Instagram Business or Creator account, Basic understanding of visual content creation]
+
+COURSE 8:
+---------
+slug: linkedin-content-strategy
+title: LinkedIn Content Strategy for B2B
+description: Build thought leadership and generate leads on LinkedIn — personal branding, content formats, the algorithm, and employee advocacy.
+longDescription: [Gemini to write]
+icon: 🏢
+difficulty: Intermediate
+duration: 25 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to LinkedIn Content & the B2B Opportunity, Core Concepts — Algorithm Mechanics / Content Formats / Hook Writing, Strategy — Personal Brand vs Company Page / Employee Advocacy / Lead Funnels, Execution — Writing Posts / Launching Newsletters / Commenting for Reach, Measurement — Engagement Analytics / Pipeline Attribution / Content ROI]
+whatYouWillLearn: [How the LinkedIn algorithm distributes content, Build a personal brand that generates inbound opportunities, Choose between text posts/carousels/video/newsletters/articles, Write opening hooks that stop decision-makers mid-scroll, Develop a commenting strategy that expands your reach, Launch an employee advocacy program for your company, Use LinkedIn Sales Navigator for targeted outreach, Convert LinkedIn engagement into pipeline and revenue]
+prerequisites: [A LinkedIn profile (personal or company), B2B business context helpful]
+
+COURSE 9:
+---------
+slug: tiktok-marketing
+title: TikTok Marketing for Brands
+description: Leverage TikTok for brand awareness — trend identification, content creation, TikTok SEO, TikTok Shop, and paid promotion.
+longDescription: [Gemini to write]
+icon: 🎵
+difficulty: Beginner
+duration: 25 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to TikTok Marketing & the For You Page Algorithm, Core Concepts — Trend Mechanics / Content Hooks / TikTok SEO, Strategy — Brand Voice Development / Trend-Jacking / Content Planning, Execution — Video Creation / TikTok Shop Setup / Ads Manager Campaigns, Measurement — TikTok Analytics / Engagement Benchmarks / ROI Tracking]
+whatYouWillLearn: [How the TikTok algorithm surfaces content on the For You Page, Identify and ride trends before they peak, Create engaging TikTok content (hooks in first 2 seconds, pacing, editing), Optimize videos for TikTok Search with keywords, Set up TikTok Shop for social commerce, Navigate TikTok Ads Manager for paid promotion, Develop an authentic brand voice that resonates on TikTok, Track and measure TikTok marketing performance]
+prerequisites: [A TikTok Business account, Willingness to create short-form video content]
+
+COURSE 10:
+----------
+slug: community-management
+title: Community Management & Engagement
+description: Build and manage online communities — moderation, engagement tactics, crisis management, user-generated content, and brand advocacy programs.
+longDescription: [Gemini to write]
+icon: 👥
+difficulty: Intermediate
+duration: 20 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Community Management & Its Business Value, Core Concepts — Moderation Policies / Engagement Psychology / UGC Principles, Strategy — Community Platform Selection / Advocacy Programs / Crisis Playbooks, Execution — Setting Up Guidelines / Running Engagement Campaigns / Launching Ambassador Programs, Measurement — Community Health Metrics / Sentiment Analysis / Retention Tracking]
+whatYouWillLearn: [Design a community strategy aligned with business goals, Create moderation policies that foster healthy discussion, Use engagement tactics that spark genuine conversation, Handle negative feedback and social media crises professionally, Launch user-generated content campaigns that scale, Build brand advocacy and ambassador programs, Measure community health with engagement and sentiment metrics, Use community management tools efficiently]
+prerequisites: [Experience managing at least one social media account, Understanding of brand voice and tone]
+
+
+================================================================================
+CATEGORY: CONTENT MARKETING & EMAIL (5 courses)
+================================================================================
+
+COURSE 11:
+----------
+slug: content-marketing-strategy
+title: Content Marketing Strategy
+description: Build a content engine — audience research, content pillars, funnel mapping, distribution channels, and measuring content ROI.
+longDescription: [Gemini to write]
+icon: 📊
+difficulty: Intermediate
+duration: 30 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Content Marketing & Why It Drives Long-Term Growth, Core Concepts — Audience Personas / Content Pillars / Topic Clusters, Strategy — Funnel Mapping (TOFU/MOFU/BOFU) / Distribution Channels / Repurposing, Execution — Editorial Calendar / Content Production Workflow / Multi-Channel Publishing, Measurement — Content ROI / Attribution / Performance Dashboards]
+whatYouWillLearn: [Build a content marketing strategy from audience research to ROI measurement, Create detailed audience personas that inform content decisions, Develop content pillars that align with business goals, Map content to funnel stages (awareness/consideration/decision), Build topic clusters using the hub-spoke model for SEO, Develop a multi-channel content distribution strategy, Repurpose one piece of content into 10+ formats, Measure content ROI beyond vanity metrics]
+prerequisites: [Basic understanding of marketing funnels, Some experience creating content of any kind]
+
+COURSE 12:
+----------
+slug: video-marketing-youtube-seo
+title: Video Marketing & YouTube SEO
+description: Create video content that ranks and converts — YouTube SEO, thumbnail strategy, scripting, equipment basics, and video distribution.
+longDescription: [Gemini to write]
+icon: 🎬
+difficulty: Intermediate
+duration: 30 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Video Marketing & the YouTube Ecosystem, Core Concepts — YouTube Algorithm / SEO Signals / Thumbnail Psychology, Strategy — Content Planning / Scripting Frameworks / Shorts vs Long-Form, Execution — Production Setup / Recording & Editing / Publishing & Distribution, Measurement — YouTube Analytics / CTR & Retention Curves / Channel Growth Tracking]
+whatYouWillLearn: [How the YouTube algorithm ranks videos in Search and Suggested, Optimize titles/descriptions/tags/chapters for YouTube SEO, Design click-worthy thumbnails that boost CTR, Script videos using proven frameworks (hook/problem/solution), Set up affordable equipment for professional-quality video, Create YouTube Shorts that drive channel growth, Distribute video content across social/email/blog, Read YouTube Analytics and optimize based on data]
+prerequisites: [No video production experience required, A YouTube channel or willingness to create one]
+
+COURSE 13:
+----------
+slug: email-marketing-mastery
+title: Email Marketing Mastery
+description: Master email marketing — list building, segmentation, automation sequences, deliverability, copywriting, and email analytics.
+longDescription: [Gemini to write]
+icon: 📧
+difficulty: Intermediate
+duration: 35 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Email Marketing & Why It Delivers 36:1 ROI, Core Concepts — List Building / Segmentation / Deliverability (SPF/DKIM/DMARC), Strategy — Automation Sequence Design / Personalization / A/B Testing Plans, Execution — Writing Subject Lines & Copy / Designing Mobile-First Emails / Launching Automations, Measurement — Open & Click Rates / Revenue Attribution / Benchmark Analysis]
+whatYouWillLearn: [Why email delivers 36:1 ROI and how to capture it, Build email lists using opt-in forms, lead magnets, and ethical growth tactics, Segment your list for personalized messaging that converts, Build automation sequences (welcome series, nurture drips, cart recovery), Write subject lines and email copy that drive opens and clicks, Design mobile-first emails that render perfectly everywhere, Ensure deliverability with proper SPF/DKIM/DMARC authentication, Run A/B tests on subject lines/content/send times, Read email analytics and benchmark against industry standards]
+prerequisites: [Access to an email marketing platform (Mailchimp, ConvertKit, etc.), A website or landing page to collect emails]
+
+COURSE 14:
+----------
+slug: podcast-marketing
+title: Podcast Marketing & Growth
+description: Launch and grow a podcast — format planning, recording setup, distribution, show notes SEO, monetization, and guest strategy.
+longDescription: [Gemini to write]
+icon: 🎙️
+difficulty: Beginner
+duration: 25 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Podcast Marketing & Choosing Your Format, Core Concepts — Recording & Production / RSS Distribution / Show Notes SEO, Strategy — Guest Booking / Cross-Promotion / Audience Growth Planning, Execution — Recording Setup / Editing Workflow / Publishing to All Platforms, Measurement — Download Analytics / Listener Retention / Monetization Metrics]
+whatYouWillLearn: [Choose a podcast format and positioning that stands out, Set up affordable recording equipment and software, Edit and produce polished podcast episodes efficiently, Distribute to all major platforms via RSS, Write SEO-optimized show notes that drive organic traffic, Book high-value guests that grow your audience, Promote episodes across social/email/blog/YouTube, Explore monetization through sponsors/affiliates/premium tiers]
+prerequisites: [No podcasting experience required, A microphone and computer]
+
+COURSE 15:
+----------
+slug: content-repurposing
+title: Content Repurposing Framework
+description: Turn one piece of content into 10+ assets — the systematic framework for maximizing content ROI across every channel.
+longDescription: [Gemini to write]
+icon: ♻️
+difficulty: Beginner
+duration: 20 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Content Repurposing & the "Create Once Distribute Everywhere" Philosophy, Core Concepts — Pillar Content / Format Transformation / Platform Adaptation, Strategy — Repurposing Workflows / SOP Design / Content Multiplication Maps, Execution — Blog-to-Social Extraction / Long-to-Short Video / Content-to-Email Sequences, Measurement — Cross-Channel Performance / Time Savings / Content ROI per Asset]
+whatYouWillLearn: [Adopt the "create once, distribute everywhere" content philosophy, Create pillar content designed for maximum repurposing potential, Extract 5-10 social media posts from a single blog article, Cut long-form video into platform-specific short clips, Transform content into automated email sequences, Create podcast clips and audiograms from recorded content, Design infographics and carousels from written content, Build a repeatable repurposing SOP for your team or workflow]
+prerequisites: [Experience creating at least one type of content (blog, video, podcast), Access to basic design tools (Canva, etc.)]
+
+
+================================================================================
+CATEGORY: BRANDING & CREATIVE (4 courses)
+================================================================================
+
+COURSE 16:
+----------
+slug: brand-identity-development
+title: Brand Identity Development
+description: Build a complete brand identity from scratch — mission, values, visual system, voice guidelines, and brand architecture.
+longDescription: [Gemini to write]
+icon: 🎨
+difficulty: Intermediate
+duration: 30 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Brand Identity & Why It Drives Business Value, Core Concepts — Mission / Vision / Values / Positioning / Brand Personas, Strategy — Brand Architecture / Differentiation Framework / Audience Alignment, Execution — Visual Identity System / Voice Guidelines / Brand Guidelines Document, Measurement — Brand Consistency Audits / Perception Surveys / Brand Equity Tracking]
+whatYouWillLearn: [Define a compelling brand mission, vision, and values, Create brand personas based on your target audience, Position your brand uniquely against competitors, Develop a visual identity system (logo, color palette, typography), Establish brand voice guidelines and personality traits, Choose the right brand architecture for multi-product businesses, Create a comprehensive brand guidelines document, Apply brand identity consistently across all touchpoints]
+prerequisites: [No prior branding experience required, Helpful to have a business or project to apply concepts to]
+
+COURSE 17:
+----------
+slug: brand-voice-messaging
+title: Brand Voice & Messaging Guide
+description: Define how your brand speaks — tone of voice, messaging hierarchy, taglines, elevator pitches, and communication frameworks.
+longDescription: [Gemini to write]
+icon: 🗣️
+difficulty: Intermediate
+duration: 25 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Brand Voice & Why Consistency Builds Trust, Core Concepts — Voice Attributes / Tone Spectrum / Messaging Hierarchy, Strategy — Value Proposition Frameworks / Channel-Specific Tone / Style Guidelines, Execution — Writing the Voice Guide / Crafting Taglines & Key Messages / Team Training, Measurement — Voice Consistency Audits / Brand Recall Testing / Message Resonance Analysis]
+whatYouWillLearn: [Distinguish between brand voice (consistent) and tone (adaptive), Define 3-5 voice attributes that capture your brand personality, Create a tone spectrum for different situations and channels, Build a messaging hierarchy from tagline to detailed copy, Craft a compelling value proposition using proven frameworks, Establish writing style guidelines (grammar, formatting, word choice), Maintain voice consistency across social/email/web/support, Document your voice guide and train your team to use it]
+prerequisites: [Basic understanding of your target audience, A brand identity or business to work with]
+
+COURSE 18:
+----------
+slug: visual-branding-digital
+title: Visual Branding for Digital
+description: Design a visual brand system for digital channels — color psychology, typography pairing, imagery style, social templates, and design systems.
+longDescription: [Gemini to write]
+icon: 🖼️
+difficulty: Intermediate
+duration: 25 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Visual Branding & Its Role in Digital Marketing, Core Concepts — Color Psychology / Typography Pairing / Imagery & Iconography, Strategy — Design System Planning / Template Strategy / Platform-Specific Adaptation, Execution — Building Color Palettes / Designing Social Templates / Using Canva & Figma, Measurement — Brand Recognition Testing / Visual Consistency Scoring / A/B Testing Designs]
+whatYouWillLearn: [Use color psychology to choose brand colors that evoke the right emotions, Build a complete color palette with primary/secondary/neutral/accent colors, Select and pair typefaces that reflect your brand personality, Define photography and imagery guidelines for consistency, Create an icon and illustration style that's uniquely yours, Design social media templates for consistent branded content, Build a basic design system for brand consistency at scale, Use Canva and Figma for professional-quality brand assets]
+prerequisites: [Defined brand strategy or identity (or take Brand Identity Development first), No design experience required]
+
+COURSE 19:
+----------
+slug: brand-positioning
+title: Brand Positioning & Differentiation
+description: Stand out in a crowded market — competitive analysis, positioning statements, unique value propositions, and blue ocean strategy.
+longDescription: [Gemini to write]
+icon: 🏆
+difficulty: Advanced
+duration: 25 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Brand Positioning & Why It Determines Market Success, Core Concepts — Positioning Statements / Perceptual Maps / Value Propositions, Strategy — Competitive Landscape Analysis / Blue Ocean Strategy / Category Creation, Execution — Writing Positioning Statements / Building Perceptual Maps / Repositioning Plans, Measurement — Positioning Effectiveness / Market Share Tracking / Brand Perception Surveys]
+whatYouWillLearn: [Understand what brand positioning is and why it determines market success, Conduct a competitive landscape analysis to find white space, Write a positioning statement using the classic framework, Craft a unique value proposition that resonates with your audience, Create perceptual maps to visualize competitive positioning, Apply blue ocean strategy principles to differentiate without competing, Consider category creation as a positioning strategy, Reposition an existing brand without losing current customers]
+prerequisites: [Understanding of your industry and competitors, Brand Identity Development course recommended]
+
+
+================================================================================
+CATEGORY: ANALYTICS & DATA (4 courses)
+================================================================================
+
+COURSE 20:
+----------
+slug: google-analytics-4
+title: Google Analytics 4 Mastery
+description: Master GA4 — event-based tracking, custom reports, explorations, conversions, audiences, and integrating with Google Ads.
+longDescription: [Gemini to write]
+icon: 📈
+difficulty: Intermediate
+duration: 35 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to GA4 & the Event-Based Data Model, Core Concepts — Key Metrics / Reports / Custom Events & Parameters, Strategy — Conversion Tracking Setup / Audience Building / GA4 + Google Ads Integration, Execution — Setting Up GA4 with GTM / Building Explorations & Funnels / Configuring Audiences, Measurement — Reading GA4 Reports / Data Retention & Privacy / Optimization Workflows]
+whatYouWillLearn: [Understand GA4's event-based model vs Universal Analytics sessions, Set up GA4 with Google Tag Manager properly, Navigate GA4's reports (Acquisition, Engagement, Monetization, Retention), Create custom events and parameters for your business, Build Explorations for advanced funnel and path analysis, Set up conversion tracking for key business actions, Build audiences in GA4 for Google Ads remarketing, Integrate GA4 with Google Ads for bidding optimization, Configure data retention and privacy settings (GDPR/CCPA)]
+prerequisites: [Access to a website you can add tracking to, A Google account]
+
+COURSE 21:
+----------
+slug: marketing-attribution
+title: Marketing Attribution Models
+description: Understand which channels drive conversions — first-touch, last-touch, multi-touch, data-driven attribution, and cross-channel measurement.
+longDescription: [Gemini to write]
+icon: 🔗
+difficulty: Advanced
+duration: 25 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Marketing Attribution & Why It Matters for Budget Decisions, Core Concepts — First-Touch / Last-Touch / Multi-Touch Models / Data-Driven Attribution, Strategy — UTM Tagging Plans / Cross-Channel Measurement / Cookieless Attribution, Execution — Implementing UTM Parameters / Configuring GA4 Attribution / Cross-Device Setup, Measurement — Comparing Attribution Models / Budget Reallocation / Incremental Lift Analysis]
+whatYouWillLearn: [Why marketing attribution is essential for budget decisions, Compare first-touch, last-touch, and multi-touch attribution models, Understand linear, time-decay, and position-based attribution, Use GA4's data-driven attribution model, Implement UTM parameters for accurate campaign tracking, Address cross-channel and cross-device measurement challenges, Navigate attribution in a cookieless/privacy-first world, Build an attribution strategy that informs budget allocation]
+prerequisites: [Familiarity with Google Analytics 4, Running campaigns on 2+ marketing channels]
+
+COURSE 22:
+----------
+slug: conversion-rate-optimization
+title: Conversion Rate Optimization (CRO)
+description: Turn more visitors into customers — A/B testing, landing page optimization, UX principles, persuasion psychology, and CRO tools.
+longDescription: [Gemini to write]
+icon: 🎯
+difficulty: Intermediate
+duration: 30 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to CRO & the Research-Hypothesize-Test-Learn Methodology, Core Concepts — Conversion Funnels / Heatmaps / Persuasion Psychology (Cialdini), Strategy — Testing Roadmaps / Hypothesis Prioritization / UX Friction Reduction, Execution — Running A/B & Multivariate Tests / Landing Page Optimization / Form Optimization, Measurement — Statistical Significance / CRO Tool Selection / Compounding Conversion Gains]
+whatYouWillLearn: [Apply the CRO methodology (research > hypothesize > test > learn), Analyze your conversion funnel to find drop-off points, Use heatmaps and session recordings to understand user behavior, Run A/B tests with proper sample sizes and statistical rigor, Optimize landing pages for maximum conversion rates, Apply UX principles that reduce friction in the conversion path, Use persuasion psychology (social proof, urgency, reciprocity) ethically, Optimize forms for higher completion rates, Choose and set up CRO tools for your budget and needs]
+prerequisites: [Google Analytics 4 knowledge, A website with enough traffic for testing (1000+ monthly visitors)]
+
+COURSE 23:
+----------
+slug: data-driven-marketing
+title: Data-Driven Marketing Decisions
+description: Use data to make smarter marketing decisions — dashboards, KPIs, forecasting, budget allocation, and reporting to stakeholders.
+longDescription: [Gemini to write]
+icon: 🧮
+difficulty: Advanced
+duration: 30 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Data-Driven Marketing & Building a Data Culture, Core Concepts — KPI Definition / Dashboard Design / Data Visualization Best Practices, Strategy — Marketing Mix Modeling / Budget Allocation / Forecasting & Predictive Analytics, Execution — Building Dashboards / Creating Executive Reports / Avoiding Cognitive Biases, Measurement — KPI Tracking / ROI Validation / Continuous Optimization Loops]
+whatYouWillLearn: [Build a data-driven marketing culture in your organization, Define KPIs that actually predict business success (not vanity metrics), Design dashboards that surface actionable insights, Understand marketing mix modeling for budget optimization, Allocate marketing budgets based on data and expected ROI, Use basic forecasting to predict campaign performance, Create executive-ready marketing reports and presentations, Avoid common data pitfalls like correlation vs causation and survivorship bias]
+prerequisites: [Familiarity with Google Analytics or similar analytics tools, Experience managing marketing campaigns with budgets]
+
+
+================================================================================
+CATEGORY: STRATEGY & GROWTH (4 courses)
+================================================================================
+
+COURSE 24:
+----------
+slug: digital-marketing-strategy
+title: Digital Marketing Strategy Foundations
+description: Build a comprehensive digital marketing strategy — market analysis, channel selection, budget planning, campaign integration, and measurement frameworks.
+longDescription: [Gemini to write]
+icon: 🗺️
+difficulty: Intermediate
+duration: 35 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Digital Marketing Strategy & Strategy vs Tactics, Core Concepts — Market Analysis / SWOT / Channel Selection Frameworks, Strategy — Budget Planning / Integrated Campaign Design / Marketing Calendar, Execution — Building the Strategy Deck / Campaign Launches / Cross-Channel Coordination, Measurement — OKR & KPI Frameworks / Performance Reviews / Strategy Iteration]
+whatYouWillLearn: [Distinguish between strategy (direction) and tactics (execution), Conduct market and audience analysis to inform your strategy, Perform a SWOT analysis specific to digital marketing, Select the right marketing channels for your business and budget, Plan and allocate budgets across channels based on goals, Design integrated campaigns that work across multiple channels, Build a 12-month marketing calendar with key milestones, Set up OKR and KPI frameworks for measuring strategy success, Present your strategy to stakeholders and get buy-in]
+prerequisites: [Basic understanding of major digital marketing channels, Some business or marketing experience helpful]
+
+COURSE 25:
+----------
+slug: marketing-funnel-optimization
+title: Marketing Funnel Optimization
+description: Optimize every stage of your marketing funnel — awareness, consideration, conversion, and retention. Reduce leaks and maximize lifetime value.
+longDescription: [Gemini to write]
+icon: 🔻
+difficulty: Intermediate
+duration: 25 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to the Modern Marketing Funnel & the Flywheel Model, Core Concepts — TOFU / MOFU / BOFU Stages / Customer Lifetime Value, Strategy — Funnel Mapping / Leak Identification / Retention & Upsell Planning, Execution — Building TOFU Campaigns / MOFU Nurturing Sequences / BOFU Conversion Optimization, Measurement — Funnel Analytics / CLV Tracking / Automation Performance Metrics]
+whatYouWillLearn: [Understand the modern marketing funnel (beyond AIDA to the flywheel model), Design TOFU content and campaigns that drive qualified awareness, Build MOFU nurturing sequences that move prospects toward purchase, Optimize BOFU conversion points (landing pages, checkout, proposals), Develop post-purchase retention strategies that increase CLV, Identify and fix funnel leaks using analytics, Calculate and optimize customer lifetime value, Automate funnel stages using marketing tools and CRM]
+prerequisites: [Understanding of basic marketing concepts, Experience with at least one marketing channel]
+
+COURSE 26:
+----------
+slug: growth-hacking
+title: Growth Hacking for Small Business
+description: Rapid growth strategies on a budget — viral loops, referral programs, product-led growth, guerrilla marketing, and scrappy experiments.
+longDescription: [Gemini to write]
+icon: 🚀
+difficulty: Advanced
+duration: 30 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Growth Hacking & the Experiment-Driven Mindset, Core Concepts — Growth Loops / Viral Coefficient / Product-Led Growth Principles, Strategy — Referral Program Design / ICE Prioritization / Low-Budget Channel Selection, Execution — Running Rapid Experiments / Guerrilla Marketing Tactics / Building Viral Mechanics, Measurement — Growth Metrics / Experiment Tracking / Scaling Winners Without Breaking What Works]
+whatYouWillLearn: [Adopt the growth hacking mindset (experiment-driven, metric-obsessed), Design growth loops that compound over time, Calculate your viral coefficient and design viral mechanics, Build referral programs that incentivize word-of-mouth, Apply product-led growth principles to reduce acquisition costs, Execute guerrilla marketing tactics with minimal budget, Run rapid growth experiments using the ICE framework, Identify and exploit low-budget growth channels, Scale winning experiments without breaking what works]
+prerequisites: [A product or service currently in market, Comfort with experimentation and data analysis]
+
+COURSE 27:
+----------
+slug: competitor-analysis
+title: Competitor Analysis & Market Research
+description: Spy on your competitors (ethically) — SEO competitor analysis, ad intelligence, social listening, pricing research, and SWOT frameworks.
+longDescription: [Gemini to write]
+icon: 🔎
+difficulty: Intermediate
+duration: 25 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Competitor Analysis & Identifying Your True Competitors, Core Concepts — SEO Competitor Analysis / Ad Intelligence / Social Benchmarking, Strategy — SWOT & Competitive Matrix Frameworks / Pricing Research / Positioning Gaps, Execution — Using Transparency Tools / Setting Up Monitoring Systems / Building Competitive Reports, Measurement — Tracking Competitor Changes Over Time / Market Share Shifts / Strategy Validation]
+whatYouWillLearn: [Identify your true competitors (direct, indirect, aspirational), Analyze competitor SEO strategies (keywords, rankings, backlink profiles), Spy on competitor ads using Google Ads Transparency and Meta Ad Library, Benchmark your social media performance against competitors, Research competitor pricing and positioning strategies, Build SWOT analyses and competitive matrices, Set up ongoing competitor monitoring systems, Translate competitive insights into actionable strategy changes]
+prerequisites: [Basic understanding of SEO and digital marketing channels, Familiarity with marketing analysis tools helpful]
+
+
+================================================================================
+CATEGORY: E-COMMERCE & INDUSTRY (3 courses)
+================================================================================
+
+COURSE 28:
+----------
+slug: ecommerce-marketing
+title: E-Commerce Marketing Blueprint
+description: Drive online sales — product page optimization, shopping ads, email flows, cart abandonment, upselling, and marketplace strategies.
+longDescription: [Gemini to write]
+icon: 🛒
+difficulty: Intermediate
+duration: 35 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to E-Commerce Marketing & the Online Retail Landscape, Core Concepts — Product Page Optimization / Shopping Feeds / Social Commerce, Strategy — Email Flow Design / Upsell & Cross-Sell Planning / Marketplace Evaluation, Execution — Google Shopping Campaigns / Automated Email Flows / Review Generation Programs, Measurement — E-Commerce KPIs (AOV/CLTV/ROAS) / Cart Abandonment Analysis / Channel ROI]
+whatYouWillLearn: [Understand the unique challenges of e-commerce marketing, Optimize product pages for both SEO and conversion, Set up Google Shopping campaigns with optimized product feeds, Launch Facebook/Instagram Shopping for social commerce, Build automated email flows that recover lost sales and drive repeat purchases, Implement upselling and cross-selling strategies that increase AOV, Develop a review generation strategy for social proof, Evaluate marketplace strategies (Amazon, Etsy) alongside your own store, Track e-commerce KPIs (AOV, CLTV, ROAS, cart abandonment rate)]
+prerequisites: [An e-commerce store or plans to launch one, Basic understanding of digital marketing channels]
+
+COURSE 29:
+----------
+slug: b2b-lead-generation
+title: B2B Lead Generation
+description: Generate and nurture B2B leads — inbound strategies, outbound prospecting, lead scoring, CRM setup, and sales-marketing alignment.
+longDescription: [Gemini to write]
+icon: 🤝
+difficulty: Advanced
+duration: 30 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to B2B Lead Generation & How It Differs from B2C, Core Concepts — Inbound vs Outbound / Lead Scoring Models / CRM Pipelines, Strategy — Content & LinkedIn for Lead Gen / ABM Planning / Sales-Marketing SLAs, Execution — Building Inbound Funnels / Outbound Prospecting Sequences / CRM Setup & Automation, Measurement — Lead Quality Metrics / Pipeline Velocity / Revenue Attribution & Alignment KPIs]
+whatYouWillLearn: [Understand how B2B buying cycles differ from B2C, Build inbound lead generation systems using content/SEO/webinars, Create B2B content that attracts decision-makers, Use LinkedIn for organic and paid B2B lead generation, Design outbound prospecting sequences that get responses, Build lead scoring models that prioritize sales-ready leads, Set up CRM pipelines for B2B sales processes, Align sales and marketing with SLAs and shared metrics, Build lead nurturing sequences for long B2B sales cycles, Implement account-based marketing for high-value targets]
+prerequisites: [B2B business context, Understanding of sales processes and CRM concepts]
+
+COURSE 30:
+----------
+slug: reputation-management
+title: Online Reputation Management
+description: Protect and build your online reputation — review management, crisis response, brand monitoring, SERP management, and PR strategies.
+longDescription: [Gemini to write]
+icon: 🛡️
+difficulty: Intermediate
+duration: 25 min
+lessonCount: 5
+examQuestionCount: 60
+topics: [Introduction to Online Reputation Management & Its Revenue Impact, Core Concepts — Review Platforms / Brand Monitoring / SERP Reputation Signals, Strategy — Crisis Communication Planning / Proactive Review Generation / PR Outreach, Execution — Responding to Negative Reviews / Setting Up Social Listening / SERP Management Tactics, Measurement — Sentiment Analysis / Review Volume & Rating Trends / Reputation Recovery Tracking]
+whatYouWillLearn: [Understand how online reputation directly impacts revenue, Build a review management strategy across Google/Yelp/industry sites, Respond to negative reviews professionally and constructively, Generate positive reviews with ethical proactive strategies, Set up brand monitoring and social listening alerts, Manage your brand's search engine results page (SERP), Create a crisis communication plan before you need one, Use online PR and media relations to build positive presence, Execute reputation recovery strategies for damaged brands]
+prerequisites: [A business with an online presence, Access to Google Business Profile or review platforms]
+
+
+================================================================================
+PRICING & ACCESS NOTES
+================================================================================
+
+SUGGESTED PRICING TIERS:
+- Individual course: $29-49 each
+- Category bundle (4-5 courses): $99-149
+- Full Academy Pass (all 30 paid + 10 free): $299/year or $29/month
+- Lifetime access: $499 one-time
+
+FEATURES FOR PAID COURSES:
+- 5-section course structure (Introduction & Overview, Core Concepts, Strategy & Planning, Execution & Implementation, Measurement & Optimization)
+- 60-question certification exam per course (multiple-choice, true-false, multi-select, ordering)
+- Certificate of completion (downloadable PDF)
+- Downloadable resources (checklists, templates, worksheets)
+- Access to private community or Q&A
+- Progress tracking saved to account
+
+IMPLEMENTATION REQUIREMENTS:
+- Add "tier" field to Course interface ("free" | "paid")
+- Add "category" field to Course interface for filtering
+- Add "price" field to Course interface (number, in cents)
+- Each course has exactly 5 lessons matching the 5-section structure
+- Each course exam contains exactly 60 questions (see course-specs.txt for type distribution)
+- Create PaymentGate component that wraps paid course content
+- Update /academy page with category filters and free/paid sections
+- Add Stripe integration for payment processing (or placeholder)
+- Add user authentication for course access tracking
+- Create certificate generation component

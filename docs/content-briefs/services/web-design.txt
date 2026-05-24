@@ -1,0 +1,89 @@
+SERVICE PAGE CONTENT BRIEF: Web Design & Development
+=====================================================
+
+URL: /services/web-design
+Parent: /services (links from "Web Design & Development" card)
+
+SEO METADATA
+------------
+Title: Web Design & Development Services | Vanguard Digital Marketing
+Description: Custom web design and development — responsive, conversion-optimized websites built with Next.js, WordPress, and modern frameworks. Texas-based agency.
+Keywords: web design services, web development, custom website, responsive design, Next.js, WordPress, conversion optimization
+
+H1: Custom Websites Built to Convert
+Subtitle label: Web Design & Development
+
+PAGE SECTIONS
+-------------
+
+1. HERO
+   - H1 (above)
+   - Subtext: Fast, beautiful, conversion-focused websites. Mobile-first. SEO-ready from day one.
+   - CTA: "Start Your Project" + "View Portfolio"
+
+2. DESIGN PHILOSOPHY
+   - H2: Our Design Philosophy
+   - Key principles (3-4 cards):
+     * Performance First — sub-2-second load times, Core Web Vitals optimized
+     * Mobile-First Design — 60%+ of traffic is mobile, we design for it
+     * Conversion-Focused — every element serves a purpose, driving visitors to take action
+     * SEO-Ready Architecture — clean code, semantic HTML, fast pages = higher rankings
+
+3. OUR WEB SERVICES
+   - H2: Web Design & Development Services
+   - Each as detailed card:
+     a) Custom Website Design — fully bespoke designs, no templates, brand-aligned
+     b) Responsive Development — pixel-perfect across all devices and browsers
+     c) WordPress Development — custom themes, plugin development, WooCommerce
+     d) Next.js & React Applications — server-rendered, static exports, blazing fast
+     e) E-Commerce Solutions — Shopify, WooCommerce, custom cart solutions
+     f) Landing Page Design — campaign-specific pages optimized for conversion
+     g) Website Redesigns — modernize your existing site without losing SEO equity
+     h) Ongoing Maintenance & Support — updates, security, performance monitoring
+
+4. TECH STACK
+   - H2: Technologies We Use
+   - Icons/logos grid:
+     * Next.js, React, TypeScript
+     * Tailwind CSS, GSAP
+     * WordPress, WooCommerce, Shopify
+     * Cloudflare, Vercel, AWS
+     * Google Analytics 4, GTM
+
+5. OUR PROCESS
+   - H2: From Concept to Launch
+   - Phase 1: Discovery & Strategy — goals, audience, competitive analysis
+   - Phase 2: Wireframes & Design — low-fi wireframes, high-fi mockups, revisions
+   - Phase 3: Development — clean code, responsive build, CMS integration
+   - Phase 4: Testing & QA — cross-browser, mobile, accessibility, speed testing
+   - Phase 5: Launch & Handoff — deployment, training, documentation
+   - Phase 6: Ongoing Support — monthly maintenance, updates, optimizations
+
+6. PORTFOLIO HIGHLIGHTS
+   - H2: Recent Web Projects
+   - 3 featured projects with screenshots, brief description, results
+   - Link to full /portfolio page
+
+7. FAQ
+   - Q: How long does a website project take?
+   - Q: How much does a custom website cost?
+   - Q: Do you build on WordPress or custom code?
+   - Q: Will my website be SEO-friendly?
+   - Q: Do you offer hosting?
+   - Q: What about ongoing maintenance after launch?
+
+8. CTA SECTION
+   - "Let's Build Something Great" + contact form/link
+
+INTERNAL LINKS
+--------------
+- Link to /portfolio
+- Link to /services/seo (SEO-ready builds)
+- Link to /services/branding (brand alignment)
+- Link to /contact
+
+SCHEMA MARKUP
+-------------
+- Service schema (Web Design & Development)
+- FAQ schema
+- BreadcrumbList: Home > Services > Web Design

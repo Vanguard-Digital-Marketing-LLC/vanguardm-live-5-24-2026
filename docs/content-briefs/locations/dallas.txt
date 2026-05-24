@@ -1,0 +1,82 @@
+LOCATION PAGE CONTENT BRIEF: Dallas, TX
+=========================================
+
+URL: /locations/dallas
+Target Keywords: digital marketing Dallas, SEO agency Dallas, web design Dallas TX, marketing company Dallas
+
+SEO METADATA
+------------
+Title: Digital Marketing Agency in Dallas, TX | Vanguard Digital Marketing
+Description: Dallas's results-driven digital marketing agency. SEO, web design, PPC, social media, and content marketing for Dallas-Fort Worth businesses. Free consultation.
+Keywords: digital marketing Dallas, Dallas SEO, Dallas web design, marketing agency Dallas TX, DFW marketing, Fort Worth digital marketing
+
+H1: Dallas Digital Marketing Agency
+Subtitle label: Dallas-Fort Worth, Texas
+
+PAGE SECTIONS
+-------------
+
+1. HERO
+   - H1 (above)
+   - Subtext: Full-service digital marketing for Dallas-Fort Worth businesses. From Fortune 500 companies to local service providers, we deliver measurable growth.
+   - CTA: "Get a Free Consultation" + "Call (XXX) XXX-XXXX"
+
+2. WHY DALLAS BUSINESSES CHOOSE VANGUARD
+   - H2: Digital Marketing for Dallas-Fort Worth
+   - Local knowledge:
+     * DFW is the 4th largest metro in the U.S. — competition is fierce
+     * We serve businesses across Dallas, Fort Worth, Arlington, Plano, Frisco, McKinney, Irving
+     * Deep understanding of Dallas industries: corporate, hospitality, healthcare, real estate
+   - Brief paragraph about the DFW business landscape
+
+3. SERVICES WE OFFER IN DALLAS
+   - H2: Our Dallas Marketing Services
+   - Same 6 service cards as Austin, but with Dallas-specific descriptions
+   - Each links to respective /services/ page
+
+4. LOCAL SEO FOCUS
+   - H2: Dallas Local SEO Specialists
+   - Dallas-specific local SEO content:
+     * Google Business Profile for DFW multi-location businesses
+     * Dallas-Fort Worth citation building (Dallas Morning News, DFW directories, BBB)
+     * Neighborhood targeting: Uptown, Deep Ellum, Bishop Arts, Legacy West, Sundance Square
+     * Multi-city local SEO strategy for DFW metro (Dallas + Fort Worth + suburbs)
+
+5. INDUSTRIES WE SERVE IN DALLAS
+   - H2: Industries We Serve
+   - Grid:
+     * Corporate & Enterprise
+     * Healthcare & Medical
+     * Real Estate & Construction
+     * Hospitality & Restaurants
+     * Financial Services
+     * Legal & Professional Services
+     * Automotive
+     * Home Services
+
+6. DALLAS RESULTS
+   - H2: Our Dallas Results
+   - Localized stats or testimonials
+   - DFW service area map reference
+
+7. FAQ (Dallas-specific)
+   - Q: Do you serve both Dallas and Fort Worth?
+   - Q: What suburbs in DFW do you cover?
+   - Q: Do you have a Dallas office?
+   - Q: How competitive is SEO in Dallas?
+
+8. CTA SECTION
+   - "Ready to Dominate Dallas Search Results?" + contact form/link
+
+INTERNAL LINKS
+--------------
+- All 6 service pages
+- /locations/austin, /locations/houston
+- /portfolio, /contact, /academy
+
+SCHEMA MARKUP
+-------------
+- LocalBusiness schema with Dallas address/service area
+- Service schema, FAQ schema
+- BreadcrumbList: Home > Locations > Dallas
+- GeoCoordinates: 32.7767, -96.7970

@@ -1,0 +1,83 @@
+LOCATION PAGE CONTENT BRIEF: Houston, TX
+==========================================
+
+URL: /locations/houston
+Target Keywords: digital marketing Houston, SEO agency Houston, web design Houston TX, marketing company Houston
+
+SEO METADATA
+------------
+Title: Digital Marketing Agency in Houston, TX | Vanguard Digital Marketing
+Description: Houston's trusted digital marketing partner. SEO, web design, PPC, social media, and branding for Houston businesses. Serving the Greater Houston area. Free consultation.
+Keywords: digital marketing Houston, Houston SEO, Houston web design, marketing agency Houston TX, Houston PPC, Houston social media marketing
+
+H1: Houston Digital Marketing Agency
+Subtitle label: Houston, Texas
+
+PAGE SECTIONS
+-------------
+
+1. HERO
+   - H1 (above)
+   - Subtext: Data-driven digital marketing for Houston's diverse business landscape. From Energy Corridor to the Heights, we help Houston businesses dominate online.
+   - CTA: "Get a Free Consultation" + "Call (XXX) XXX-XXXX"
+
+2. WHY HOUSTON BUSINESSES CHOOSE VANGUARD
+   - H2: Digital Marketing for Houston Businesses
+   - Local knowledge:
+     * Houston is the most diverse city in the U.S. — marketing must reflect that
+     * Massive metro area (600+ sq miles) requires targeted local strategies
+     * Key industries: energy/oil & gas, healthcare/medical center, shipping/logistics, aerospace
+     * We serve businesses across Houston, Sugar Land, The Woodlands, Katy, Pearland, Pasadena
+   - Brief paragraph about Houston's unique market
+
+3. SERVICES WE OFFER IN HOUSTON
+   - H2: Our Houston Marketing Services
+   - Same 6 service cards with Houston-specific descriptions
+   - Each links to respective /services/ page
+
+4. LOCAL SEO FOCUS
+   - H2: Houston Local SEO Experts
+   - Houston-specific local SEO:
+     * Google Business Profile for Houston's massive geographic spread
+     * Houston citation building (Houston Chronicle, Houston Business Journal, local directories)
+     * Neighborhood targeting: Montrose, The Heights, Midtown, Galleria, Memorial, River Oaks, Energy Corridor
+     * Multi-language SEO for Houston's diverse population (English, Spanish considerations)
+
+5. INDUSTRIES WE SERVE IN HOUSTON
+   - H2: Industries We Serve
+   - Grid:
+     * Energy & Oil/Gas
+     * Healthcare & Texas Medical Center
+     * Shipping & Logistics
+     * Aerospace & Engineering
+     * Real Estate & Development
+     * Legal & Professional Services
+     * Restaurants & Hospitality
+     * Home Services & Construction
+
+6. HOUSTON RESULTS
+   - H2: Our Houston Results
+   - Localized stats or testimonials
+   - Greater Houston service area reference
+
+7. FAQ (Houston-specific)
+   - Q: Do you serve the entire Houston metro?
+   - Q: What industries in Houston do you specialize in?
+   - Q: Do you offer bilingual marketing for Houston businesses?
+   - Q: How do I rank for "near me" searches in Houston?
+
+8. CTA SECTION
+   - "Ready to Grow Your Houston Business?" + contact form/link
+
+INTERNAL LINKS
+--------------
+- All 6 service pages
+- /locations/austin, /locations/dallas
+- /portfolio, /contact, /academy
+
+SCHEMA MARKUP
+-------------
+- LocalBusiness schema with Houston address/service area
+- Service schema, FAQ schema
+- BreadcrumbList: Home > Locations > Houston
+- GeoCoordinates: 29.7604, -95.3698

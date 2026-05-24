@@ -1,0 +1,79 @@
+SERVICE PAGE CONTENT BRIEF: Social Media Marketing
+====================================================
+
+URL: /services/social-media
+Parent: /services (links from "Social Media Marketing" card)
+
+SEO METADATA
+------------
+Title: Social Media Marketing Services | Vanguard Digital Marketing
+Description: Strategic social media marketing — content creation, community management, paid social, and analytics. Grow your brand on every platform.
+Keywords: social media marketing, social media management, Instagram marketing, Facebook marketing, LinkedIn marketing, social media agency
+
+H1: Social Media Marketing That Builds Brands
+Subtitle label: Social Media Marketing
+
+PAGE SECTIONS
+-------------
+
+1. HERO
+   - H1 (above)
+   - Subtext: Strategic content, engaged communities, measurable growth across every platform.
+   - CTA: "Get a Social Strategy" + "See Our Work"
+
+2. THE OPPORTUNITY
+   - H2: Why Social Media Marketing Matters
+   - Stats:
+     * 4.9 billion people use social media worldwide
+     * 77% of consumers prefer buying from brands they follow on social
+     * Social media ad spending expected to reach $220B+ in 2026
+   - Pain points: inconsistent posting, no strategy, low engagement, not converting followers
+
+3. PLATFORMS WE MANAGE
+   - H2: Platforms We Specialize In
+   - Cards for each platform with icon and specialties:
+     a) Instagram — visual storytelling, Reels, Stories, shopping
+     b) Facebook — community building, local targeting, FB Ads
+     c) LinkedIn — B2B thought leadership, lead generation, company pages
+     d) TikTok — short-form video, trend riding, brand awareness
+     e) X (Twitter) — real-time engagement, brand voice, industry conversations
+     f) YouTube — long-form video strategy, SEO, channel growth
+     g) Google Business Profile — posts, updates, review engagement
+
+4. OUR SERVICES (detailed)
+   - H2: What's Included
+   - Social Media Strategy — platform selection, audience research, content pillars, posting cadence
+   - Content Creation — graphics, copywriting, video production, carousel posts
+   - Community Management — responding to comments/DMs, engagement, reputation
+   - Paid Social Advertising — campaign setup, targeting, optimization, A/B testing
+   - Influencer Partnerships — identification, outreach, campaign management
+   - Analytics & Reporting — monthly reports, KPI tracking, competitive benchmarking
+
+5. CONTENT SAMPLES / STYLE
+   - H2: Content That Connects
+   - Example content types: carousel posts, video Reels, infographics, Stories templates
+   - Describe creative approach: brand-aligned, scroll-stopping, value-driven
+
+6. FAQ
+   - Q: How often should we post on social media?
+   - Q: Which social media platforms should my business be on?
+   - Q: Do you create all the content or do we need to provide assets?
+   - Q: How do you measure social media ROI?
+   - Q: Can you manage our paid social ads too?
+
+7. CTA SECTION
+   - "Ready to Grow Your Social Presence?" + contact link
+
+INTERNAL LINKS
+--------------
+- Link to /services/content-marketing (content strategy overlap)
+- Link to /services/branding (brand voice consistency)
+- Link to /services/ppc (paid social ads)
+- Link to /portfolio
+- Link to /contact
+
+SCHEMA MARKUP
+-------------
+- Service schema (Social Media Marketing)
+- FAQ schema
+- BreadcrumbList: Home > Services > Social Media

@@ -1,0 +1,165 @@
+DirectoryIndex disabled
+RewriteEngine On
+
+# ── Security: Block sensitive files ──────────────
+<FilesMatch "\.(env|env\..*|gitignore|gitmodules)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+<FilesMatch "^\.">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Block access to sensitive directories
+RewriteRule ^\.git(/|$) - [F,L]
+RewriteRule ^\.next/server(/|$) - [F,L]
+RewriteRule ^prisma(/|$) - [F,L]
+RewriteRule ^node_modules(/|$) - [F,L]
+
+# Block source maps in production
+RewriteRule \.map$ - [F,L]
+
+# Block source code files (.ts, .tsx, .mjs, .jsx)
+RewriteRule \.(ts|tsx|mjs|jsx)$ - [F,L]
+# Block config files
+RewriteRule ^package\.json$ - [F,L]
+RewriteRule ^package-lock\.json$ - [F,L]
+RewriteRule ^tsconfig\.json$ - [F,L]
+RewriteRule ^tsconfig\.tsbuildinfo$ - [F,L]
+
+# Block source code directories
+RewriteRule ^lib(/|$) - [F,L]
+RewriteRule ^app(/|$) - [F,L]
+RewriteRule ^components(/|$) - [F,L]
+RewriteRule ^hooks(/|$) - [F,L]
+RewriteRule ^types(/|$) - [F,L]
+RewriteRule ^scripts(/|$) - [F,L]
+RewriteRule ^docs(/|$) - [F,L]
+RewriteRule ^screenshots(/|$) - [F,L]
+RewriteRule ^out(/|$) - [F,L]
+RewriteRule ^\.next/ - [F,L]
+
+# ── Prevent directory listing ──────────────────
+Options -Indexes
+ServerSignature Off
+
+# ── Security headers ────────────────────────────
+Header always unset X-Powered-By
+Header always set X-Content-Type-Options "nosniff"
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set X-XSS-Protection "1; mode=block"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
+
+# ── CSP for vanguardm.com only (addon domains set their own) ──
+SetEnvIf Host "^([a-z0-9-]+\.)?vanguardm\.com$" IS_VANGUARDM=1
+Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://www.google.com https://www.gstatic.com https://js.stripe.com https://region1.google-analytics.com https://challenges.cloudflare.com https://static.cloudflareinsights.com https://googleads.g.doubleclick.net https://www.googleadservices.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: blob: https://www.google-analytics.com https://www.googletagmanager.com https://www.google.com https://region1.google-analytics.com https://googleads.g.doubleclick.net https://www.googleadservices.com; font-src 'self' data: https://fonts.gstatic.com; frame-src https://www.google.com https://js.stripe.com https://www.googletagmanager.com https://challenges.cloudflare.com; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com https://region1.google-analytics.com https://api.stripe.com https://www.google.com https://analytics.google.com https://challenges.cloudflare.com https://stats.g.doubleclick.net https://googleads.g.doubleclick.net https://www.googleadservices.com https://static.cloudflareinsights.com; base-uri 'self'; form-action 'self'" env=IS_VANGUARDM
+
+# ── Allow DCV/ACME challenges over HTTP (no redirect) ──
+RewriteCond %{REQUEST_URI} ^/\.well-known/
+RewriteRule ^ - [L]
+
+# ── Force HTTPS ─────────────────────────────────
+RewriteCond %{HTTPS} off
+RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+# ── Stop processing for ALL non-vanguardm domains ───────────
+# Only vanguardm.com should proxy to Node.js — everything else stops here
+# This is a whitelist approach: only vanguardm.com continues to the proxy rules
+RewriteCond %{HTTP_HOST} !^([a-z0-9-]+\.)?vanguardm\.com$ [NC]
+RewriteRule ^ - [L]
+
+# ── 301 Redirects: Old WordPress URLs → Current Pages ──
+RewriteRule ^home/?$ / [R=301,L]
+RewriteRule ^index\.html$ / [R=301,L]
+RewriteRule ^about-us/?$ /about [R=301,L]
+RewriteRule ^contact-us/?$ /contact [R=301,L]
+RewriteRule ^get-in-touch/?$ /contact [R=301,L]
+RewriteRule ^marketing-services/?$ /services [R=301,L]
+RewriteRule ^all-in-one-digital-marketing-services/?$ /services [R=301,L]
+RewriteRule ^google-ads-ppc/?$ /services/ppc [R=301,L]
+RewriteRule ^affordable-web-design/?$ /services/web-design [R=301,L]
+RewriteRule ^social-media-marketing/?$ /services/social-media [R=301,L]
+RewriteRule ^graphics-design/?$ /services/branding [R=301,L]
+RewriteRule ^website-design/?$ /services/web-design [R=301,L]
+RewriteRule ^ppc-seo/?(.*)$ /services/ppc [R=301,L]
+RewriteRule ^services/google-ads/?$ /services/ppc [R=301,L]
+
+# ── 410 Gone: Removed WordPress content ────────────
+# blog now served by Next.js (removed 410 Gone)
+RewriteRule ^category(/.*)?$ - [G,L]
+RewriteRule ^author(/.*)?$ - [G,L]
+RewriteRule ^wp-content(/.*)?$ - [G,L]
+RewriteRule ^wp-admin(/.*)?$ - [G,L]
+RewriteRule ^wp-includes(/.*)?$ - [G,L]
+RewriteRule ^sample-page/?$ - [G,L]
+RewriteRule ^publication-privacy-policy/?$ - [G,L]
+RewriteRule ^lol-analyticsapp-privacy-policy/?$ - [G,L]
+RewriteRule ^legal-notice/?$ - [G,L]
+RewriteRule ^vdm-blogs/?$ - [G,L]
+RewriteRule ^seo-strategy-tactics(/.*)?$ - [G,L]
+RewriteRule ^website-seo-heading-structure/?$ - [G,L]
+RewriteRule ^google-ads-quality-score/?$ - [G,L]
+RewriteRule ^website-speed-is-everything.*$ - [G,L]
+RewriteRule ^how-does-seo-effects-ppc-ads/?$ - [G,L]
+RewriteRule ^use-ai-for-ideation-mixed-workflow/?$ - [G,L]
+RewriteRule ^en(/.*)?$ - [G,L]
+RewriteRule ^strategies/?$ - [G,L]
+RewriteRule ^team/?$ - [G,L]
+RewriteRule ^pricing/?$ - [G,L]
+RewriteRule ^faq/?$ - [G,L]
+RewriteRule ^careers/?$ - [G,L]
+RewriteRule ^news/?$ - [G,L]
+RewriteRule ^testimonials/?$ - [G,L]
+RewriteRule ^case-studies/?$ - [G,L]
+RewriteRule ^clients/?$ - [G,L]
+RewriteRule ^projects/?$ - [G,L]
+RewriteRule ^login/?$ - [G,L]
+# signup route now used by SaaS signup flow
+# RewriteRule ^signup/?$ - [G,L]
+RewriteRule ^register/?$ - [G,L]
+RewriteRule ^services/digital-marketing/?$ - [G,L]
+RewriteRule ^services/web-development/?$ - [G,L]
+RewriteRule ^services/graphic-design/?$ - [G,L]
+RewriteRule ^services/analytics/?$ - [G,L]
+RewriteRule ^services/email-marketing/?$ - [G,L]
+RewriteRule ^services/consulting/?$ - [G,L]
+RewriteRule ^page/\d+/?(\?.*)?$ - [G,L]
+RewriteRule ^2/?$ - [G,L]
+RewriteRule ^api\.php$ - [G,L]
+
+# ── Disable nginx proxy cache for dynamic pages ──
+# Static assets (/_next/static/) are cached by Cloudflare with immutable headers.
+# Everything else must not be cached by nginx to prevent stale auth/session data.
+Header set X-Accel-Expires "0"
+
+# ── Proxy to Node.js (vanguardm.com only) ───────
+# Root URL — always proxy (bypass DirectoryIndex)
+RewriteRule ^$ http://127.0.0.1:3000/ [P,L]
+
+# WebSocket upgrade
+RewriteCond %{HTTP:Upgrade} =websocket [NC]
+RewriteRule ^(.*)$ ws://127.0.0.1:3000/$1 [P,L]
+
+# Let ACME challenges through
+RewriteCond %{REQUEST_URI} !^/\.well-known/
+# Let reports be served by Apache/PHP (gate.php)
+RewriteCond %{REQUEST_URI} !^/reports/
+# Let preview sites be served directly by Apache
+RewriteCond %{REQUEST_URI} !^/preview/
+# Serve static files directly if they exist on disk
+RewriteCond %{REQUEST_FILENAME} !-f
+# Proxy everything else to Next.js
+RewriteRule ^(.*)$ http://127.0.0.1:3000/$1 [P,L]
+
+# Proxy headers
+RequestHeader set X-Forwarded-For "%{REMOTE_ADDR}s"
+RequestHeader set X-Forwarded-Proto "https"
+RequestHeader set X-Forwarded-Host "%{HTTP_HOST}s"
+
+# Proxy response headers
+ProxyPassReverse / http://127.0.0.1:3000/
+ProxyPreserveHost On

@@ -1,0 +1,94 @@
+SERVICE PAGE CONTENT BRIEF: PPC & Google Ads
+==============================================
+
+URL: /services/ppc
+Parent: /services (links from "PPC & Google Ads" card)
+
+SEO METADATA
+------------
+Title: PPC & Google Ads Management | Vanguard Digital Marketing
+Description: Expert PPC management and Google Ads services. Maximize ROI with precision-targeted campaigns, A/B testing, and transparent reporting. Free audit available.
+Keywords: PPC management, Google Ads agency, pay per click, PPC services, Google Ads management, remarketing, paid search
+
+H1: PPC Campaigns That Maximize Every Dollar
+Subtitle label: PPC & Google Ads
+
+PAGE SECTIONS
+-------------
+
+1. HERO
+   - H1 (above)
+   - Subtext: Precision-targeted paid search and display campaigns. High-intent traffic. Measurable ROI. No wasted spend.
+   - CTA: "Get a Free PPC Audit" + "See Pricing"
+
+2. WHY PPC
+   - H2: Why Invest in PPC Advertising?
+   - Benefits:
+     * Immediate visibility — appear at the top of Google today
+     * Hyper-targeted — reach people actively searching for your services
+     * Measurable — track every click, call, and conversion
+     * Scalable — increase budget as ROI proves out
+   - Stats:
+     * Google Ads delivers an average 200% ROI
+     * 65% of high-intent searches result in an ad click
+     * PPC visitors are 50% more likely to purchase than organic visitors
+
+3. CAMPAIGN TYPES WE MANAGE
+   - H2: PPC Campaign Types
+   - Cards:
+     a) Google Search Ads — text ads on search results, keyword targeting
+     b) Google Display Ads — banner ads across 2M+ websites
+     c) Google Shopping Ads — product listings with images, prices, reviews
+     d) YouTube Video Ads — pre-roll, in-stream, discovery ads
+     e) Remarketing/Retargeting — re-engage visitors who didn't convert
+     f) Local Service Ads — Google Guaranteed badge, pay-per-lead
+     g) Microsoft/Bing Ads — additional search volume at lower CPC
+     h) Social Media Ads — Facebook, Instagram, LinkedIn paid campaigns
+
+4. OUR APPROACH
+   - H2: How We Manage Your Campaigns
+   - Step 1: Account Audit & Research — competitor analysis, keyword research, market sizing
+   - Step 2: Campaign Architecture — account structure, ad groups, keyword match types
+   - Step 3: Ad Creative & Landing Pages — compelling ad copy, dedicated landing pages
+   - Step 4: Launch & Monitor — bid management, budget allocation, quality score optimization
+   - Step 5: Test & Optimize — A/B testing ads, adjusting bids, negative keywords
+   - Step 6: Report & Scale — monthly reporting, strategy calls, scaling winners
+
+5. WHAT SETS US APART
+   - H2: Why Choose Vanguard for PPC
+   - No long-term contracts
+   - You own your ad accounts (always)
+   - Transparent spend reporting — see every dollar
+   - Dedicated account manager
+   - Google Partner certified team
+
+6. RESULTS
+   - H2: PPC Results We've Delivered
+   - 3 mini case studies:
+     * Home services company: 5x ROAS, $12 cost per lead
+     * E-commerce brand: 280% increase in revenue from Shopping ads
+     * SaaS company: 60% decrease in cost per acquisition
+
+7. FAQ
+   - Q: How much should I budget for PPC?
+   - Q: How quickly will I see results from PPC?
+   - Q: What's the difference between PPC and SEO?
+   - Q: Do I need a landing page for my ads?
+   - Q: What is quality score and why does it matter?
+   - Q: Do you manage Facebook/Instagram ads too?
+
+8. CTA SECTION
+   - "Stop Wasting Ad Spend" + free audit CTA
+
+INTERNAL LINKS
+--------------
+- Link to /services/seo (SEO + PPC together)
+- Link to /services/social-media (paid social)
+- Link to /services/web-design (landing pages)
+- Link to /contact
+
+SCHEMA MARKUP
+-------------
+- Service schema (PPC Management)
+- FAQ schema
+- BreadcrumbList: Home > Services > PPC

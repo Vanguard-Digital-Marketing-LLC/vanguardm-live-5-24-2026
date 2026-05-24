@@ -1,0 +1,82 @@
+import { NextRequest, NextResponse } from "next/server";
+import { auth } from "@/auth";
+import { prisma } from "@/lib/db";
+import { checkRateLimit } from "@/lib/api-rate-limit";
+
+export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const blocked = checkRateLimit(request, "admin");
+  if (blocked) return blocked;
+  const session = await auth();
+  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const role = session.user.role ?? (session.user.isAdmin ? "ADMIN" : "USER");
+  if (role !== "ADMIN" && role !== "TEAM") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
+  const { id } = await params;
+  const body = await request.json();
+
+  // Team members can only update status of assigned tasks
+  if (role === "TEAM") {
+    const task = await prisma.task.findUnique({ where: { id } });
+    if (!task || task.assigneeId !== session.user.id) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+    const updated = await prisma.task.update({
+      where: { id },
+      data: { status: body.status },
+      include: {
+        assignee: { select: { id: true, name: true, email: true } },
+        createdBy: { select: { id: true, name: true } },
+        client: { select: { id: true, name: true } },
+        project: { select: { id: true, name: true } },
+        _count: { select: { comments: true } },
+      },
+    });
+    return NextResponse.json(updated);
+  }
+
+  // Admin can update everything
+  const data: Record<string, unknown> = {};
+  if (body.title !== undefined) data.title = body.title;
+  if (body.description !== undefined) data.description = body.description;
+  if (body.status !== undefined) data.status = body.status;
+  if (body.priority !== undefined) data.priority = body.priority;
+  if (body.category !== undefined) data.category = body.category;
+  if (body.dueDate !== undefined) data.dueDate = body.dueDate ? new Date(body.dueDate) : null;
+  if (body.assigneeId !== undefined) data.assigneeId = body.assigneeId || null;
+  if (body.serviceType !== undefined) data.serviceType = body.serviceType || null;
+  if (body.clientId !== undefined) data.clientId = body.clientId || null;
+  if (body.projectId !== undefined) data.projectId = body.projectId || null;
+  if (body.subtasks !== undefined) data.subtasks = body.subtasks;
+
+  const existing = await prisma.task.findUnique({ where: { id } });
+  if (!existing) return NextResponse.json({ error: "Task not found" }, { status: 404 });
+
+  const task = await prisma.task.update({
+    where: { id },
+    data,
+    include: {
+      assignee: { select: { id: true, name: true, email: true } },
+      createdBy: { select: { id: true, name: true } },
+      client: { select: { id: true, name: true } },
+      project: { select: { id: true, name: true } },
+      _count: { select: { comments: true } },
+    },
+  });
+
+  return NextResponse.json(task);
+}
+
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const blocked = checkRateLimit(request, "admin");
+  if (blocked) return blocked;
+  const session = await auth();
+  if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+
+  const role = session.user.role ?? (session.user.isAdmin ? "ADMIN" : "USER");
+  if (role !== "ADMIN") return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+
+  const { id } = await params;
+  await prisma.task.delete({ where: { id } });
+  return NextResponse.json({ success: true });
+}

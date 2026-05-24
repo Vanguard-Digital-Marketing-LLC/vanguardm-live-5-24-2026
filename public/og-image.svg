@@ -1,0 +1,8 @@
+<svg width="1200" height="630" xmlns="http://www.w3.org/2000/svg">
+  <rect width="1200" height="630" fill="#0a0f1a"/>
+  <rect x="0" y="0" width="1200" height="4" fill="#10b981"/>
+  <text x="600" y="260" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="700" font-size="64" fill="#ffffff">Vanguard <tspan fill="#10b981">Digital</tspan></text>
+  <text x="600" y="340" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="400" font-size="28" fill="#94a3b8">Full-Service Digital Marketing Agency</text>
+  <text x="600" y="400" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-weight="600" font-size="22" fill="#f59e0b">Based in Texas · Trusted Nationwide</text>
+  <rect x="0" y="626" width="1200" height="4" fill="#f59e0b"/>
+</svg>

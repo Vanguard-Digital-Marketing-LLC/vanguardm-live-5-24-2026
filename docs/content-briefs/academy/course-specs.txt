@@ -1,0 +1,91 @@
+PAID ACADEMY COURSE SPECIFICATIONS
+====================================
+
+These are the build specs for all 30 paid academy courses.
+Gemini should follow these when creating course content.
+
+COURSE BODY STRUCTURE (5 sections per course):
+----------------------------------------------
+Every paid course page should have exactly 5 body sections:
+
+  Section 1: INTRODUCTION & OVERVIEW
+    - What this topic is and why it matters
+    - Who this course is for
+    - What you'll be able to do after completing it
+
+  Section 2: CORE CONCEPTS
+    - The foundational knowledge and frameworks
+    - Key terminology and definitions
+    - How the pieces fit together
+
+  Section 3: STRATEGY & PLANNING
+    - How to develop a strategy around this topic
+    - Frameworks, templates, and planning tools
+    - Real-world examples and case studies
+
+  Section 4: EXECUTION & IMPLEMENTATION
+    - Step-by-step how to do it
+    - Tools, platforms, and workflows
+    - Common mistakes to avoid
+
+  Section 5: MEASUREMENT & OPTIMIZATION
+    - KPIs and metrics to track
+    - How to analyze results
+    - Iterative improvement and scaling
+
+
+EXAM SPECIFICATIONS:
+--------------------
+- Each paid course has a 60-question exam
+- Passing score: 70% (42 out of 60)
+- Question type distribution per exam:
+    * 30 multiple-choice (4 options each)
+    * 10 true-false
+    * 12 multi-select (select all that apply, 4-6 options each)
+    * 8 ordering (arrange 4-6 items in correct order)
+- Questions should cover all 5 body sections evenly (12 questions per section)
+- Include a mix of difficulty: 40% easy, 40% medium, 20% hard
+- Every question must have an explanation field
+- Quiz data files go in: lib/quizzes/{course-slug}.ts
+
+EXISTING FREE COURSES (for reference — DO NOT MODIFY):
+------------------------------------------------------
+These 10 courses are tier: "free" with 10-15 question quizzes:
+  1. seo-fundamentals
+  2. frontend-seo
+  3. heading-hierarchy
+  4. technical-seo
+  5. cdns-and-cloudflare
+  6. aeo
+  7. seo-copywriting
+  8. blog-posts-for-seo
+  9. on-page-seo-checklist
+  10. local-seo
+
+COURSE INTERFACE UPDATES NEEDED:
+---------------------------------
+Add these fields to the Course interface in lib/academy-data.ts:
+
+  tier: "free" | "paid"
+  category: string          // e.g., "PPC & Paid Advertising"
+  price: number             // in cents, e.g., 2900 = $29.00
+  examQuestionCount: number // 60 for paid, 10-15 for free
+  certificate: boolean      // true for paid courses
+
+CATEGORY LIST (for filtering):
+-------------------------------
+  1. SEO & Search (existing free courses)
+  2. PPC & Paid Advertising (courses 1-5)
+  3. Social Media Marketing (courses 6-10)
+  4. Content Marketing & Email (courses 11-15)
+  5. Branding & Creative (courses 16-19)
+  6. Analytics & Data (courses 20-23)
+  7. Strategy & Growth (courses 24-27)
+  8. E-Commerce & Industry (courses 28-30)
+
+FILE NAMING CONVENTION:
+-----------------------
+  Course data:  lib/academy-data.ts (add to COURSES array)
+  Quiz data:    lib/quizzes/{slug}.ts (one file per course)
+  Pages:        app/academy/[slug]/page.tsx (already dynamic, handles all)
+  Quiz pages:   app/academy/[slug]/quiz/page.tsx (already dynamic)

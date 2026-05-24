@@ -1,0 +1,85 @@
+SERVICE PAGE CONTENT BRIEF: SEO & Search Marketing
+====================================================
+
+URL: /services/seo
+Parent: /services (links from "SEO & Search Marketing" card)
+
+SEO METADATA
+------------
+Title: SEO Services | Search Engine Optimization | Vanguard Digital Marketing
+Description: Data-driven SEO services that drive organic traffic and revenue. Technical audits, keyword strategy, on-page optimization, and local SEO for Texas businesses. Free consultation.
+Keywords: SEO services, search engine optimization, SEO agency Texas, organic traffic, keyword research, technical SEO, local SEO
+
+H1: SEO Services That Drive Real Revenue
+Subtitle label: Search Engine Optimization
+
+PAGE SECTIONS
+-------------
+
+1. HERO
+   - H1 (above)
+   - Subtext: Brief value prop — data-driven SEO, measurable results, transparent reporting
+   - CTA: "Get Your Free SEO Audit" + "View Case Studies"
+
+2. THE PROBLEM / WHY SEO
+   - H2: Why SEO Matters for Your Business
+   - Pain points: invisible on Google, competitors outranking you, paying too much for ads
+   - Stats to include:
+     * 68% of online experiences begin with a search engine
+     * 53% of website traffic comes from organic search
+     * SEO leads have a 14.6% close rate vs 1.7% for outbound
+   - Tone: empathetic, position Vanguard as the solution
+
+3. OUR SEO SERVICES (detailed breakdown)
+   - H2: Our SEO Services
+   - Each as a GlassCard with icon, title, description:
+     a) Technical SEO Audits — crawl errors, site speed, Core Web Vitals, mobile-first indexing
+     b) Keyword Research & Strategy — search volume, competition analysis, intent mapping
+     c) On-Page Optimization — title tags, meta descriptions, heading structure, internal linking
+     d) Off-Page SEO & Link Building — authority building, outreach, digital PR
+     e) Local SEO — Google Business Profile, citations, reviews, geo-targeted content
+     f) SEO Content Strategy — blog planning, topic clusters, content calendars
+     g) Monthly Reporting & Analytics — ranking tracking, traffic analysis, ROI measurement
+
+4. OUR PROCESS
+   - H2: How We Grow Your Organic Traffic
+   - Timeline/steps:
+     Step 1: SEO Audit & Competitive Analysis (Week 1-2)
+     Step 2: Strategy & Keyword Mapping (Week 2-3)
+     Step 3: Technical Fixes & On-Page Optimization (Week 3-6)
+     Step 4: Content Creation & Link Building (Ongoing)
+     Step 5: Monitor, Report & Optimize (Monthly)
+
+5. RESULTS / CASE STUDIES
+   - H2: SEO Results We've Delivered
+   - 3 mini case studies (can be anonymized):
+     * E-commerce client: +340% organic traffic in 6 months
+     * Local service business: #1 local pack for 15 target keywords
+     * B2B SaaS: 4x organic lead generation in 12 months
+   - Each with: industry, challenge, solution, result
+
+6. FAQ
+   - H2: SEO Questions & Answers
+   - Q: How long does SEO take to show results?
+   - Q: What's the difference between SEO and PPC?
+   - Q: Do you guarantee #1 rankings?
+   - Q: How much do SEO services cost?
+   - Q: What SEO tools do you use?
+   - Q: Can I do SEO myself or do I need an agency?
+
+7. CTA SECTION
+   - Use existing <CTASection /> component
+   - Or custom CTA: "Ready to Dominate Search Results?" + consultation form/link
+
+INTERNAL LINKS
+--------------
+- Link to /academy/seo-fundamentals, /academy/technical-seo, /academy/local-seo
+- Link to /services (back to all services)
+- Link to /portfolio (for social proof)
+- Link to /contact
+
+SCHEMA MARKUP
+-------------
+- Service schema (SEO service)
+- FAQ schema for the FAQ section
+- BreadcrumbList: Home > Services > SEO
