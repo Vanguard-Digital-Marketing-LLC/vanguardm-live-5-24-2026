@@ -30,7 +30,10 @@ const FALLBACK_MESSAGE =
   "I'm not sure about that one. Try asking about Google Ads, Google Analytics, GTM, or SEO — or pick one of the topics below. You can also reach out to our team for anything complex!";
 
 function generateSessionId(): string {
-  return "cs_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
+  const randomBytes = new Uint8Array(6);
+  crypto.getRandomValues(randomBytes);
+  const randomSuffix = Array.from(randomBytes, (b) => b.toString(16).padStart(2, "0")).join("");
+  return "cs_" + Date.now().toString(36) + "_" + randomSuffix;
 }
 
 export default function ChatBotAI() {
