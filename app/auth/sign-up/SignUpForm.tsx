@@ -10,6 +10,7 @@ export default function SignUpForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/academy";
+  const invite = searchParams.get("invite");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -33,7 +34,7 @@ export default function SignUpForm() {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, turnstileToken }),
+        body: JSON.stringify({ name, email, password, turnstileToken, invite }),
       });
 
       const data = await res.json();
