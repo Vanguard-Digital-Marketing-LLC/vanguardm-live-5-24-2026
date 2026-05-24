@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
 import { signAccessToken } from "@/lib/jwt";
-import { resolveRoleFromEmail } from "@/lib/roles";
 import { rateLimitAsync } from "@/lib/rate-limit";
 import { generateRefreshToken, hashToken } from "@/lib/token-hash";
 
@@ -77,17 +76,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Successful login — reset failed attempts
-    const { role, isAdmin } = resolveRoleFromEmail(user.email);
-    const updateData: Record<string, unknown> = { failedLoginAttempts: 0, lockedUntil: null };
-
-    // Sync role if changed
-    if (user.role !== role || user.isAdmin !== isAdmin) {
-      updateData.role = role;
-      updateData.isAdmin = isAdmin;
-    }
-
-    await prisma.user.update({ where: { id: user.id }, data: updateData });
+    // Successful login — reset failed attempts. Role comes from the stored
+    // user record (set at invite acceptance), never derived from email.
+    const role = user.role;
+    const isAdmin = user.isAdmin;
+    await prisma.user.update({
+      where: { id: user.id },
+      data: { failedLoginAttempts: 0, lockedUntil: null },
+    });
 
     // Generate access token
     const accessToken = await signAccessToken({
