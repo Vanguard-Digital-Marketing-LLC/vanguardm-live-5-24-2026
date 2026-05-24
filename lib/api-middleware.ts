@@ -24,7 +24,12 @@ export type RateLimitTier = keyof typeof RATE_LIMIT_TIERS;
 // ---------------------------------------------------------------------------
 
 function getClientIp(req: NextRequest): string {
+  // Prefer Cloudflare's connecting-IP — set by the edge and not client-spoofable
+  // when the origin only accepts Cloudflare traffic. Fall back for non-CF setups.
+  // NOTE: fully closing the spoofing gap (M5) also requires restricting origin
+  // ingress to Cloudflare IP ranges at the infra layer.
   return (
+    req.headers.get("cf-connecting-ip") ||
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
     req.headers.get("x-real-ip") ||
     "unknown"

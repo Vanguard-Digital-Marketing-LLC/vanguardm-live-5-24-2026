@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
+import Turnstile from "@/components/ui/Turnstile";
 import {
   findBestMatch,
   isCheatAttempt,
@@ -44,9 +45,15 @@ export default function ChatBotAI() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const [sessionId] = useState(() => generateSessionId());
+  const [turnstileToken, setTurnstileToken] = useState("");
+  const [hasChatToken, setHasChatToken] = useState(false);
+  const chatTokenRef = useRef<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const abortRef = useRef<AbortController | null>(null);
+
+  const handleVerify = useCallback((token: string) => setTurnstileToken(token), []);
+  const handleExpire = useCallback(() => setTurnstileToken(""), []);
 
   // Auto-scroll to bottom on new messages
   useEffect(() => {
@@ -87,9 +94,17 @@ export default function ChatBotAI() {
           body: JSON.stringify({
             messages: apiMessages,
             sessionId,
+            turnstileToken,
+            chatToken: chatTokenRef.current,
           }),
           signal: abortRef.current.signal,
         });
+
+        const newChatToken = res.headers.get("x-chat-token");
+        if (newChatToken) {
+          chatTokenRef.current = newChatToken;
+          if (!hasChatToken) setHasChatToken(true);
+        }
 
         if (!res.ok && res.status !== 200) {
           throw new Error("API error");
@@ -186,7 +201,7 @@ export default function ChatBotAI() {
         setIsTyping(false);
       }
     },
-    [sessionId],
+    [sessionId, turnstileToken, hasChatToken],
   );
 
   const handleSend = useCallback(
@@ -376,6 +391,11 @@ export default function ChatBotAI() {
 
           {/* Input */}
           <div className="px-4 pb-4 pt-2">
+            {!hasChatToken && (
+              <div className="mb-2 flex justify-center">
+                <Turnstile onVerify={handleVerify} onExpire={handleExpire} />
+              </div>
+            )}
             <div className="flex gap-2">
               <input
                 ref={inputRef}
