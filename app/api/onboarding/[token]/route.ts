@@ -1,11 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { validateOnboardingToken } from "@/lib/onboarding-auth";
 import { getStepsForServices } from "@/lib/onboarding-steps";
+import { checkRateLimit } from "@/lib/api-rate-limit";
 
 export async function GET(
-  _request: NextRequest,
+  request: NextRequest,
   { params }: { params: Promise<{ token: string }> }
 ) {
+  // Throttle to stop token-guessing enumeration (other onboarding verbs already do this).
+  const blocked = await checkRateLimit(request, "onboarding");
+  if (blocked) return blocked;
+
   const { token } = await params;
   const onboarding = await validateOnboardingToken(token);
 

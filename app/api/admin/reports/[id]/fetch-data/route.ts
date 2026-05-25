@@ -206,8 +206,10 @@ export async function POST(
     }
   } catch (err) {
     console.error(`[fetch-data] Error fetching ${sectionType} for client ${client.name}:`, err);
+    // Don't echo the raw error to the client — upstream API errors can contain
+    // internal IDs/tokens. Full detail is in the server log above.
     return NextResponse.json(
-      { error: `Failed to fetch ${sectionType} data: ${err instanceof Error ? err.message : "Unknown error"}` },
+      { error: `Failed to fetch ${sectionType} data. Please try again.` },
       { status: 500 }
     );
   }
