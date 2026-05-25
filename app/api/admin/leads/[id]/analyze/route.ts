@@ -11,6 +11,9 @@ import { analyzeLead } from "@/lib/lead-ai";
    lead's OWN data. Persists results on the Lead.
    ────────────────────────────────────────────── */
 
+// Per-lead cooldown to bound paid LLM spend from rapid/duplicate re-analysis.
+const ANALYZE_COOLDOWN_MS = 20_000;
+
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> },
@@ -33,6 +36,16 @@ export async function POST(
 
   if (!lead) {
     return NextResponse.json({ error: "Lead not found" }, { status: 404 });
+  }
+
+  if (
+    lead.aiAnalyzedAt &&
+    Date.now() - lead.aiAnalyzedAt.getTime() < ANALYZE_COOLDOWN_MS
+  ) {
+    return NextResponse.json(
+      { error: "This lead was just analyzed. Please wait a few seconds before re-running." },
+      { status: 429 },
+    );
   }
 
   // The Lead has no message column — the original message lives on the linked
@@ -80,8 +93,10 @@ export async function POST(
     );
   }
 
-  await prisma.lead.update({
-    where: { id },
+  // updateMany so the write is scoped by agencyId too (defense-in-depth — the
+  // lead was already verified to belong to this agency above).
+  await prisma.lead.updateMany({
+    where: { id, agencyId },
     data: {
       researchBrief: result.researchBrief || null,
       aiScore: result.intentScore, // null when flagged
