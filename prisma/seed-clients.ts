@@ -1,9 +1,11 @@
+import "dotenv/config";
 import { PrismaClient } from "../lib/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 
-const connectionString =
-  process.env.DATABASE_URL ||
-  "postgresql://vanguard_app:EffC8hw8n4_Fs-G@localhost:5432/vanguardm_vanguard_app";
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error("DATABASE_URL is not set — add it to .env");
+}
 
 const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });

@@ -1464,7 +1464,7 @@ Note: delete `components/admin/clients/ClientListUnreadBadges.tsx` if it was cre
 
 ```bash
 cd C:/Users/james/projects/vanguardm.com
-ssh -p 37980 root@103.120.48.66 "cd /home/vanguardm/public_html && DATABASE_URL='postgresql://vanguard_app:EffC8hw8n4_Fs-G@127.0.0.1:5432/vanguardm_vanguard_app' npx prisma db push"
+ssh -p 37980 root@103.120.48.66 "cd /home/vanguardm/public_html && DATABASE_URL='postgresql://vanguard_app:<REDACTED-ROTATED>@127.0.0.1:5432/vanguardm_vanguard_app' npx prisma db push"
 ```
 
 Expected: `ClientMessageRead` table created. Existing tables unchanged.
@@ -1506,7 +1506,7 @@ DEPLOY
 
 ```bash
 curl -sI https://vanguardm.com | head -5
-ssh -p 37980 root@103.120.48.66 "PGPASSWORD='EffC8hw8n4_Fs-G' psql -U vanguard_app -d vanguardm_vanguard_app -h 127.0.0.1 -c '\dt ClientMessageRead'"
+ssh -p 37980 root@103.120.48.66 "PGPASSWORD='<REDACTED-ROTATED>' psql -U vanguard_app -d vanguardm_vanguard_app -h 127.0.0.1 -c '\dt ClientMessageRead'"
 ```
 
 Expected: HTTP 200 and `ClientMessageRead` table exists.

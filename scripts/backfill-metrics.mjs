@@ -1,8 +1,17 @@
+import "dotenv/config";
 import pg from "pg";
 const { Client } = pg;
 
-const db = new Client({ connectionString: "postgresql://vanguard_app:EffC8hw8n4_Fs-G@localhost:5432/vanguardm_vanguard_app" });
-const AUTH = "amFtZXNAdmFuZ3VhcmRtLmNvbTo0ZGQzMTY4MjQ2NzhjMmQz";
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) {
+  throw new Error("DATABASE_URL is not set — add it to .env");
+}
+const AUTH = process.env.DATAFORSEO_AUTH;
+if (!AUTH) {
+  throw new Error("DATAFORSEO_AUTH is not set — add it to .env");
+}
+
+const db = new Client({ connectionString });
 
 await db.connect();
 const { rows: keywords } = await db.query('SELECT id, term FROM "Keyword" ORDER BY term');
