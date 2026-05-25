@@ -1,5 +1,6 @@
 import { execSync, execFileSync } from "child_process";
 import { readFileSync, writeFileSync, chmodSync, existsSync, realpathSync } from "fs";
+import { randomUUID } from "crypto";
 import * as path from "path";
 import Anthropic from "@anthropic-ai/sdk";
 import { prisma } from "@/lib/db";
@@ -407,7 +408,7 @@ function execTool(
         let safePath: string;
         try { safePath = assertPathInside(filePath, cwd); }
         catch (e: unknown) { return `Error: ${(e as Error).message}`; }
-        const tmpPath = `/tmp/agent-write-${Date.now()}.tmp`;
+        const tmpPath = `/tmp/agent-write-${randomUUID()}.tmp`;
         writeFileSync(tmpPath, contentToWrite, "utf-8");
         try {
           {
@@ -442,7 +443,7 @@ function execTool(
         if (count > 1)
           return `Error: old_string found ${count} times (must be unique). Provide more context.`;
         const updated = fileContent.replace(oldStr, newStr);
-        const tmpEditPath = `/tmp/agent-edit-${Date.now()}.tmp`;
+        const tmpEditPath = `/tmp/agent-edit-${randomUUID()}.tmp`;
         writeFileSync(tmpEditPath, updated, "utf-8");
         try {
           {
