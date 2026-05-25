@@ -5,6 +5,7 @@ import Anthropic from "@anthropic-ai/sdk";
 import { prisma } from "@/lib/db";
 import { resolveSiteConfig, SiteConfig } from "@/lib/client-sites";
 import { notifyAgentCompleted } from "@/lib/ticket-notifications";
+import { validateBashCommand } from "@/lib/agent-bash-allowlist";
 
 const TIMEOUT_MS = 15 * 60 * 1000; // 15 minutes
 const MODEL = "claude-haiku-4-5-20251001";
@@ -354,6 +355,13 @@ function execTool(
     switch (name) {
       case "bash": {
         const cmd = input.command as string;
+        // SECURITY (H4): in-app allowlist is the security boundary for the bash
+        // tool (the shell wrapper lives outside this repo). Reject anything that
+        // isn't a build/deploy command before it ever reaches the shell.
+        const check = validateBashCommand(cmd);
+        if (!check.ok) {
+          return `Error: command rejected by security allowlist — ${check.reason}. Only plain build/deploy commands are permitted (cd, npm run/ci, npx next, pm2, cp, mkdir, ls, cat, grep, …) with no shell metacharacters, redirection, or absolute paths. If this ticket needs anything else, stop and report that it requires manual handling.`;
+        }
         const timeout = Math.min(
           (input.timeout_ms as number) || 120000,
           300000
