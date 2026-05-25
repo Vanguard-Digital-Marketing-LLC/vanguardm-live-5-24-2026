@@ -2,15 +2,27 @@
 
 import { useState, useCallback, useEffect } from "react";
 import { signIn, getSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Turnstile from "@/components/ui/Turnstile";
 import { trackEvent } from "@/lib/gtm";
 
+/** Only allow same-origin relative paths as a post-login redirect target. */
+function safeCallbackUrl(raw: string | null): string {
+  if (
+    raw &&
+    raw.startsWith("/") &&
+    !raw.startsWith("//") &&
+    !raw.startsWith("/\\")
+  ) {
+    return raw;
+  }
+  return "/academy";
+}
+
 export default function SignInForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/academy";
+  const callbackUrl = safeCallbackUrl(searchParams.get("callbackUrl"));
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

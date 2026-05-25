@@ -4,9 +4,10 @@ import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
 import { withRateLimit } from "@/lib/api-middleware";
 
-/** Generate a short-lived HMAC token so the client can sign in without Turnstile immediately after accepting an invite. Valid for ~60 seconds. */
-function generateSigninBypass(email: string): string {
-  const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET || "";
+/** Generate a short-lived HMAC token so the client can sign in without Turnstile immediately after accepting an invite. Valid for ~60 seconds. Returns null if no signing secret is configured (bypass disabled, fail closed). */
+function generateSigninBypass(email: string): string | null {
+  const secret = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+  if (!secret) return null;
   const window = Math.floor(Date.now() / 60_000); // 1-minute window
   return crypto.createHmac("sha256", secret).update(`${email}|${window}`).digest("hex");
 }
