@@ -7,11 +7,12 @@ interface PayButtonProps {
   amount: number;
   description: string;
   signature: string;
+  exp: number;
   email?: string;
   agencyId?: string;
 }
 
-export default function PayButton({ amount, description, signature, email, agencyId }: PayButtonProps) {
+export default function PayButton({ amount, description, signature, exp, email, agencyId }: PayButtonProps) {
   const [status, setStatus] = useState<"idle" | "loading" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
   const [turnstileToken, setTurnstileToken] = useState("");
@@ -28,7 +29,7 @@ export default function PayButton({ amount, description, signature, email, agenc
       const res = await fetch("/api/pay", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ amount, description, signature, email, agencyId, turnstileToken }),
+        body: JSON.stringify({ amount, description, signature, exp, email, agencyId, turnstileToken }),
       });
       const data = await res.json();
 

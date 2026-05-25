@@ -34,17 +34,18 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Description is required." }, { status: 400 });
   }
 
-  const signature = signPaymentParams(cents, description, agencyId);
+  const { exp, signature } = signPaymentParams(cents, description, agencyId);
   const base = process.env.NEXTAUTH_URL || "https://vanguardm.com";
   const params = new URLSearchParams({
     amount: String(cents),
     desc: description,
     sig: signature,
+    exp: String(exp),
     agency: agencyId,
   });
   if (email) params.set("email", email);
 
   const url = `${base}/pay?${params.toString()}`;
 
-  return NextResponse.json({ url, signature });
+  return NextResponse.json({ url, signature, exp });
 }

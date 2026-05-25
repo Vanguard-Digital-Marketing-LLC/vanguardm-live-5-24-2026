@@ -7,7 +7,7 @@ import { checkRateLimit } from "@/lib/api-rate-limit";
 export async function POST(request: NextRequest) {
   const blocked = await checkRateLimit(request, "public");
   if (blocked) return blocked;
-  const { amount, description, email, signature, turnstileToken, agencyId } =
+  const { amount, description, email, signature, exp, turnstileToken, agencyId } =
     await request.json();
 
   // Verify Turnstile
@@ -34,10 +34,10 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // Verify HMAC signature — prevents amount/agency tampering
-  if (!verifyPaymentSignature(cents, description, signature, agencyId || undefined)) {
+  // Verify HMAC signature + expiry — prevents amount/agency tampering and replay
+  if (!verifyPaymentSignature(cents, description, signature, Number(exp), agencyId || undefined)) {
     return NextResponse.json(
-      { error: "Invalid payment link signature." },
+      { error: "Invalid or expired payment link." },
       { status: 403 },
     );
   }
@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
       },
     ],
     success_url: `${process.env.NEXTAUTH_URL}/pay/success?session_id={CHECKOUT_SESSION_ID}`,
-    cancel_url: `${process.env.NEXTAUTH_URL}/pay?amount=${cents}&desc=${encodeURIComponent(description)}&sig=${signature}${agencyId ? `&agency=${agencyId}` : ""}${email ? `&email=${encodeURIComponent(email)}` : ""}&canceled=true`,
+    cancel_url: `${process.env.NEXTAUTH_URL}/pay?amount=${cents}&desc=${encodeURIComponent(description)}&sig=${signature}&exp=${exp}${agencyId ? `&agency=${agencyId}` : ""}${email ? `&email=${encodeURIComponent(email)}` : ""}&canceled=true`,
     metadata: {
       type: "service_payment",
       description,

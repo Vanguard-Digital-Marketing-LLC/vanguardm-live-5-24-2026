@@ -12,6 +12,7 @@ interface PayPageProps {
     amount?: string;
     desc?: string;
     sig?: string;
+    exp?: string;
     email?: string;
     agency?: string;
     canceled?: string;
@@ -23,6 +24,7 @@ export default async function PayPage({ searchParams }: PayPageProps) {
   const amount = Number(params.amount);
   const description = params.desc || "";
   const signature = params.sig || "";
+  const exp = Number(params.exp);
   const email = params.email || undefined;
   const agencyId = params.agency || undefined;
   const canceled = params.canceled === "true";
@@ -33,7 +35,7 @@ export default async function PayPage({ searchParams }: PayPageProps) {
     amount <= 10_000_00 &&
     description &&
     signature &&
-    verifyPaymentSignature(amount, description, signature, agencyId);
+    verifyPaymentSignature(amount, description, signature, exp, agencyId);
 
   return (
     <main className="pt-24 space-y-10 md:space-y-16">
@@ -57,6 +59,7 @@ export default async function PayPage({ searchParams }: PayPageProps) {
                 amount={amount}
                 description={description}
                 signature={signature}
+                exp={exp}
                 email={email}
                 agencyId={agencyId}
               />
