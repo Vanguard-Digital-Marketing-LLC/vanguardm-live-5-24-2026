@@ -1,6 +1,9 @@
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/db";
 import { checkRateLimit } from "@/lib/api-rate-limit";
+import { checkAiChatBudget } from "@/lib/rate-limit";
+import { verifyTurnstile } from "@/lib/turnstile";
+import { signChatToken, verifyChatToken } from "@/lib/chat-session-token";
 import { resolvePublicAgencyId } from "@/lib/resolve-agency-public";
 import { calculateLeadScore, type ScoreSignal } from "@/lib/lead-scoring";
 import { QUICK_TOPICS, KNOWLEDGE_BASE } from "@/lib/chatbot-knowledge";
@@ -56,14 +59,66 @@ export async function POST(request: NextRequest) {
 
   try {
     const body = await request.json();
-    const { messages, sessionId } = body;
+    const { messages, sessionId, turnstileToken, chatToken } = body;
 
+    // ── Input validation / caps: reject malformed or oversized payloads ──
     if (!Array.isArray(messages) || messages.length === 0) {
       return new Response(JSON.stringify({ error: "Messages required" }), {
         status: 400,
         headers: { "Content-Type": "application/json" },
       });
     }
+    if (messages.length > 50) {
+      return new Response(JSON.stringify({ error: "Too many messages" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+    let totalChars = 0;
+    for (const m of messages) {
+      if (!m || typeof m.content !== "string" || typeof m.role !== "string") {
+        return new Response(JSON.stringify({ error: "Invalid message format" }), {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+      if (m.content.length > 4000) {
+        return new Response(JSON.stringify({ error: "Message too long" }), {
+          status: 400,
+          headers: { "Content-Type": "application/json" },
+        });
+      }
+      totalChars += m.content.length;
+    }
+    if (totalChars > 20000) {
+      return new Response(JSON.stringify({ error: "Conversation too long" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    const sid = typeof sessionId === "string" ? sessionId : "";
+
+    // ── Human verification: a valid per-session chat token OR a fresh Turnstile
+    // token. Stops unauthenticated bots from draining the paid AI endpoint. ──
+    const verified =
+      verifyChatToken(sid, chatToken) ||
+      (typeof turnstileToken === "string" &&
+        turnstileToken.length > 0 &&
+        (await verifyTurnstile(turnstileToken)));
+    if (!verified) {
+      return new Response(JSON.stringify({ error: "Verification required" }), {
+        status: 403,
+        headers: { "Content-Type": "application/json" },
+      });
+    }
+
+    // Issue/refresh a short-lived session token so the client can skip Turnstile
+    // on subsequent messages of the same chat session.
+    const issuedChatToken = sid ? signChatToken(sid) : null;
+    const tokenHeader: Record<string, string> = issuedChatToken
+      ? { "X-Chat-Token": issuedChatToken }
+      : {};
 
     const apiKey = process.env.ANTHROPIC_API_KEY;
     if (!apiKey) {
@@ -90,8 +145,18 @@ export async function POST(request: NextRequest) {
 
       return new Response(JSON.stringify({ fallback: true, text: fallbackResponse }), {
         status: 200,
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...tokenHeader },
       });
+    }
+
+    // Global daily budget guard for the paid AI (independent of client IP, so
+    // it can't be bypassed by header spoofing). Checked BEFORE any lead/session
+    // DB writes so an over-budget flood can't keep loading the database.
+    if (!(await checkAiChatBudget())) {
+      return new Response(
+        JSON.stringify({ error: "Our AI assistant is at capacity right now. Please try again later or contact us." }),
+        { status: 429, headers: { "Content-Type": "application/json", ...tokenHeader } },
+      );
     }
 
     // Check last user message for email
@@ -273,6 +338,7 @@ export async function POST(request: NextRequest) {
         "Content-Type": "text/event-stream",
         "Cache-Control": "no-cache",
         Connection: "keep-alive",
+        ...tokenHeader,
       },
     });
   } catch (err) {

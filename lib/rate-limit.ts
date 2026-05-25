@@ -99,3 +99,39 @@ export async function rateLimitAsync(
     return memRateLimit(key, limit, windowMs);
   }
 }
+
+// ── Global daily budget for the paid AI chat endpoint ──
+
+const DAY_MS = 24 * 60 * 60 * 1000;
+
+/**
+ * Enforces a global, per-day ceiling on calls to the paid Anthropic chat API.
+ * Independent of client IP (so it can't be bypassed by header spoofing), this
+ * caps total cost/abuse. Returns true when the call is within budget.
+ * Limit is configurable via AI_CHAT_DAILY_LIMIT (default 5000).
+ */
+export async function checkAiChatBudget(): Promise<boolean> {
+  const limit = parseInt(process.env.AI_CHAT_DAILY_LIMIT || "5000", 10);
+  const day = new Date().toISOString().slice(0, 10);
+  const key = `ai:budget:chat:${day}`;
+
+  const client = getRedis();
+  if (client && client.status === "ready") {
+    try {
+      const count = await client.incr(key);
+      if (count === 1) await client.pexpire(key, DAY_MS);
+      return count <= limit;
+    } catch {
+      // fall through to in-memory
+    }
+  }
+
+  const now = Date.now();
+  const entry = memStore.get(key);
+  if (!entry || entry.resetAt <= now) {
+    memStore.set(key, { count: 1, resetAt: now + DAY_MS });
+    return 1 <= limit;
+  }
+  entry.count++;
+  return entry.count <= limit;
+}
