@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { jsonLdScript } from "@/lib/json-ld";
 import { SITE_URL } from "@/lib/site-config";
 import { notFound } from "next/navigation";
 import Image from "next/image";
@@ -175,11 +176,11 @@ export default async function BlogPostPage({
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(articleSchema) }}
       />
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbSchema) }}
       />
 
       <article className="py-10 md:py-16 px-5 md:px-6">

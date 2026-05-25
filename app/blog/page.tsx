@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { jsonLdScript } from "@/lib/json-ld";
 import { prisma } from "@/lib/db";
 import { SITE_URL } from "@/lib/site-config";
 import BlogCard from "@/components/blog/BlogCard";
@@ -113,7 +114,7 @@ export default async function BlogPage({ searchParams }: BlogPageProps) {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(blogJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(blogJsonLd) }}
       />
       <section className="py-14 md:py-24 px-5 md:px-6">
       {/* Header */}

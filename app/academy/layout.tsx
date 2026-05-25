@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { jsonLdScript } from "@/lib/json-ld";
 import { SITE_URL } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -39,7 +40,7 @@ export default function AcademyLayout({
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
+          __html: jsonLdScript({
             "@context": "https://schema.org",
             "@type": "Course",
             provider: {

@@ -1,4 +1,5 @@
 import { SITE_URL } from "@/lib/site-config";
+import { jsonLdScript } from "@/lib/json-ld";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { COURSES, getCourse } from "@/lib/academy-data";
@@ -64,7 +65,7 @@ export default async function CoursePage({
     <main className="pt-24">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        dangerouslySetInnerHTML={{ __html: jsonLdScript(breadcrumbSchema) }}
       />
       <section className="py-10 md:py-16 px-5 md:px-6">
         <div className="max-w-4xl mx-auto">
