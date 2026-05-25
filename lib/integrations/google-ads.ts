@@ -55,11 +55,35 @@ async function gaqlQuery(customerId: string, query: string, accessToken: string)
   return data.flatMap((batch: { results?: unknown[] }) => batch.results || []);
 }
 
+/** Google Ads customer IDs are 10-digit numbers (sometimes dashed). Reject
+ *  anything else so it can't break out of the API URL path. */
+function assertCustomerId(customerId: string): string {
+  const clean = String(customerId).replace(/-/g, "");
+  if (!/^\d{8,12}$/.test(clean)) {
+    throw new Error("Invalid Google Ads customer ID");
+  }
+  return clean;
+}
+
+/** GAQL has no parameter binding, so dates are interpolated into the query —
+ *  require a strict YYYY-MM-DD to prevent query injection. */
+function assertDate(label: string, value: string): string {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(value))) {
+    throw new Error(`Invalid ${label} (expected YYYY-MM-DD)`);
+  }
+  return value;
+}
+
 export async function fetchGoogleAdsData(
   customerId: string,
   startDate: string,
   endDate: string
 ): Promise<AdsData> {
+  // Validate before any value reaches the API URL path or the GAQL strings.
+  customerId = assertCustomerId(customerId);
+  startDate = assertDate("startDate", startDate);
+  endDate = assertDate("endDate", endDate);
+
   const accessToken = await getAccessToken();
 
   // Account totals
