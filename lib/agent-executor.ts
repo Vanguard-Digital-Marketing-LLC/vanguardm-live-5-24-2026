@@ -359,7 +359,7 @@ function execTool(
         // isn't a build/deploy command before it ever reaches the shell.
         const check = validateBashCommand(cmd);
         if (!check.ok) {
-          return `Error: command rejected by security allowlist — ${check.reason}. Only build/deploy commands are permitted (cd, npm, npx, node, pm2, cp, mkdir, ls, cat, find, grep, …). If this ticket needs anything else, stop and report that it requires manual handling.`;
+          return `Error: command rejected by security allowlist — ${check.reason}. Only plain build/deploy commands are permitted (cd, npm run/ci, npx next, pm2, cp, mkdir, ls, cat, grep, …) with no shell metacharacters, redirection, or absolute paths. If this ticket needs anything else, stop and report that it requires manual handling.`;
         }
         const timeout = Math.min(
           (input.timeout_ms as number) || 120000,
