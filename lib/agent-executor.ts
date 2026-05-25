@@ -42,7 +42,8 @@ async function refreshOAuthToken(credsPath: string): Promise<string | null> {
     });
 
     if (!res.ok) {
-      console.error("[agent-executor] Token refresh failed:", res.status, await res.text());
+      // Status only — the response body can echo token-related details.
+      console.error("[agent-executor] Token refresh failed:", res.status);
       return null;
     }
 

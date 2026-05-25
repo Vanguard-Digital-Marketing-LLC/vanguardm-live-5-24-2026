@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/db";
 import { auth } from "@/auth";
+import { checkRateLimit } from "@/lib/api-rate-limit";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 300; // 5 min cap; client reconnects after.
@@ -21,8 +22,14 @@ const HEARTBEAT_MS = 25_000;
  *   event: ping       data: <epoch ms>
  */
 export async function GET(req: NextRequest) {
+  // Throttle connection establishment (the rest of the stream is long-lived).
+  const blocked = await checkRateLimit(req, "portal");
+  if (blocked) return blocked;
+
   const session = await auth();
-  if (!session?.user?.id) return new Response("Unauthorized", { status: 401 });
+  if (!session?.user?.id || session.user.role !== "CLIENT") {
+    return new Response("Unauthorized", { status: 401 });
+  }
 
   const clientId = session.user.clientId;
   if (!clientId) return new Response("No client linked", { status: 403 });

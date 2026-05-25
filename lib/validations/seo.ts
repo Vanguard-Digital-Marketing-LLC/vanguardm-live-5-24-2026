@@ -57,7 +57,8 @@ export const bulkImportSerpSchema = z.object({
 });
 
 export const fetchSerpSchema = z.object({
-  keywords: z.array(z.string().min(1).max(500)).min(1).max(500),
+  // Capped to bound paid-SERP-API cost per request (was 500).
+  keywords: z.array(z.string().min(1).max(500)).min(1).max(100),
   gl: z.string().max(5).optional().default("us"),
   hl: z.string().max(5).optional().default("en"),
   num: z.number().int().min(10).max(100).optional().default(100),

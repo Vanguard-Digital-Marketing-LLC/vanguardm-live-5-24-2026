@@ -149,6 +149,50 @@ export async function requireAuth(
 }
 
 // ---------------------------------------------------------------------------
+// requirePortalAuth — session + CLIENT role + linked clientId for portal routes
+// ---------------------------------------------------------------------------
+
+interface PortalAuthSuccess {
+  session: Session;
+  clientId: string;
+  errorResponse?: undefined;
+}
+
+interface PortalAuthFailure {
+  session?: undefined;
+  clientId?: undefined;
+  errorResponse: NextResponse;
+}
+
+/**
+ * Gets the current session and enforces that the caller is a CLIENT with a
+ * linked clientId. Use this in all /api/portal routes: `requireAuth` only
+ * knows ADMIN/TEAM, so on its own it cannot keep a stray admin/team account
+ * (one that happens to carry a clientId) out of the client portal.
+ */
+export async function requirePortalAuth(): Promise<PortalAuthSuccess | PortalAuthFailure> {
+  const session = await auth();
+
+  if (!session?.user?.id || session.user.role !== "CLIENT") {
+    return {
+      errorResponse: NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
+    };
+  }
+
+  const clientId = session.user.clientId;
+  if (!clientId) {
+    return {
+      errorResponse: NextResponse.json(
+        { error: "No client account linked" },
+        { status: 403 },
+      ),
+    };
+  }
+
+  return { session, clientId };
+}
+
+// ---------------------------------------------------------------------------
 // requireAdminAuth — session + role + agencyId scoping for admin routes
 // ---------------------------------------------------------------------------
 

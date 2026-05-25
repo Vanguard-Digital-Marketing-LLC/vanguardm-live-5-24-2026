@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { withRateLimit, requireAuth } from "@/lib/api-middleware";
+import { withRateLimit, requirePortalAuth } from "@/lib/api-middleware";
 
 export const GET = withRateLimit(
   "portal",
@@ -8,7 +8,7 @@ export const GET = withRateLimit(
     req: NextRequest,
     context: { params: Promise<Record<string, string>> },
   ) => {
-    const { session, errorResponse } = await requireAuth();
+    const { session, errorResponse } = await requirePortalAuth();
     if (errorResponse) return errorResponse;
 
     const clientId = session.user.clientId;

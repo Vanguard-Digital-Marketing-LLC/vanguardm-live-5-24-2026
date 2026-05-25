@@ -42,7 +42,9 @@ export function validateMagicBytes(buffer: Buffer, mimeType: string): boolean {
 
 function resolvePath(storagePath: string): string {
   const resolved = path.resolve(STORAGE_ROOT, storagePath);
-  if (!resolved.startsWith(STORAGE_ROOT)) {
+  // Boundary-aware check: a bare startsWith would also accept a sibling dir
+  // like `${STORAGE_ROOT}-evil`.
+  if (resolved !== STORAGE_ROOT && !resolved.startsWith(STORAGE_ROOT + path.sep)) {
     throw new Error("Invalid storage path");
   }
   return resolved;
