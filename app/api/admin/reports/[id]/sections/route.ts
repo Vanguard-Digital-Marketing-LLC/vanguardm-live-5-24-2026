@@ -82,11 +82,17 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
   if (body.notes !== undefined) data.notes = body.notes;
   if (body.sortOrder !== undefined) data.sortOrder = body.sortOrder;
 
-  const section = await prisma.reportSection.update({
-    where: { id: body.sectionId },
+  // Scope the mutation to this agency's report — a bare `id: sectionId` would
+  // let an admin edit another tenant's section by passing a foreign sectionId.
+  const updated = await prisma.reportSection.updateMany({
+    where: { id: body.sectionId, reportId: id },
     data,
   });
+  if (updated.count === 0) {
+    return NextResponse.json({ error: "Section not found" }, { status: 404 });
+  }
 
+  const section = await prisma.reportSection.findUnique({ where: { id: body.sectionId } });
   return NextResponse.json(section);
 }
 
@@ -105,6 +111,12 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
   const report = await prisma.clientReport.findFirst({ where: { id, client: { agencyId } } });
   if (!report) return NextResponse.json({ error: "Report not found" }, { status: 404 });
 
-  await prisma.reportSection.delete({ where: { id: body.sectionId } });
+  // Scope the delete to this agency's report (see PATCH note above).
+  const deleted = await prisma.reportSection.deleteMany({
+    where: { id: body.sectionId, reportId: id },
+  });
+  if (deleted.count === 0) {
+    return NextResponse.json({ error: "Section not found" }, { status: 404 });
+  }
   return NextResponse.json({ success: true });
 }

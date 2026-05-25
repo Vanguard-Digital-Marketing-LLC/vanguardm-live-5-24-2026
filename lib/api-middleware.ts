@@ -149,6 +149,50 @@ export async function requireAuth(
 }
 
 // ---------------------------------------------------------------------------
+// requirePortalAuth — session + CLIENT role + linked clientId for portal routes
+// ---------------------------------------------------------------------------
+
+interface PortalAuthSuccess {
+  session: Session;
+  clientId: string;
+  errorResponse?: undefined;
+}
+
+interface PortalAuthFailure {
+  session?: undefined;
+  clientId?: undefined;
+  errorResponse: NextResponse;
+}
+
+/**
+ * Gets the current session and enforces that the caller is a CLIENT with a
+ * linked clientId. Use this in all /api/portal routes: `requireAuth` only
+ * knows ADMIN/TEAM, so on its own it cannot keep a stray admin/team account
+ * (one that happens to carry a clientId) out of the client portal.
+ */
+export async function requirePortalAuth(): Promise<PortalAuthSuccess | PortalAuthFailure> {
+  const session = await auth();
+
+  if (!session?.user?.id || session.user.role !== "CLIENT") {
+    return {
+      errorResponse: NextResponse.json({ error: "Unauthorized" }, { status: 401 }),
+    };
+  }
+
+  const clientId = session.user.clientId;
+  if (!clientId) {
+    return {
+      errorResponse: NextResponse.json(
+        { error: "No client account linked" },
+        { status: 403 },
+      ),
+    };
+  }
+
+  return { session, clientId };
+}
+
+// ---------------------------------------------------------------------------
 // requireAdminAuth — session + role + agencyId scoping for admin routes
 // ---------------------------------------------------------------------------
 
@@ -205,13 +249,24 @@ export async function requireAdminAuth(
 
   let agencyId = session.user.agencyId;
 
-  // When on a subdomain, always scope to that subdomain's agency.
-  // The middleware already enforces agency isolation (blocks mismatched users),
-  // so by this point the user is authorized for this subdomain.
+  // When on a tenant subdomain, only adopt that subdomain's agency if the user
+  // actually belongs to it (or is a platform super-admin). Do NOT rely on the
+  // page middleware alone: a token with a null/mismatched agencySlug must never
+  // silently inherit the subdomain's agencyId (cross-tenant access).
   const headersList = await headers();
   const subdomainSlug = headersList.get("x-agency-slug");
 
   if (subdomainSlug) {
+    const isPlatformSuperAdmin =
+      session.user.isAdmin === true &&
+      (!session.user.agencySlug || session.user.agencySlug === "vanguard");
+
+    if (!isPlatformSuperAdmin && session.user.agencySlug !== subdomainSlug) {
+      return {
+        errorResponse: NextResponse.json({ error: "Agency mismatch" }, { status: 403 }),
+      };
+    }
+
     const agency = await prisma.agency.findUnique({
       where: { slug: subdomainSlug },
       select: { id: true },

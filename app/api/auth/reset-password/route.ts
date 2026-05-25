@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
 import { rateLimitAsync } from "@/lib/rate-limit";
+import { hashToken } from "@/lib/token-hash";
 
 export async function POST(request: NextRequest) {
   const ip =
@@ -35,7 +36,7 @@ export async function POST(request: NextRequest) {
 
   const user = await prisma.user.findFirst({
     where: {
-      resetToken: token,
+      resetToken: hashToken(token),
       resetTokenExpiry: { gt: new Date() },
     },
   });

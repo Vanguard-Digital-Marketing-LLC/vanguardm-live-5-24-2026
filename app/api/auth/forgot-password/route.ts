@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db";
 import { sendEmail } from "@/lib/email";
 import { rateLimitAsync } from "@/lib/rate-limit";
 import { getBaseUrl } from "@/lib/site-config";
+import { hashToken } from "@/lib/token-hash";
 
 export async function POST(request: NextRequest) {
   const ip =
@@ -35,9 +36,11 @@ export async function POST(request: NextRequest) {
   const token = crypto.randomBytes(32).toString("hex");
   const expiry = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 
+  // Store only the hash; the raw token lives solely in the emailed link, so a
+  // DB read alone can't be used to reset a password.
   await prisma.user.update({
     where: { id: user.id },
-    data: { resetToken: token, resetTokenExpiry: expiry },
+    data: { resetToken: hashToken(token), resetTokenExpiry: expiry },
   });
 
   const resetUrl = `${getBaseUrl(request)}/auth/reset-password?token=${token}`;

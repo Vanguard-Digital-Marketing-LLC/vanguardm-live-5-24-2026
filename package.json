@@ -7,6 +7,8 @@
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "stripe:setup": "node scripts/stripe-setup.mjs",
     "stripe:setup:dry": "node scripts/stripe-setup.mjs --dry-run",
     "test:e2e": "playwright test",

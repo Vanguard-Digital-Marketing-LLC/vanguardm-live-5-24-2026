@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
 import { verifyTurnstile } from "@/lib/turnstile";
-import { resolveRoleFromEmail } from "@/lib/roles";
 import { rateLimitAsync } from "@/lib/rate-limit";
 import { isValidEmail } from "@/lib/validations/email";
 
@@ -20,7 +19,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const { name, email, password, turnstileToken } = await request.json();
+  const { name, email, password, turnstileToken, invite } = await request.json();
 
   // Verify Turnstile
   if (!turnstileToken || !(await verifyTurnstile(turnstileToken))) {
@@ -67,10 +66,53 @@ export async function POST(request: NextRequest) {
   }
 
   const hashedPassword = await bcrypt.hash(password, 12);
-  const { role, isAdmin } = resolveRoleFromEmail(email);
 
+  // SECURITY: roles are NEVER derived from the email address. A new account is a
+  // plain USER unless it presents a valid, unexpired team invite that was issued
+  // for this exact email — in which case it adopts the invite's role + agency.
+  if (invite) {
+    const result = await prisma.$transaction(async (tx) => {
+      const teamInvite = await tx.teamInvite.findFirst({
+        where: { token: invite, acceptedAt: null },
+      });
+      if (!teamInvite) {
+        return { error: "Invalid or already-used invitation.", status: 400 } as const;
+      }
+      if (teamInvite.expiresAt < new Date()) {
+        return { error: "This invitation has expired. Please request a new one.", status: 410 } as const;
+      }
+      if (teamInvite.email.toLowerCase().trim() !== email.toLowerCase().trim()) {
+        return { error: "This invitation was issued for a different email address.", status: 403 } as const;
+      }
+
+      await tx.teamInvite.update({
+        where: { id: teamInvite.id },
+        data: { acceptedAt: new Date() },
+      });
+
+      await tx.user.create({
+        data: {
+          name,
+          email,
+          password: hashedPassword,
+          role: teamInvite.role,
+          isAdmin: teamInvite.role === "ADMIN",
+          agencyId: teamInvite.agencyId,
+        },
+      });
+
+      return { ok: true } as const;
+    });
+
+    if ("error" in result) {
+      return NextResponse.json({ error: result.error }, { status: result.status });
+    }
+    return NextResponse.json({ success: true });
+  }
+
+  // No invite — always a regular USER with no agency and no admin rights.
   await prisma.user.create({
-    data: { name, email, password: hashedPassword, role, isAdmin },
+    data: { name, email, password: hashedPassword, role: "USER", isAdmin: false },
   });
 
   return NextResponse.json({ success: true });

@@ -19,9 +19,9 @@ npm install --production=false
 echo "→ Generating Prisma client..."
 npx prisma generate
 
-# 3. Push schema to database (creates tables if missing)
-echo "→ Syncing database schema..."
-npx prisma db push --skip-generate
+# 3. Apply pending migrations (tracked history; no destructive drift)
+echo "→ Applying database migrations..."
+npx prisma migrate deploy
 
 # 4. Build Next.js (standalone mode works on Linux)
 echo "→ Building Next.js..."
