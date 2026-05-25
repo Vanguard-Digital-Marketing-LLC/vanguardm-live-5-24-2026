@@ -9,7 +9,9 @@ import crypto from "crypto";
 const TTL_MS = 2 * 60 * 60 * 1000; // 2 hours
 
 function secret(): string {
-  return process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET || "";
+  const s = process.env.AUTH_SECRET || process.env.NEXTAUTH_SECRET;
+  if (!s) throw new Error("AUTH_SECRET / NEXTAUTH_SECRET is not configured");
+  return s;
 }
 
 export function signChatToken(sessionId: string): string {

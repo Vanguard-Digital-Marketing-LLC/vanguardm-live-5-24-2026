@@ -106,6 +106,24 @@ export default function ChatBotAI() {
           if (!hasChatToken) setHasChatToken(true);
         }
 
+        // Verification required or chat token expired: re-arm Turnstile so the
+        // user can re-verify, instead of silently degrading to keyword matching.
+        if (res.status === 403) {
+          chatTokenRef.current = null;
+          setHasChatToken(false);
+          setTurnstileToken("");
+          setMessages((prev) => [
+            ...prev.filter((m) => !(m.role === "bot" && m.text === "")),
+            {
+              id: ++msgIdCounter,
+              role: "bot",
+              text: "Please complete the verification below, then resend your message.",
+            },
+          ]);
+          setIsTyping(false);
+          return;
+        }
+
         if (!res.ok && res.status !== 200) {
           throw new Error("API error");
         }
