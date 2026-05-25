@@ -21,13 +21,16 @@ export const RATE_LIMITS = {
 type RateLimitTier = keyof typeof RATE_LIMITS;
 
 /**
- * Extract client IP from request headers.
- * Cloudflare → X-Forwarded-For → fallback "unknown".
+ * Extract client IP from request headers for rate-limit keying.
+ * Trust ONLY proxy-set headers (Cloudflare, then the reverse proxy). The
+ * X-Forwarded-For first hop is client-spoofable and must not be used for keying
+ * (see lib/api-middleware getClientIp). Requests without a proxy-set header
+ * share one "unknown" bucket rather than getting per-spoof keys.
  */
 function getClientIP(request: NextRequest): string {
   return (
     request.headers.get("cf-connecting-ip") ||
-    request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    request.headers.get("x-real-ip") ||
     "unknown"
   );
 }

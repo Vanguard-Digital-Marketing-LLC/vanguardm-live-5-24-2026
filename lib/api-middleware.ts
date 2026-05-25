@@ -24,8 +24,15 @@ export type RateLimitTier = keyof typeof RATE_LIMIT_TIERS;
 // ---------------------------------------------------------------------------
 
 function getClientIp(req: NextRequest): string {
+  // Trust ONLY headers set by our edge/proxy. The first hop of X-Forwarded-For
+  // is client-controlled, so keying rate limits on it lets an attacker rotate
+  // the header to get a fresh bucket per request and defeat the limit. Requests
+  // that arrive without a proxy-set header share one "unknown" bucket (limited
+  // together) instead of getting per-spoof keys.
+  // NOTE: this only holds if the origin accepts traffic exclusively via the
+  // proxy — firewall the app port to Cloudflare/proxy IPs.
   return (
-    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("cf-connecting-ip") ||
     req.headers.get("x-real-ip") ||
     "unknown"
   );
