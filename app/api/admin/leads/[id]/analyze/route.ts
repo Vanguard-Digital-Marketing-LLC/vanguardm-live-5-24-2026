@@ -35,6 +35,17 @@ export async function POST(
     return NextResponse.json({ error: "Lead not found" }, { status: 404 });
   }
 
+  // The Lead has no message column — the original message lives on the linked
+  // ContactSubmission. Surface it so the model sees what the lead actually asked.
+  let message: string | null = null;
+  if (lead.linkedContactSubmissionId) {
+    const submission = await prisma.contactSubmission.findFirst({
+      where: { id: lead.linkedContactSubmissionId, agencyId },
+      select: { message: true },
+    });
+    message = submission?.message ?? null;
+  }
+
   // Build context from the lead's OWN data only — no external enrichment.
   const context = [
     lead.formResponses.length
@@ -58,6 +69,7 @@ export async function POST(
       phone: lead.phone,
       company: lead.company,
       source: lead.source,
+      message,
       context,
     });
   } catch (err) {
