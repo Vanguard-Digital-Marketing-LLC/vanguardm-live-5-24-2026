@@ -32,13 +32,14 @@ export const GET = withRateLimit("portal", async (req: NextRequest) => {
     return NextResponse.json({ error: "Client not found" }, { status: 404 });
   }
 
+  // Match only against the CLIENT's own configured billing emails — not the
+  // logged-in user's personal email, which could coincidentally match payments
+  // that belong to a different client/tenant.
   const emails: string[] = [];
   if (client.email) emails.push(client.email.toLowerCase());
   for (const contact of client.contacts) {
     if (contact.email) emails.push(contact.email.toLowerCase());
   }
-  // Include the logged-in user's email
-  if (session.user.email) emails.push(session.user.email.toLowerCase());
 
   // Deduplicate
   const uniqueEmails = [...new Set(emails)];
