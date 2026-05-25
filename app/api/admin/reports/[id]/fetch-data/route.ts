@@ -205,7 +205,7 @@ export async function POST(
         return NextResponse.json({ error: `Fetch not supported for section type: ${sectionType}` }, { status: 400 });
     }
   } catch (err) {
-    console.error(`[fetch-data] Error fetching ${sectionType} for client ${client.name}:`, err);
+    console.error("[fetch-data] Error fetching section data:", { sectionType, client: client.name }, err);
     return NextResponse.json(
       { error: `Failed to fetch ${sectionType} data: ${err instanceof Error ? err.message : "Unknown error"}` },
       { status: 500 }

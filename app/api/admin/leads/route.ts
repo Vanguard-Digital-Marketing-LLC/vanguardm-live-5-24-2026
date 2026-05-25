@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { checkRateLimit } from "@/lib/api-rate-limit";
 import { requireAdminFeature } from "@/lib/api-middleware";
+import { isValidEmail } from "@/lib/validations/email";
 
 /* ──────────────────────────────────────────────
    GET /api/admin/leads
@@ -78,7 +79,7 @@ export async function POST(request: NextRequest) {
       { status: 400 },
     );
   }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (!isValidEmail(email)) {
     return NextResponse.json({ error: "invalid email" }, { status: 400 });
   }
 

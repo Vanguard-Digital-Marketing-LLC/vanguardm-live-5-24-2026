@@ -5,6 +5,7 @@ import { useRouter, useParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft, Eye, EyeOff, Save, Trash2, X, Plus } from "lucide-react";
 import ConfirmModal from "@/components/admin/shared/ConfirmModal";
+import BlogContent from "@/components/blog/BlogContent";
 
 const inputClass =
   "w-full px-3 py-2 rounded-lg bg-white/5 border border-white/10 text-sm text-white placeholder-slate-500 focus:border-emerald-400/50 focus:outline-none";
@@ -32,27 +33,6 @@ function generateSlug(title: string): string {
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-")
     .replace(/^-|-$/g, "");
-}
-
-/** Very basic markdown-to-HTML for the preview pane */
-function markdownToHtml(md: string): string {
-  let html = md
-    .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre class="bg-black/30 p-3 rounded-lg overflow-x-auto text-sm my-3"><code>$2</code></pre>')
-    .replace(/`([^`]+)`/g, '<code class="bg-black/30 px-1 py-0.5 rounded text-emerald-400 text-sm">$1</code>')
-    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="max-w-full rounded-lg my-2" />')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-emerald-400 underline">$1</a>')
-    .replace(/^### (.+)$/gm, '<h3 class="text-lg font-semibold text-white mt-4 mb-2 font-display">$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2 class="text-xl font-bold text-white mt-5 mb-2 font-display">$1</h2>')
-    .replace(/^# (.+)$/gm, '<h1 class="text-2xl font-bold text-white mt-6 mb-3 font-display">$1</h1>')
-    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*([^*]+)\*/g, "<em>$1</em>")
-    .replace(/^- (.+)$/gm, '<li class="ml-4 list-disc text-slate-300">$1</li>')
-    .replace(/^\d+\. (.+)$/gm, '<li class="ml-4 list-decimal text-slate-300">$1</li>')
-    .replace(/^> (.+)$/gm, '<blockquote class="border-l-2 border-emerald-400/50 pl-4 my-2 text-slate-400 italic">$1</blockquote>')
-    .replace(/^---$/gm, '<hr class="border-white/10 my-4" />')
-    .replace(/\n\n/g, '</p><p class="text-slate-300 my-2">');
-
-  return `<p class="text-slate-300 my-2">${html}</p>`;
 }
 
 export default function EditBlogPostPage() {
@@ -344,10 +324,7 @@ export default function EditBlogPostPage() {
               <div className="bg-[#111827] border border-white/10 rounded-lg p-4 overflow-y-auto max-h-[520px]">
                 <p className="text-[10px] uppercase tracking-wider text-slate-500 mb-3 font-semibold">Preview</p>
                 {content ? (
-                  <div
-                    className="prose prose-invert prose-sm max-w-none"
-                    dangerouslySetInnerHTML={{ __html: markdownToHtml(content) }}
-                  />
+                  <BlogContent content={content} />
                 ) : (
                   <p className="text-sm text-slate-500 italic">Start typing to see preview...</p>
                 )}

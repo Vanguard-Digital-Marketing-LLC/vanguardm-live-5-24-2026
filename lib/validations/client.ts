@@ -1,10 +1,11 @@
 import { z } from "zod";
+import { EMAIL_REGEX } from "./email";
 
 const CLIENT_STATUSES = ["PROSPECT", "ACTIVE", "PAUSED", "CHURNED"] as const;
 const BILLING_CYCLES = ["MONTHLY", "QUARTERLY", "ANNUAL"] as const;
 export const SERVICE_TYPES = ["SMA", "PPC", "WEB", "SUPPORT", "SEO", "REPORTING"] as const;
 
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const emailRegex = EMAIL_REGEX;
 
 export const createClientSchema = z.object({
   name: z.string().min(1, "Name is required").max(200),

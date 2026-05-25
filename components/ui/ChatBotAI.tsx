@@ -299,14 +299,14 @@ export default function ChatBotAI() {
                 >
                   {msg.text.split("\n").map((line, i) => {
                     const academyMatch = line.match(
-                      /^Learn more in our Academy: (\/academy\/[\w-]+)$/,
+                      /^Learn more in our Academy: \/academy\/([\w-]+)$/,
                     );
                     if (academyMatch) {
                       return (
                         <span key={i}>
                           {i > 0 && <br />}
                           <Link
-                            href={academyMatch[1]}
+                            href={`/academy/${academyMatch[1]}`}
                             className="text-emerald-400 hover:text-emerald-300 underline underline-offset-2 transition-colors"
                           >
                             View Academy Course &rarr;

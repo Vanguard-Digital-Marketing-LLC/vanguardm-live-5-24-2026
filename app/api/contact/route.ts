@@ -8,6 +8,7 @@ import {
   calculateLeadScore,
   type ScoreSignal,
 } from "@/lib/lead-scoring";
+import { isValidEmail } from "@/lib/validations/email";
 
 export async function POST(request: NextRequest) {
   const blocked = await checkRateLimit(request, "public");
@@ -32,7 +33,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Basic email format check
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (!isValidEmail(email)) {
     return NextResponse.json(
       { error: "Please provide a valid email address." },
       { status: 400 },

@@ -11,7 +11,9 @@ import { QUICK_TOPICS, KNOWLEDGE_BASE } from "@/lib/chatbot-knowledge";
    Streams SSE response. Auto-creates Lead on email.
    ────────────────────────────────────────────── */
 
-const EMAIL_REGEX = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/;
+// Linear-time email extraction: domain labels exclude `.`, so the dot-separated
+// structure has a single unambiguous tokenization (no polynomial backtracking).
+const EMAIL_REGEX = /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+/;
 
 /** Build system prompt from knowledge base. */
 function buildSystemPrompt(): string {
