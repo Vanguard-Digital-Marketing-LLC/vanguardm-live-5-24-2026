@@ -1,5 +1,5 @@
 import { execSync, execFileSync } from "child_process";
-import { readFileSync, writeFileSync, existsSync, realpathSync } from "fs";
+import { readFileSync, writeFileSync, chmodSync, existsSync, realpathSync } from "fs";
 import * as path from "path";
 import Anthropic from "@anthropic-ai/sdk";
 import { prisma } from "@/lib/db";
@@ -54,7 +54,11 @@ async function refreshOAuthToken(credsPath: string): Promise<string | null> {
     if (data.refresh_token) creds.claudeAiOauth.refreshToken = data.refresh_token;
     creds.claudeAiOauth.expiresAt = expiresAt;
 
-    writeFileSync(credsPath, JSON.stringify(creds, null, 2), "utf-8");
+    writeFileSync(credsPath, JSON.stringify(creds, null, 2), { encoding: "utf-8", mode: 0o600 });
+    // mode on writeFileSync only applies when creating the file; enforce 0600 on
+    // the existing file too so the long-lived OAuth tokens aren't world-readable
+    // on a shared host.
+    try { chmodSync(credsPath, 0o600); } catch { /* best effort */ }
     console.log("[agent-executor] OAuth token refreshed, expires:", new Date(expiresAt).toISOString());
     return data.access_token;
   } catch (err) {
@@ -578,9 +582,9 @@ export async function executeAgent(agentRunId: string): Promise<void> {
     // Use OAuth token from credentials (Max subscription — no API credit cost)
     const oauthToken = await getOAuthToken();
     if (!oauthToken) {
-      throw new Error(
-        "No OAuth token found. Ensure /home/vanguardm/env/.claude-credentials.json exists with claudeAiOauth.accessToken."
-      );
+      // Generic message — this surfaces in client-visible ticket output, so don't
+      // disclose internal credential file paths here (they're in CREDENTIALS_PATHS).
+      throw new Error("AI agent is not configured (missing OAuth credentials).");
     }
 
     // Explicitly set apiKey to empty string to prevent the SDK from
@@ -791,11 +795,14 @@ export async function executeAgent(agentRunId: string): Promise<void> {
     });
 
     if (agentRun.ticketId) {
+      // Client-/admin-visible message stays generic; full detail is kept in the
+      // server log above and agentRun.errorMessage, not leaked into the ticket.
+      const publicFailure = "The automated agent could not complete this ticket. Our team has been notified.";
       await prisma.ticketMessage.create({
         data: {
           ticketId: agentRun.ticketId,
           type: "AGENT_OUTPUT",
-          content: `Agent failed: ${errorMsg}`,
+          content: publicFailure,
         },
       });
 
@@ -815,7 +822,7 @@ export async function executeAgent(agentRunId: string): Promise<void> {
         include: { client: { select: { name: true, domain: true } } },
       });
       if (ticket) {
-        notifyAgentCompleted(ticket, false, errorMsg).catch(console.error);
+        notifyAgentCompleted(ticket, false, publicFailure).catch(console.error);
       }
     }
   }
