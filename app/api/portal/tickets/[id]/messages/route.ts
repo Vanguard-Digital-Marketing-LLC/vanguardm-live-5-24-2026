@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { withRateLimit, requireAuth } from "@/lib/api-middleware";
+import { withRateLimit, requirePortalAuth } from "@/lib/api-middleware";
 import { createMessageSchema } from "@/lib/validations/ticket-messages";
 import { notifyTicketComment } from "@/lib/ticket-notifications";
 
 export const GET = withRateLimit("portal", async (req: NextRequest, context) => {
-  const { session, errorResponse } = await requireAuth();
+  const { session, errorResponse } = await requirePortalAuth();
   if (errorResponse) return errorResponse;
 
   const clientId = session.user.clientId;
@@ -43,7 +43,7 @@ export const GET = withRateLimit("portal", async (req: NextRequest, context) => 
 });
 
 export const POST = withRateLimit("portal", async (req: NextRequest, context) => {
-  const { session, errorResponse } = await requireAuth();
+  const { session, errorResponse } = await requirePortalAuth();
   if (errorResponse) return errorResponse;
 
   const clientId = session.user.clientId;

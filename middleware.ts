@@ -6,6 +6,17 @@ function withSecurityHeaders(response: NextResponse): NextResponse {
   response.headers.set("X-Content-Type-Options", "nosniff");
   response.headers.set("Referrer-Policy", "strict-origin-when-cross-origin");
   response.headers.set("X-Frame-Options", "SAMEORIGIN");
+  // Sent app-wide so HSTS/Permissions-Policy hold even when the Next standalone
+  // server is reached directly (not only behind the Apache .htaccess, which is
+  // where the Content-Security-Policy is defined). Browsers ignore HSTS on HTTP.
+  response.headers.set(
+    "Strict-Transport-Security",
+    "max-age=63072000; includeSubDomains; preload"
+  );
+  response.headers.set(
+    "Permissions-Policy",
+    "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+  );
   response.headers.delete("X-Powered-By");
   return response;
 }

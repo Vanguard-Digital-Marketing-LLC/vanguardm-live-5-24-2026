@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
-import { withRateLimit, requireAuth } from "@/lib/api-middleware";
+import { withRateLimit, requirePortalAuth } from "@/lib/api-middleware";
 import { changePasswordSchema, parseBody } from "@/lib/validations/portal";
 
 export const POST = withRateLimit("portal", async (req: NextRequest) => {
-  const { session, errorResponse } = await requireAuth();
+  const { session, errorResponse } = await requirePortalAuth();
   if (errorResponse) return errorResponse;
 
   const body = await req.json();

@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { withRateLimit, requireAuth } from "@/lib/api-middleware";
+import { withRateLimit, requirePortalAuth } from "@/lib/api-middleware";
 
 export const GET = withRateLimit("portal", async (req: NextRequest) => {
-  const { session, errorResponse } = await requireAuth();
+  const { session, errorResponse } = await requirePortalAuth();
   if (errorResponse) return errorResponse;
 
   const clientId = session.user.clientId;
@@ -22,6 +22,7 @@ export const GET = withRateLimit("portal", async (req: NextRequest) => {
       ...(session.user.agencyId ? { agencyId: session.user.agencyId } : {}),
     },
     select: {
+      agencyId: true,
       email: true,
       contacts: { select: { email: true } },
     },
@@ -46,9 +47,13 @@ export const GET = withRateLimit("portal", async (req: NextRequest) => {
     return NextResponse.json([]);
   }
 
+  // Scope to the client's own agency. Without this, a payment row whose
+  // customerEmail happens to match another tenant's client would leak across
+  // agencies. (Scoping by null agencyId is intentional for legacy clients.)
   const payments = await prisma.servicePayment.findMany({
     where: {
       customerEmail: { in: uniqueEmails, mode: "insensitive" },
+      agencyId: client.agencyId,
     },
     orderBy: { paidAt: "desc" },
   });

@@ -2,20 +2,22 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
-
-| Version | Supported          |
-| ------- | ------------------ |
-| 5.1.x   | :white_check_mark: |
-| 5.0.x   | :x:                |
-| 4.0.x   | :white_check_mark: |
-| < 4.0   | :x:                |
+This is a continuously deployed application; only the current `main` branch (the
+code running in production) receives security updates. There are no supported
+tagged releases.
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+Please report security issues privately — do **not** open a public GitHub issue.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+- Email: security@vanguardm.com
+- Or use GitHub's private vulnerability reporting ("Report a vulnerability" under
+  the repository's Security tab).
+
+Include where possible: affected URL/endpoint, steps to reproduce, impact, and
+any proof-of-concept. Please do not access, modify, or exfiltrate data belonging
+to other tenants while testing.
+
+We aim to acknowledge reports within 3 business days and to provide a remediation
+timeline after triage. We will let you know when a fix ships. We appreciate
+coordinated disclosure and will credit reporters who request it.
