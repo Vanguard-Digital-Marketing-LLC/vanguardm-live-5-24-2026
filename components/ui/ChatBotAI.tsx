@@ -222,10 +222,14 @@ export default function ChatBotAI() {
     [sessionId, turnstileToken, hasChatToken],
   );
 
+  // Verified once Turnstile is solved (turnstileToken) or a session chat token
+  // has been issued. Gate sending so users don't fire a 403 before verifying.
+  const isVerified = hasChatToken || turnstileToken.length > 0;
+
   const handleSend = useCallback(
     (text?: string) => {
       const msg = (text ?? input).trim();
-      if (!msg || isTyping) return;
+      if (!msg || isTyping || !isVerified) return;
 
       const userMsg: Message = { id: ++msgIdCounter, role: "user", text: msg };
       const updated = [...messages, userMsg];
@@ -233,7 +237,7 @@ export default function ChatBotAI() {
       setInput("");
       streamAIResponse(msg, updated);
     },
-    [input, isTyping, messages, streamAIResponse],
+    [input, isTyping, isVerified, messages, streamAIResponse],
   );
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -410,8 +414,13 @@ export default function ChatBotAI() {
           {/* Input */}
           <div className="px-4 pb-4 pt-2">
             {!hasChatToken && (
-              <div className="mb-2 flex justify-center">
+              <div className="mb-2 flex flex-col items-center gap-1">
                 <Turnstile onVerify={handleVerify} onExpire={handleExpire} />
+                {!turnstileToken && (
+                  <p className="text-[10px] text-slate-500">
+                    Complete the check above to start chatting.
+                  </p>
+                )}
               </div>
             )}
             <div className="flex gap-2">
@@ -421,12 +430,17 @@ export default function ChatBotAI() {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Ask me anything about marketing..."
-                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald/50 focus:ring-1 focus:ring-emerald/25 transition-colors"
+                disabled={!isVerified}
+                placeholder={
+                  isVerified
+                    ? "Ask me anything about marketing..."
+                    : "Complete verification to chat..."
+                }
+                className="flex-1 bg-white/5 border border-white/10 rounded-lg px-3.5 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-emerald/50 focus:ring-1 focus:ring-emerald/25 transition-colors disabled:opacity-50"
               />
               <button
                 onClick={() => handleSend()}
-                disabled={!input.trim() || isTyping}
+                disabled={!input.trim() || isTyping || !isVerified}
                 className="px-3.5 rounded-lg bg-emerald text-slate-950 font-semibold text-sm hover:bg-emerald-400 transition-colors disabled:opacity-30 cursor-pointer disabled:cursor-default"
                 aria-label="Send message"
               >

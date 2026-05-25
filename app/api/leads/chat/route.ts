@@ -103,7 +103,9 @@ export async function POST(request: NextRequest) {
     // token. Stops unauthenticated bots from draining the paid AI endpoint. ──
     const verified =
       verifyChatToken(sid, chatToken) ||
-      (typeof turnstileToken === "string" && (await verifyTurnstile(turnstileToken)));
+      (typeof turnstileToken === "string" &&
+        turnstileToken.length > 0 &&
+        (await verifyTurnstile(turnstileToken)));
     if (!verified) {
       return new Response(JSON.stringify({ error: "Verification required" }), {
         status: 403,
@@ -145,6 +147,16 @@ export async function POST(request: NextRequest) {
         status: 200,
         headers: { "Content-Type": "application/json", ...tokenHeader },
       });
+    }
+
+    // Global daily budget guard for the paid AI (independent of client IP, so
+    // it can't be bypassed by header spoofing). Checked BEFORE any lead/session
+    // DB writes so an over-budget flood can't keep loading the database.
+    if (!(await checkAiChatBudget())) {
+      return new Response(
+        JSON.stringify({ error: "Our AI assistant is at capacity right now. Please try again later or contact us." }),
+        { status: 429, headers: { "Content-Type": "application/json", ...tokenHeader } },
+      );
     }
 
     // Check last user message for email
@@ -236,15 +248,6 @@ export async function POST(request: NextRequest) {
       } catch {
         // Non-critical
       }
-    }
-
-    // Global daily budget guard for the paid AI (independent of client IP, so
-    // it can't be bypassed by header spoofing).
-    if (!(await checkAiChatBudget())) {
-      return new Response(
-        JSON.stringify({ error: "Our AI assistant is at capacity right now. Please try again later or contact us." }),
-        { status: 429, headers: { "Content-Type": "application/json", ...tokenHeader } },
-      );
     }
 
     // Call Anthropic API with streaming
