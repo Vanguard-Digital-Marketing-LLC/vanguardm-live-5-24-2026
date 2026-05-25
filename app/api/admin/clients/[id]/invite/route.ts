@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db";
 import { sendEmail, escapeHtml } from "@/lib/email";
 import { withRateLimit, requireAdminAuth } from "@/lib/api-middleware";
 import { getBaseUrl } from "@/lib/site-config";
+import { isValidEmail } from "@/lib/validations/email";
 
 export const POST = withRateLimit(
   "admin",
@@ -42,7 +43,7 @@ export const POST = withRateLimit(
     const email = body.email.trim().toLowerCase();
 
     // Basic email validation
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (!isValidEmail(email)) {
       return NextResponse.json(
         { error: "Invalid email format" },
         { status: 400 },

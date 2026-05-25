@@ -3,6 +3,7 @@ import { verifyTurnstile } from "@/lib/turnstile";
 import { verifyPaymentSignature } from "@/lib/payment-links";
 import { getStripeForAgency, getStripe } from "@/lib/stripe/customer";
 import { checkRateLimit } from "@/lib/api-rate-limit";
+import { isValidEmail } from "@/lib/validations/email";
 
 export async function POST(request: NextRequest) {
   const blocked = await checkRateLimit(request, "public");
@@ -43,7 +44,7 @@ export async function POST(request: NextRequest) {
   }
 
   // Optional email validation
-  if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (email && !isValidEmail(email)) {
     return NextResponse.json(
       { error: "Invalid email address." },
       { status: 400 },

@@ -4,6 +4,8 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Save, Trash2 } from "lucide-react";
 import PostMetaPanel from "./PostMetaPanel";
+import BlogContent from "@/components/blog/BlogContent";
+import { countWords } from "@/lib/word-count";
 
 interface PostData {
   id?: string;
@@ -41,27 +43,6 @@ function generateSlug(title: string): string {
     .replace(/^-|-$/g, "");
 }
 
-/** Very basic markdown-to-HTML for the preview pane */
-function markdownToHtml(md: string): string {
-  let html = md
-    .replace(/```(\w*)\n([\s\S]*?)```/g, '<pre class="bg-black/30 p-3 rounded-lg overflow-x-auto text-sm my-3"><code>$2</code></pre>')
-    .replace(/`([^`]+)`/g, '<code class="bg-black/30 px-1 py-0.5 rounded text-emerald-400 text-sm">$1</code>')
-    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" class="max-w-full rounded-lg my-2" />')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-emerald-400 underline">$1</a>')
-    .replace(/^### (.+)$/gm, '<h3 class="text-lg font-semibold text-white mt-4 mb-2 font-display">$1</h3>')
-    .replace(/^## (.+)$/gm, '<h2 class="text-xl font-bold text-white mt-5 mb-2 font-display">$1</h2>')
-    .replace(/^# (.+)$/gm, '<h1 class="text-2xl font-bold text-white mt-6 mb-3 font-display">$1</h1>')
-    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
-    .replace(/\*([^*]+)\*/g, "<em>$1</em>")
-    .replace(/^- (.+)$/gm, '<li class="ml-4 list-disc text-slate-300">$1</li>')
-    .replace(/^\d+\. (.+)$/gm, '<li class="ml-4 list-decimal text-slate-300">$1</li>')
-    .replace(/^> (.+)$/gm, '<blockquote class="border-l-2 border-emerald-400/50 pl-4 my-2 text-slate-400 italic">$1</blockquote>')
-    .replace(/^---$/gm, '<hr class="border-white/10 my-4" />')
-    .replace(/\n\n/g, '</p><p class="text-slate-300 my-2">');
-
-  return `<p class="text-slate-300 my-2">${html}</p>`;
-}
-
 export default function PostEditor({ post }: PostEditorProps) {
   const router = useRouter();
   const isEditing = !!post?.id;
@@ -92,7 +73,7 @@ export default function PostEditor({ post }: PostEditorProps) {
   }, [title, slugManual]);
 
   // Auto-calculate reading time
-  const wordCount = content.replace(/<[^>]*>/g, "").split(/\s+/).filter(Boolean).length;
+  const wordCount = countWords(content);
   const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 
   const handleSubmit = async (overrideStatus?: string) => {
@@ -265,10 +246,7 @@ export default function PostEditor({ post }: PostEditorProps) {
                 <div className="bg-[#111827] border border-white/10 rounded-lg p-4 overflow-y-auto max-h-[600px]">
                   <p className="text-[10px] uppercase tracking-wider text-slate-500 mb-3 font-semibold">Preview</p>
                   {content ? (
-                    <div
-                      className="prose prose-invert prose-sm max-w-none"
-                      dangerouslySetInnerHTML={{ __html: markdownToHtml(content) }}
-                    />
+                    <BlogContent content={content} />
                   ) : (
                     <p className="text-sm text-slate-500 italic">Start typing to see preview...</p>
                   )}

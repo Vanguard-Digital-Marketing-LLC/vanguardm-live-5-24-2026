@@ -30,7 +30,7 @@ const FALLBACK_MESSAGE =
   "I'm not sure about that one. Try asking about Google Ads, Google Analytics, GTM, or SEO — or pick one of the topics below. You can also reach out to our team for anything complex!";
 
 function generateSessionId(): string {
-  return "cs_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
+  return "cs_" + Date.now().toString(36) + "_" + crypto.randomUUID().slice(0, 8);
 }
 
 export default function ChatBotAI() {
@@ -296,14 +296,14 @@ export default function ChatBotAI() {
                 >
                   {msg.text.split("\n").map((line, i) => {
                     const academyMatch = line.match(
-                      /^Learn more in our Academy: (\/academy\/[\w-]+)$/,
+                      /^Learn more in our Academy: \/academy\/([\w-]+)$/,
                     );
                     if (academyMatch) {
                       return (
                         <span key={i}>
                           {i > 0 && <br />}
                           <Link
-                            href={academyMatch[1]}
+                            href={`/academy/${academyMatch[1]}`}
                             className="text-emerald-400 hover:text-emerald-300 underline underline-offset-2 transition-colors"
                           >
                             View Academy Course &rarr;

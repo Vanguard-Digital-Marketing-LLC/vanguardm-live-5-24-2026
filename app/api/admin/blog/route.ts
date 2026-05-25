@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { requireAdminFeature, withRateLimit } from "@/lib/api-middleware";
+import { countWords } from "@/lib/word-count";
 
 function generateSlug(title: string): string {
   return title
@@ -70,7 +71,7 @@ export const POST = withRateLimit("admin", async (req: NextRequest) => {
   }
 
   // Calculate reading time (words / 200, round up)
-  const wordCount = content.replace(/<[^>]*>/g, "").split(/\s+/).filter(Boolean).length;
+  const wordCount = countWords(content);
   const readingTime = Math.max(1, Math.ceil(wordCount / 200));
 
   const publishedAt = status === "PUBLISHED" ? new Date() : null;

@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db";
 import { verifyTurnstile } from "@/lib/turnstile";
 import { resolveRoleFromEmail } from "@/lib/roles";
 import { rateLimitAsync } from "@/lib/rate-limit";
+import { isValidEmail } from "@/lib/validations/email";
 
 export async function POST(request: NextRequest) {
   // Rate limit: 3 registration attempts per IP per hour
@@ -50,7 +51,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+  if (!isValidEmail(email)) {
     return NextResponse.json(
       { error: "Please provide a valid email address." },
       { status: 400 },

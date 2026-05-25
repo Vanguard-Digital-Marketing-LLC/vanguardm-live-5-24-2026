@@ -5,6 +5,7 @@ import {
   calculateLeadScore,
   type ScoreSignal,
 } from "@/lib/lead-scoring";
+import { isValidEmail } from "@/lib/validations/email";
 
 /* ──────────────────────────────────────────────
    POST /api/leads/forms/[slug]/submit
@@ -55,7 +56,7 @@ export async function POST(
     let leadId: string | null = null;
 
     // Create or update Lead if we have an email
-    if (email && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (email && isValidEmail(email)) {
       const signals: ScoreSignal[] = ["multi_step_form_completed"];
       if (phone) signals.push("phone_provided");
       if (company) signals.push("company_provided");

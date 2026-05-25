@@ -156,12 +156,12 @@ export default function ChatBot() {
                 >
                   {msg.text.split("\n").map((line, i) => {
                     // Make Academy links clickable
-                    const academyMatch = line.match(/^Learn more in our Academy: (\/academy\/[\w-]+)$/);
+                    const academyMatch = line.match(/^Learn more in our Academy: \/academy\/([\w-]+)$/);
                     if (academyMatch) {
                       return (
                         <span key={i}>
                           {i > 0 && <br />}
-                          <Link href={academyMatch[1]} className="text-emerald-400 hover:text-emerald-300 underline underline-offset-2 transition-colors">
+                          <Link href={`/academy/${academyMatch[1]}`} className="text-emerald-400 hover:text-emerald-300 underline underline-offset-2 transition-colors">
                             View Academy Course →
                           </Link>
                         </span>

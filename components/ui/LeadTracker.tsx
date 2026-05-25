@@ -17,7 +17,7 @@ function getOrCreateSessionId(): string {
     // Also check localStorage for persistent session across tabs
     id = localStorage.getItem(key);
     if (!id) {
-      id = "s_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
+      id = "s_" + Date.now().toString(36) + "_" + crypto.randomUUID().slice(0, 8);
       localStorage.setItem(key, id);
     }
     sessionStorage.setItem(key, id);
