@@ -56,21 +56,32 @@ export async function POST(
       const paymentType = session.metadata?.type;
 
       if (paymentType === "service_payment") {
-        await prisma.servicePayment.upsert({
-          where: { stripeSessionId: session.id },
-          update: {},
-          create: {
-            stripeSessionId: session.id,
-            stripePaymentId:
-              typeof session.payment_intent === "string"
-                ? session.payment_intent
-                : null,
-            amount: session.amount_total ?? 0,
-            description: session.metadata?.description ?? "",
-            customerEmail: session.customer_email ?? null,
-            agencyId: agencyId,
-          },
-        });
+        // Attribute by the agencyId set on the session at checkout creation
+        // (server-set, trustworthy), and refuse to write if it disagrees with
+        // the endpoint's agencyId — otherwise a misrouted/secret-reuse event
+        // could record a payment under the wrong tenant.
+        const sessionAgencyId = session.metadata?.agencyId;
+        if (sessionAgencyId && sessionAgencyId !== agencyId) {
+          console.error(
+            `[stripe webhook] agency mismatch — endpoint=${agencyId} session=${sessionAgencyId} event=${event.id}; skipping write`,
+          );
+        } else {
+          await prisma.servicePayment.upsert({
+            where: { stripeSessionId: session.id },
+            update: {},
+            create: {
+              stripeSessionId: session.id,
+              stripePaymentId:
+                typeof session.payment_intent === "string"
+                  ? session.payment_intent
+                  : null,
+              amount: session.amount_total ?? 0,
+              description: session.metadata?.description ?? "",
+              customerEmail: session.customer_email ?? null,
+              agencyId: sessionAgencyId ?? agencyId,
+            },
+          });
+        }
       }
     }
   } catch (err) {
