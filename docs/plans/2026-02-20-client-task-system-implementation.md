@@ -252,7 +252,7 @@ Expected: Client types regenerated at `lib/generated/prisma/`.
 **Step 12: Verify migration**
 
 ```bash
-PGPASSWORD='EffC8hw8n4_Fs-G' psql -h localhost -U vanguard_app -d vanguardm_vanguard_app -c "\dt"
+PGPASSWORD='<REDACTED-ROTATED>' psql -h localhost -U vanguard_app -d vanguardm_vanguard_app -c "\dt"
 ```
 
 Expected: 20 tables (14 existing + 6 new: Client, ClientContact, ClientService, Project, ClientNote, SupportTicket).
