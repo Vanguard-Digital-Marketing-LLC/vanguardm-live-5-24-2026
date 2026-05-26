@@ -39,12 +39,27 @@ export async function POST(request: NextRequest) {
     slug = `${slug}-${Date.now().toString(36).slice(-4)}`;
   }
 
-  // Reserve platform/system slugs so a new agency can't claim a subdomain that
-  // would collide with infra (vercel/staging previews, dev/test sandboxes,
-  // cdn endpoints, www apex, the platform's own "vanguard" tenant).
+  // Reserve platform/system/existing-tenant slugs so a new agency signup can't
+  // claim a subdomain that would collide with infra or an existing deployment.
+  //
+  // - vanguard            platform super-admin tenant (B.1 strict-equality check)
+  // - www, api, admin,    apex + standard service subdomains
+  //   mail, app, portal
+  // - test                generic test sandbox
+  // - vercel, staging,    preview / non-prod deployment hostnames
+  //   preview, dev,
+  //   staging-api, cdn
+  // - mentservices        live Vanguard tenant with custom branding wired into
+  //                       app/layout.tsx (GTM-K6CXPNL4, Poppins font, dedicated
+  //                       SEO + schema.org block, mentservices.com email).
+  // - prospector          separately-deployed internal Vanguard tool that
+  //                       shares the vanguardm.com DNS but is NOT served by
+  //                       this Next.js app. Reserved here so an agency signup
+  //                       can't shadow it.
   const reserved = [
     "vanguard", "www", "api", "admin", "mail", "app", "portal", "test",
     "vercel", "staging", "preview", "dev", "staging-api", "cdn",
+    "mentservices", "prospector",
   ];
   if (reserved.includes(slug)) {
     slug = `${slug}-agency`;
