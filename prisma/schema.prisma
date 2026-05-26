@@ -966,6 +966,13 @@ model Lead {
   status                  LeadStatus @default(NEW)
   score                   Int        @default(0)
   scoreBreakdown          Json?
+  // AI assist (on-demand): research brief, augmented intent score + reason, follow-up draft
+  researchBrief           String?
+  aiScore                 Int?
+  aiScoreReason           String?
+  followupSubject         String?
+  followupBody            String?
+  aiAnalyzedAt            DateTime?
   assignedToId            String?
   assignedTo              User?      @relation("LeadAssignee", fields: [assignedToId], references: [id], onDelete: SetNull)
   clientId                String?
