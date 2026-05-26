@@ -64,7 +64,7 @@ async function main() {
       envLines.push(`STRIPE_PRICE_${plan.key}=price_placeholder`);
     }
   } else {
-    const stripe = new Stripe(secretKey);
+    const stripe = new Stripe(secretKey, { apiVersion: "2026-04-22.dahlia" });
 
     // Check for existing products
     const existing = await stripe.products.list({ limit: 100, active: true });

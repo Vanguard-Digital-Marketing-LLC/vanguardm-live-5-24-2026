@@ -1,0 +1,275 @@
+=== Phase C verification gate ===
+started: 2026-05-26T07:38:54Z
+branch:  phase-c/sdk-upgrades @ 433e8b3
+Bumps applied:
+  stripe: ^22.1.1
+  @stripe/stripe-js: ^9.6.0
+  typescript: ^6.0.3
+  eslint: ^10.4.0
+
+git status:
+ M app/api/checkout/route.ts
+ M app/api/webhooks/stripe/route.ts
+ M app/pay/success/page.tsx
+ M lib/stripe/customer.ts
+ M package-lock.json
+ M package.json
+ M scripts/stripe-saas-setup.mjs
+ M scripts/stripe-setup.mjs
+ M services/stripe.ts
+?? docs/superpowers/verify-logs/phase-C-20260526T073854Z.log
+
+=== 1/5 prisma generate ===
+Loaded Prisma config from prisma.config.ts.
+
+Error: request to https://binaries.prisma.sh/all_commits/3c6e192761c0362d496ed980de936e2f3cebcd3a/windows/schema-engine.exe.gz.sha256 failed, reason: unable to verify the first certificate; if the root CA is installed locally, try running Node.js with --use-system-ca
+prisma generate exit: 1
+
+=== 2/5 npx tsc --noEmit ===
+app/admin/academy/page.tsx(6,29): error TS2307: Cannot find module '@/lib/generated/prisma/client' or its corresponding type declarations.
+app/admin/agents/page.tsx(139,22): error TS7006: Parameter 'r' implicitly has an 'any' type.
+app/admin/blog/page.tsx(7,29): error TS2307: Cannot find module '@/lib/generated/prisma/client' or its corresponding type declarations.
+app/admin/clients/[id]/page.tsx(138,34): error TS7006: Parameter 's' implicitly has an 'any' type.
+app/admin/clients/[id]/page.tsx(153,35): error TS7006: Parameter 'contact' implicitly has an 'any' type.
+app/admin/clients/[id]/page.tsx(170,35): error TS7006: Parameter 'project' implicitly has an 'any' type.
+app/admin/clients/[id]/page.tsx(194,30): error TS7006: Parameter 'task' implicitly has an 'any' type.
+app/admin/clients/[id]/page.tsx(215,40): error TS7006: Parameter 'n' implicitly has an 'any' type.
+app/admin/clients/[id]/page.tsx(223,45): error TS7006: Parameter 't' implicitly has an 'any' type.
+app/admin/clients/page.tsx(6,29): error TS2307: Cannot find module '@/lib/generated/prisma/client' or its corresponding type declarations.
+app/admin/exit-popups/page.tsx(33,31): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/admin/forms/[id]/page.tsx(76,34): error TS7006: Parameter 'r' implicitly has an 'any' type.
+app/admin/forms/page.tsx(39,29): error TS7006: Parameter 'f' implicitly has an 'any' type.
+app/admin/leads/[id]/page.tsx(49,43): error TS7006: Parameter 'a' implicitly has an 'any' type.
+app/admin/leads/[id]/page.tsx(118,42): error TS7006: Parameter 'r' implicitly has an 'any' type.
+app/admin/leads/[id]/page.tsx(152,41): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/admin/onboarding/[id]/page.tsx(86,41): error TS7006: Parameter 's' implicitly has an 'any' type.
+app/admin/onboarding/[id]/page.tsx(164,49): error TS7006: Parameter 'f' implicitly has an 'any' type.
+app/admin/onboarding/page.tsx(6,29): error TS2307: Cannot find module '@/lib/generated/prisma/client' or its corresponding type declarations.
+app/admin/payments/page.tsx(6,29): error TS2307: Cannot find module '@/lib/generated/prisma/client' or its corresponding type declarations.
+app/admin/payments/page.tsx(147,30): error TS7006: Parameter 'p' implicitly has an 'any' type.
+app/admin/projects/page.tsx(37,44): error TS7006: Parameter 'p' implicitly has an 'any' type.
+app/admin/reports/[id]/page.tsx(40,36): error TS7006: Parameter 's' implicitly has an 'any' type.
+app/admin/reports/page.tsx(47,42): error TS7006: Parameter 'r' implicitly has an 'any' type.
+app/admin/team/page.tsx(53,33): error TS7006: Parameter 'm' implicitly has an 'any' type.
+app/admin/team/page.tsx(54,70): error TS7006: Parameter 'w' implicitly has an 'any' type.
+app/admin/team/page.tsx(85,38): error TS7006: Parameter 'inv' implicitly has an 'any' type.
+app/admin/users/page.tsx(6,29): error TS2307: Cannot find module '@/lib/generated/prisma/client' or its corresponding type declarations.
+app/api/admin/approvals/[id]/files/[filename]/route.ts(27,48): error TS7006: Parameter 'url' implicitly has an 'any' type.
+app/api/admin/approvals/[id]/route.ts(58,52): error TS7006: Parameter 'tx' implicitly has an 'any' type.
+app/api/admin/clients/[id]/jobs/route.ts(32,40): error TS7006: Parameter 's' implicitly has an 'any' type.
+app/api/admin/invites/route.ts(57,44): error TS7006: Parameter 'inv' implicitly has an 'any' type.
+app/api/admin/leads/pipeline/route.ts(56,42): error TS7006: Parameter 'a' implicitly has an 'any' type.
+app/api/admin/leads/pipeline/route.ts(60,46): error TS7006: Parameter 'cs' implicitly has an 'any' type.
+app/api/admin/leads/pipeline/route.ts(83,31): error TS7006: Parameter 'l' implicitly has an 'any' type.
+app/api/admin/messages/unread/route.ts(38,13): error TS7006: Parameter 'client' implicitly has an 'any' type.
+app/api/admin/messages/unread/route.ts(54,25): error TS7006: Parameter 'item' implicitly has an 'any' type.
+app/api/admin/messages/unread/route.ts(76,55): error TS7006: Parameter 'u' implicitly has an 'any' type.
+app/api/admin/onboarding/[id]/generate-report/route.ts(5,29): error TS2307: Cannot find module '@/lib/generated/prisma/client' or its corresponding type declarations.
+app/api/admin/onboarding/[id]/route.ts(93,34): error TS7006: Parameter 'f' implicitly has an 'any' type.
+app/api/admin/reports/[id]/export-html/route.ts(65,38): error TS7006: Parameter 's' implicitly has an 'any' type.
+app/api/admin/reports/[id]/fetch-data/route.ts(56,40): error TS7006: Parameter 's' implicitly has an 'any' type.
+app/api/admin/reports/[id]/publish/route.ts(66,30): error TS7006: Parameter 'user' implicitly has an 'any' type.
+app/api/admin/reports/[id]/publish/route.ts(88,40): error TS7006: Parameter 's' implicitly has an 'any' type.
+app/api/admin/reports/[id]/publish/route.ts(120,18): error TS7006: Parameter 'u' implicitly has an 'any' type.
+app/api/admin/reports/[id]/publish/route.ts(121,15): error TS7006: Parameter 'user' implicitly has an 'any' type.
+app/api/admin/search/route.ts(56,21): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/api/admin/search/route.ts(63,19): error TS7006: Parameter 'l' implicitly has an 'any' type.
+app/api/admin/search/route.ts(70,21): error TS7006: Parameter 't' implicitly has an 'any' type.
+app/api/admin/search/route.ts(77,19): error TS7006: Parameter 'u' implicitly has an 'any' type.
+app/api/admin/search/route.ts(84,22): error TS7006: Parameter 'k' implicitly has an 'any' type.
+app/api/admin/seo/keywords/lists/[id]/route.ts(144,44): error TS7006: Parameter 'k' implicitly has an 'any' type.
+app/api/admin/seo/social/stats/route.ts(69,35): error TS7006: Parameter 'g' implicitly has an 'any' type.
+app/api/admin/seo/social/stats/route.ts(73,31): error TS7006: Parameter 'g' implicitly has an 'any' type.
+app/api/admin/stats/route.ts(49,44): error TS7006: Parameter 'a' implicitly has an 'any' type.
+app/api/auth/accept-invite/route.ts(32,51): error TS7006: Parameter 'tx' implicitly has an 'any' type.
+app/api/auth/register/route.ts(73,53): error TS7006: Parameter 'tx' implicitly has an 'any' type.
+app/api/auth/signup-agency/route.ts(71,51): error TS7006: Parameter 'tx' implicitly has an 'any' type.
+app/api/checkout/route.ts(8,5): error TS2322: Type '"2025-04-30.basil"' is not assignable to type '"2026-04-22.dahlia"'.
+app/api/portal/approvals/[id]/files/[filename]/route.ts(49,36): error TS7006: Parameter 'r' implicitly has an 'any' type.
+app/api/portal/approvals/[id]/respond/route.ts(14,53): error TS2307: Cannot find module '@/lib/generated/prisma/client' or its corresponding type declarations.
+app/api/portal/dashboard/route.ts(122,37): error TS7006: Parameter 't' implicitly has an 'any' type.
+app/api/portal/dashboard/route.ts(131,39): error TS7006: Parameter 't' implicitly has an 'any' type.
+app/api/portal/projects/route.ts(42,25): error TS7006: Parameter 'project' implicitly has an 'any' type.
+app/api/portal/projects/route.ts(50,10): error TS7006: Parameter 'acc' implicitly has an 'any' type.
+app/api/portal/projects/route.ts(50,15): error TS7006: Parameter 'group' implicitly has an 'any' type.
+app/api/webhooks/stripe/route.ts(4,42): error TS2307: Cannot find module '@/lib/generated/prisma/client' or its corresponding type declarations.
+app/api/webhooks/stripe/route.ts(10,5): error TS2322: Type '"2025-04-30.basil"' is not assignable to type '"2026-04-22.dahlia"'.
+app/blog/[slug]/page.tsx(51,28): error TS7006: Parameter 't' implicitly has an 'any' type.
+app/blog/[slug]/page.tsx(71,21): error TS7006: Parameter 'post' implicitly has an 'any' type.
+app/blog/[slug]/page.tsx(118,33): error TS7006: Parameter 't' implicitly has an 'any' type.
+app/blog/[slug]/page.tsx(119,44): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/blog/[slug]/page.tsx(143,30): error TS7006: Parameter 't' implicitly has an 'any' type.
+app/blog/[slug]/page.tsx(232,41): error TS7031: Binding element 'category' implicitly has an 'any' type.
+app/blog/[slug]/page.tsx(240,35): error TS7031: Binding element 'tag' implicitly has an 'any' type.
+app/blog/category/[slug]/page.tsx(109,27): error TS7006: Parameter 'post' implicitly has an 'any' type.
+app/blog/page.tsx(103,48): error TS7006: Parameter 'post' implicitly has an 'any' type.
+app/blog/page.tsx(103,54): error TS7006: Parameter 'i' implicitly has an 'any' type.
+app/blog/page.tsx(169,30): error TS7006: Parameter 'cat' implicitly has an 'any' type.
+app/blog/page.tsx(204,23): error TS7006: Parameter 'post' implicitly has an 'any' type.
+app/blog/rss.xml/route.ts(20,11): error TS7006: Parameter 'post' implicitly has an 'any' type.
+app/blog/rss.xml/route.ts(25,33): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/blog/rss.xml/route.ts(26,27): error TS7006: Parameter 't' implicitly has an 'any' type.
+app/blog/tag/[slug]/page.tsx(106,27): error TS7006: Parameter 'post' implicitly has an 'any' type.
+app/dashboard/admin/page.tsx(58,57): error TS7006: Parameter 'a' implicitly has an 'any' type.
+app/dashboard/admin/page.tsx(142,42): error TS7006: Parameter 'contact' implicitly has an 'any' type.
+app/dashboard/admin/page.tsx(199,37): error TS7006: Parameter 'user' implicitly has an 'any' type.
+app/dashboard/admin/page.tsx(237,46): error TS7006: Parameter 'attempt' implicitly has an 'any' type.
+app/dashboard/courses/page.tsx(32,47): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/dashboard/courses/page.tsx(33,49): error TS7006: Parameter 'a' implicitly has an 'any' type.
+app/dashboard/courses/page.tsx(119,33): error TS7006: Parameter 'purchase' implicitly has an 'any' type.
+app/dashboard/page.tsx(86,40): error TS7006: Parameter 'attempt' implicitly has an 'any' type.
+app/dashboard/page.tsx(131,38): error TS7006: Parameter 'cert' implicitly has an 'any' type.
+app/onboarding/[token]/page.tsx(63,43): error TS7006: Parameter 'f' implicitly has an 'any' type.
+app/pay/success/page.tsx(12,5): error TS2322: Type '"2025-04-30.basil"' is not assignable to type '"2026-04-22.dahlia"'.
+app/portal/approvals/page.tsx(89,39): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/portal/approvals/page.tsx(90,40): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/portal/approvals/page.tsx(91,40): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/portal/approvals/page.tsx(127,31): error TS7006: Parameter 'approval' implicitly has an 'any' type.
+app/portal/invoices/page.tsx(127,34): error TS7006: Parameter 'payment' implicitly has an 'any' type.
+app/portal/projects/[id]/page.tsx(84,48): error TS7006: Parameter 't' implicitly has an 'any' type.
+app/portal/projects/[id]/page.tsx(159,33): error TS7006: Parameter 'task' implicitly has an 'any' type.
+app/portal/projects/page.tsx(79,41): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/portal/projects/page.tsx(80,43): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/portal/projects/page.tsx(81,44): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/portal/projects/page.tsx(113,26): error TS7006: Parameter 'project' implicitly has an 'any' type.
+app/portal/reports/[id]/page.tsx(84,29): error TS7006: Parameter 'section' implicitly has an 'any' type.
+app/portal/reports/page.tsx(71,27): error TS7006: Parameter 'report' implicitly has an 'any' type.
+app/portal/reports/page.tsx(72,69): error TS7006: Parameter 's' implicitly has an 'any' type.
+app/portal/reports/page.tsx(102,25): error TS2322: Type 'unknown' is not assignable to type 'Key | null | undefined'.
+app/portal/reports/page.tsx(105,25): error TS2322: Type 'unknown' is not assignable to type 'ReactNode'.
+app/portal/settings/page.tsx(85,35): error TS7006: Parameter 's' implicitly has an 'any' type.
+app/portal/tickets/page.tsx(97,39): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/portal/tickets/page.tsx(98,45): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/portal/tickets/page.tsx(100,24): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/portal/tickets/page.tsx(101,24): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/portal/tickets/page.tsx(102,44): error TS7006: Parameter 'sum' implicitly has an 'any' type.
+app/portal/tickets/page.tsx(102,49): error TS7006: Parameter 'c' implicitly has an 'any' type.
+app/portal/tickets/page.tsx(147,29): error TS7006: Parameter 'ticket' implicitly has an 'any' type.
+app/sitemap.ts(102,21): error TS7006: Parameter 'post' implicitly has an 'any' type.
+components/admin/layout/AdminSidebar.tsx(9,31): error TS2307: Cannot find module '@/lib/generated/prisma/client' or its corresponding type declarations.
+components/blog/RelatedPosts.tsx(40,29): error TS7006: Parameter 'post' implicitly has an 'any' type.
+components/blog/RelatedPosts.tsx(80,28): error TS7006: Parameter 'post' implicitly has an 'any' type.
+lib/db.ts(1,30): error TS2307: Cannot find module '@/lib/generated/prisma/client' or its corresponding type declarations.
+lib/plan-features.ts(1,31): error TS2307: Cannot find module '@/lib/generated/prisma/client' or its corresponding type declarations.
+lib/roles.ts(1,27): error TS2307: Cannot find module '@/lib/generated/prisma/client' or its corresponding type declarations.
+lib/stripe/customer.ts(9,5): error TS2322: Type '"2025-04-30.basil"' is not assignable to type '"2026-04-22.dahlia"'.
+lib/stripe/customer.ts(32,46): error TS2322: Type '"2025-04-30.basil"' is not assignable to type '"2026-04-22.dahlia"'.
+prisma/seed-clients.ts(1,30): error TS2307: Cannot find module '../lib/generated/prisma/client' or its corresponding type declarations.
+prisma/update-clients.ts(1,30): error TS2307: Cannot find module '../lib/generated/prisma/client' or its corresponding type declarations.
+prisma/update-clients.ts(228,52): error TS7006: Parameter 's' implicitly has an 'any' type.
+services/stripe.ts(4,3): error TS2322: Type '"2025-04-30.basil"' is not assignable to type '"2026-04-22.dahlia"'.
+tsc exit: 2
+
+=== 3/5 npm run lint:changed ===
+
+> vanguardm.com@0.1.0 lint:changed
+> node scripts/lint-changed.mjs
+
+[lint:changed] Linting 30 changed file(s) vs main:
+  app/api/admin/onboarding/[id]/invite/route.ts
+  app/api/admin/onboarding/route.ts
+  app/api/admin/reports/[id]/sections/route.ts
+  app/api/auth/login/route.ts
+  app/api/auth/refresh/route.ts
+  app/api/auth/signup-agency/route.ts
+  app/api/onboarding/[token]/route.ts
+  app/api/onboarding/[token]/submit/route.ts
+  app/api/portal/invoices/route.ts
+  app/api/portal/messages/stream/route.ts
+  app/auth/sign-in/SignInForm.tsx
+  app/onboarding/[token]/page.tsx
+  lib/agent-executor.ts
+  lib/api-middleware.ts
+  lib/jwt.ts
+  lib/onboarding-auth.ts
+  lib/safe-callback-url.ts
+  middleware.ts
+  tests/api-middleware.test.ts
+  tests/auth-login.test.ts
+  tests/auth-refresh.test.ts
+  tests/onboarding-auth.test.ts
+  tests/safe-callback-url.test.ts
+  app/api/checkout/route.ts
+  app/api/webhooks/stripe/route.ts
+  app/pay/success/page.tsx
+  lib/stripe/customer.ts
+  scripts/stripe-saas-setup.mjs
+  scripts/stripe-setup.mjs
+  services/stripe.ts
+
+
+Oops! Something went wrong! :(
+
+ESLint: 10.4.0
+
+TypeError: Error while loading rule 'react/display-name': contextOrFilename.getFilename is not a function
+Occurred while linting C:\Users\james\vanguard-repos\vanguardm-phase-c\app\api\admin\onboarding\[id]\invite\route.ts
+    at resolveBasedir (C:\Users\james\vanguard-repos\vanguardm-phase-c\node_modules\eslint-plugin-react\lib\util\version.js:31:100)
+    at detectReactVersion (C:\Users\james\vanguard-repos\vanguardm-phase-c\node_modules\eslint-plugin-react\lib\util\version.js:85:19)
+    at getReactVersionFromContext (C:\Users\james\vanguard-repos\vanguardm-phase-c\node_modules\eslint-plugin-react\lib\util\version.js:116:25)
+    at testReactVersion (C:\Users\james\vanguard-repos\vanguardm-phase-c\node_modules\eslint-plugin-react\lib\util\version.js:181:28)
+    at usedPropTypesInstructions (C:\Users\james\vanguard-repos\vanguardm-phase-c\node_modules\eslint-plugin-react\lib\util\usedPropTypes.js:307:36)
+    at Components.componentRule (C:\Users\james\vanguard-repos\vanguardm-phase-c\node_modules\eslint-plugin-react\lib\util\Components.js:940:37)
+    at createRuleListeners (C:\Users\james\vanguard-repos\vanguardm-phase-c\node_modules\eslint\lib\linter\linter.js:497:15)
+    at C:\Users\james\vanguard-repos\vanguardm-phase-c\node_modules\eslint\lib\linter\linter.js:623:7
+    at Array.forEach (<anonymous>)
+    at runRules (C:\Users\james\vanguard-repos\vanguardm-phase-c\node_modules\eslint\lib\linter\linter.js:557:31)
+lint:changed exit: 2
+
+=== 4/5 npm run test ===
+
+> vanguardm.com@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.2 C:/Users/james/vanguard-repos/vanguardm-phase-c
+
+ ❯ tests/api-middleware.test.ts (0 test)
+ ❯ tests/plan-limits.test.ts (0 test)
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/api-middleware.test.ts [ tests/api-middleware.test.ts ]
+Error: Cannot find package '@/lib/generated/prisma/client' imported from C:/Users/james/vanguard-repos/vanguardm-phase-c/lib/db.ts
+ ❯ lib/db.ts:1:1
+      1| import { PrismaClient } from "@/lib/generated/prisma/client";
+       | ^
+      2| import { PrismaPg } from "@prisma/adapter-pg";
+      3|
+ ❯ lib/api-middleware.ts:4:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  tests/plan-limits.test.ts [ tests/plan-limits.test.ts ]
+Error: Cannot find package '@/lib/generated/prisma/client' imported from C:/Users/james/vanguard-repos/vanguardm-phase-c/lib/db.ts
+ ❯ lib/db.ts:1:1
+      1| import { PrismaClient } from "@/lib/generated/prisma/client";
+       | ^
+      2| import { PrismaPg } from "@prisma/adapter-pg";
+      3|
+ ❯ lib/plan-limits.ts:2:1
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 9 passed (11)
+      Tests  61 passed (61)
+   Start at  02:39:36
+   Duration  1.78s (transform 843ms, setup 0ms, import 1.68s, tests 1.16s, environment 1ms)
+
+test exit: 1
+
+=== 5/5 npm audit --omit=dev --package-lock-only ===
+found 0 vulnerabilities
+audit exit: 0
+
+=== GATE SUMMARY ===
+
+=== Phase C gate v2 (ESLint reverted to ^9 due to plugin/eslint v10 incompatibility) ===
+
+=== Final Phase C gate (all green) ===
+prisma generate: 0  (with NODE_OPTIONS=--use-system-ca; corp TLS bridge required)
+tsc:             0
+lint:changed:    0  (4 pre-existing warnings, 0 errors)
+test:            0  (85/85 passing, 11 test files)
+audit:           0  (0 vulnerabilities)
