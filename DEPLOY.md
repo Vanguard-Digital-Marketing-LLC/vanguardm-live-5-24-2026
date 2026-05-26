@@ -310,3 +310,155 @@ For the next person picking it up:
 - Extend `lib/agent-executor.ts` sudoers wrappers for new tenants —
   current sandboxing only knows about sites already mapped in
   `lib/client-sites.ts`
+
+---
+
+## Recommended VPS layout (target state)
+
+The current layout (`/home/vanguardm/public_html/` + `rsync --delete`)
+came from a cPanel migration. It works but has three real problems:
+
+1. **`public_html` is a misnomer** — nginx proxies `vanguardm.com` to
+   `127.0.0.1:3010` (Node), not to filesystem files. The `public_html`
+   name implies a static web root and confuses anyone arriving from a
+   cPanel mental model.
+2. **rsync `--delete` can wipe operator state** — if uploads, logs, or
+   ad-hoc tooling land inside the deploy tree, they get nuked on the
+   next push. The exclude list has to grow forever.
+3. **No release history → no instant rollback** — rollback today means
+   `git checkout` locally + `rsync` again + cross your fingers. With a
+   release directory layout, rollback is a symlink swap (sub-second).
+
+The recommended target layout is the Capistrano / shipit / standard-
+deploy convention:
+
+```
+/srv/vanguardm/                       # owned by user `vanguardm`
+├── repo.git/                         # bare git repo (push target)
+├── releases/                         # immutable per-deploy checkouts
+│   ├── 20260525T143012Z-83e78a3/     # <iso-utc>-<short-sha>
+│   ├── 20260525T101530Z-15d2674/
+│   └── 20260524T180445Z-4e0ee7c/
+├── shared/                           # persists across deploys
+│   ├── .env.production               # the only place secrets live
+│   ├── logs/                         # pm2 + app logs
+│   ├── uploads/                      # user-uploaded files
+│   └── node_modules/                 # optional: warm cache (advanced)
+└── current -> releases/20260525T143012Z-83e78a3/   # the active release
+```
+
+`pm2` runs `current/.next/standalone/server.js`. A deploy:
+
+1. Pushes to `/srv/vanguardm/repo.git` from the developer's box.
+2. Clones a new release dir from the bare repo at the target SHA.
+3. Symlinks the shared files (`.env.production`, `logs/`, `uploads/`)
+   into the new release dir.
+4. Runs `npm ci`, `prisma generate`, `prisma migrate deploy`, `npm run build`.
+5. Copies `.next/static` and `public/` into `.next/standalone/`.
+6. Swaps the `current` symlink to the new release dir (atomic on
+   POSIX — `ln -sfn newpath current`).
+7. `pm2 reload vanguardm` — pm2 starts the new workers from the new
+   symlink target before killing the old workers.
+8. Prunes releases older than the N most-recent (keep 5; delete the rest).
+
+### Why this is better
+
+- **Atomic swap** — the `current` symlink either points at the old
+  release or the new one; never at a half-built directory.
+- **Sub-second rollback** — `ln -sfn releases/<previous>/ current && pm2 reload vanguardm`.
+- **Clean separation** — source code is in immutable release dirs;
+  mutable state (env, logs, uploads) lives once in `shared/` and is
+  symlinked in. Operator state never collides with deploy state.
+- **Git SHA traceability** — each release dir name includes the SHA.
+  `ls -ltr releases/` is a deploy log. `git show <sha>` in the bare
+  repo is the deploy diff.
+- **No rsync `--delete` foot-gun** — releases are clones, not in-place
+  syncs. There's nothing to accidentally wipe.
+
+### What stays the same
+
+- `vanguardm` is still the OS user that owns everything.
+- pm2 daemon still runs under `vanguardm` (per the previous section).
+- nginx still proxies `vanguardm.com` → `127.0.0.1:3010` — no nginx
+  config change because the port doesn't move.
+- `/home/vanguardm/env/production.env` becomes a symlink to
+  `/srv/vanguardm/shared/.env.production` (or moves entirely; the
+  symlink keeps any tooling that hard-codes the old path working).
+
+### Migration from the current layout
+
+A migration could happen in one maintenance window without touching the
+running app until the symlink swap:
+
+```bash
+# As root, one-time bootstrap:
+mkdir -p /srv/vanguardm/{releases,shared/logs,shared/uploads}
+chown -R vanguardm:vanguardm /srv/vanguardm
+
+# Move env to shared:
+mv /home/vanguardm/env/production.env /srv/vanguardm/shared/.env.production
+ln -s /srv/vanguardm/shared/.env.production /home/vanguardm/env/production.env
+
+# Create the bare repo:
+su - vanguardm -c "git init --bare /srv/vanguardm/repo.git"
+
+# From the developer's box, add the new remote and push:
+git remote add prod-vps vanguardm@hs.vdm-smtp.net:/srv/vanguardm/repo.git
+git push prod-vps main
+
+# As vanguardm on the VPS, do the first "real" deploy:
+su - vanguardm
+RELEASE=$(date -u +%Y%m%dT%H%M%SZ)-$(git -C /srv/vanguardm/repo.git rev-parse --short HEAD)
+git clone /srv/vanguardm/repo.git /srv/vanguardm/releases/$RELEASE
+cd /srv/vanguardm/releases/$RELEASE
+ln -s /srv/vanguardm/shared/.env.production .env.production
+mkdir -p .next && ln -s /srv/vanguardm/shared/logs logs
+npm ci --legacy-peer-deps --no-audit --no-fund
+npx prisma generate
+npx prisma migrate deploy
+npm run build
+cp -r .next/static .next/standalone/.next/static
+cp -r public      .next/standalone/public
+
+# Cut over (this is the only step that affects the running app):
+ln -sfn /srv/vanguardm/releases/$RELEASE /srv/vanguardm/current
+# Update pm2 to point at the new path (one-time; subsequent deploys
+# just need pm2 reload because the symlink is stable):
+pm2 delete vanguardm 2>/dev/null || true
+cd /srv/vanguardm/current/.next/standalone
+PORT=3010 pm2 start server.js --name vanguardm --env production
+pm2 save
+
+# Optional: delete the old tree once you've watched the new one for a day
+# rm -rf /home/vanguardm/public_html
+```
+
+After the bootstrap, every subsequent deploy is a shell script
+(`/srv/vanguardm/shared/bin/deploy.sh`) that does steps 2–8 above. The
+operator runs `ssh vps deploy <sha>` and walks away.
+
+### Why git push, not rsync
+
+- `rsync` ships whatever is on the developer's disk, including
+  uncommitted local changes — silent supply-chain risk.
+- `git push` to a bare repo on the VPS guarantees the deploy is
+  reproducible from a recorded SHA. `git log` on the bare repo is the
+  exact deployment history.
+- The bare repo can run a `post-receive` hook to trigger the deploy
+  script — `git push prod-vps main` is the entire user-facing command.
+
+### Open questions before adopting
+
+- **Apache vs nginx** — this file references both in different places.
+  The current proxy layer should be confirmed before any path change.
+- **`/home/vanguardm` vs `/srv/vanguardm`** — `/srv` is the FHS-correct
+  location for site-served data, but leaving everything under
+  `/home/vanguardm` is also defensible and avoids re-permissioning.
+  Pick one and stick.
+- **Shared `node_modules`** — symlinking `node_modules/` from `shared/`
+  into each release dir cuts install time by ~80% but couples releases.
+  Probably not worth it unless deploys happen >5×/day.
+- **`pm2-vanguardm.service` systemd unit** — when the deploy path
+  changes, the systemd `WorkingDirectory=` and the saved pm2 process
+  list both need updating. Plan the symlink cutover for a window where
+  that's tolerable.
