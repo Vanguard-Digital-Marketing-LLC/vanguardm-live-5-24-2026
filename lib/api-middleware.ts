@@ -257,9 +257,14 @@ export async function requireAdminAuth(
   const subdomainSlug = headersList.get("x-agency-slug");
 
   if (subdomainSlug) {
+    // Strict equality: agencySlug MUST be "vanguard". The legacy permissive
+    // branch that admitted isAdmin users with a null agencySlug has been
+    // removed — any historic isAdmin user without an agencyId must be
+    // backfilled to the vanguard agency (see prisma/migrations/
+    // 20260526070000_backfill_super_admin_slug).
     const isPlatformSuperAdmin =
       session.user.isAdmin === true &&
-      (!session.user.agencySlug || session.user.agencySlug === "vanguard");
+      session.user.agencySlug === "vanguard";
 
     if (!isPlatformSuperAdmin && session.user.agencySlug !== subdomainSlug) {
       return {

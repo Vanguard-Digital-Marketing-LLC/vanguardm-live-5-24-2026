@@ -91,10 +91,13 @@ export async function middleware(request: NextRequest) {
   }
 
   // ── Agency isolation: verify JWT agencySlug matches subdomain ──
-  // Platform super admins (vanguard agency + isAdmin) can access any subdomain
-  // Note: agencySlug may be null for legacy tokens — treat isAdmin users permissively
+  // Platform super admins (vanguard agency + isAdmin) can access any subdomain.
+  // Strict equality: agencySlug MUST be "vanguard". The legacy permissive branch
+  // that admitted isAdmin users with a null agencySlug has been removed — any
+  // historic isAdmin user without an agencyId must be backfilled to the
+  // vanguard agency (see prisma/migrations/20260526070000_backfill_super_admin_slug).
   const isPlatformSuperAdmin =
-    token.isAdmin === true && (!token.agencySlug || token.agencySlug === "vanguard");
+    token.isAdmin === true && token.agencySlug === "vanguard";
 
   if (
     agencySlug &&
