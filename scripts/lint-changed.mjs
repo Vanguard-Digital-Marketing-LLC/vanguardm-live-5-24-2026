@@ -46,21 +46,29 @@ function pickBase() {
 
 const base = pickBase();
 
-let diff;
-try {
-  diff = execSync(
-    `git diff --name-only --diff-filter=ACMRT ${base}...HEAD`,
-    { encoding: "utf8" },
-  );
-} catch (e) {
-  console.error("[lint:changed] git diff failed:", e?.message);
-  process.exit(2);
+function gitLines(cmd) {
+  try {
+    return execSync(cmd, { encoding: "utf8" })
+      .split(/\r?\n/)
+      .map((s) => s.trim())
+      .filter(Boolean);
+  } catch (e) {
+    console.error(`[lint:changed] '${cmd}' failed:`, e?.message);
+    process.exit(2);
+  }
 }
 
-const files = diff
-  .split(/\r?\n/)
-  .map((s) => s.trim())
-  .filter(Boolean)
+// Union three sources:
+//   1. committed since branching:  base...HEAD
+//   2. uncommitted (staged + unstaged) vs HEAD
+//   3. untracked (new files not yet `git add`-ed)
+// Without #2 + #3 a phase running its gate mid-flight would silently skip
+// every file that hasn't been committed yet.
+const committed = gitLines(`git diff --name-only --diff-filter=ACMRT ${base}...HEAD`);
+const uncommitted = gitLines(`git diff --name-only --diff-filter=ACMRT HEAD`);
+const untracked = gitLines(`git ls-files --others --exclude-standard`);
+
+const files = [...new Set([...committed, ...uncommitted, ...untracked])]
   .filter((f) => EXT_RE.test(f));
 
 if (files.length === 0) {
