@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { validateOnboardingToken } from "@/lib/onboarding-auth";
+import { buildRevokedTokenData, validateOnboardingToken } from "@/lib/onboarding-auth";
 import { rateLimitAsync } from "@/lib/rate-limit";
 import { prisma } from "@/lib/db";
 import { sendEmail } from "@/lib/email";
@@ -36,12 +36,15 @@ export async function POST(
     return NextResponse.json({ error: "Verification failed. Please try again." }, { status: 403 });
   }
 
-  // Mark as submitted
+  // Mark as submitted and revoke the URL token: the respondent's link is
+  // single-use, and re-presenting it after submit should surface 410 Gone via
+  // classifyOnboardingToken (not let them re-edit / re-submit).
   await prisma.clientOnboarding.update({
     where: { id: onboarding.id },
     data: {
       status: "SUBMITTED",
       submittedAt: new Date(),
+      ...buildRevokedTokenData(),
     },
   });
 

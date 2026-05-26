@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 import { requireAdminAuth } from "@/lib/api-middleware";
 import { checkRateLimit } from "@/lib/api-rate-limit";
+import { generateOnboardingTokenPair } from "@/lib/onboarding-auth";
 
 export async function GET(request: NextRequest) {
   const blocked = await checkRateLimit(request, "admin");
@@ -52,6 +53,11 @@ export async function POST(request: NextRequest) {
   const tokenExpiresAt = new Date();
   tokenExpiresAt.setDate(tokenExpiresAt.getDate() + 30);
 
+  // Generate token pair: raw goes to the admin (and ultimately into the
+  // invite URL); only the hash is persisted, mirroring the password-reset
+  // pattern shipped in PR #12 and applied to the validate-side in B.4.
+  const { raw: rawToken, hash: tokenHash } = generateOnboardingTokenPair();
+
   const onboarding = await prisma.clientOnboarding.create({
     data: {
       agencyId,
@@ -61,6 +67,7 @@ export async function POST(request: NextRequest) {
       tokenExpiresAt,
       respondentName: body.respondentName || null,
       respondentEmail: body.respondentEmail || null,
+      token: tokenHash, // override the default cuid() with our sha256 hex
     },
     include: {
       client: { select: { id: true, name: true } },
@@ -68,5 +75,10 @@ export async function POST(request: NextRequest) {
     },
   });
 
-  return NextResponse.json(onboarding, { status: 201 });
+  // Replace the stored hash with the raw value in the response so the admin
+  // UI keeps working (it composes /onboarding/<token> URLs from this field).
+  // This is the only place the raw token is ever returned post-creation;
+  // subsequent reads return the hash, and the invite endpoint rotates to a
+  // fresh raw+hash pair.
+  return NextResponse.json({ ...onboarding, token: rawToken }, { status: 201 });
 }

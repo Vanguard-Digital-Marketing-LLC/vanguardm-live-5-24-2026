@@ -1,0 +1,111 @@
+=== Phase B verification gate (post-sibling-fix) ===
+started: 2026-05-26T07:11:05Z
+branch:  phase-b/auth-fixes @ 497ad0a
+
+git status:
+ M app/api/admin/onboarding/[id]/invite/route.ts
+ M app/api/admin/onboarding/route.ts
+ M app/api/auth/login/route.ts
+ M app/api/auth/refresh/route.ts
+ M app/api/onboarding/[token]/route.ts
+ M app/api/onboarding/[token]/submit/route.ts
+ M app/auth/sign-in/SignInForm.tsx
+ M app/onboarding/[token]/page.tsx
+ M lib/api-middleware.ts
+ M lib/jwt.ts
+ M lib/onboarding-auth.ts
+ M middleware.ts
+ M tests/api-middleware.test.ts
+?? docs/superpowers/verify-logs/phase-B-20260526T070006Z.log
+?? docs/superpowers/verify-logs/phase-B-20260526T071105Z.log
+?? lib/safe-callback-url.ts
+?? prisma/migrations/20260526070000_backfill_super_admin_slug/
+?? prisma/migrations/20260526070001_hash_onboarding_tokens/
+?? tests/auth-login.test.ts
+?? tests/auth-refresh.test.ts
+?? tests/onboarding-auth.test.ts
+?? tests/safe-callback-url.test.ts
+
+=== 1/4 prisma generate ===
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma\schema.prisma.
+
+✔ Generated Prisma Client (7.8.0) to .\lib\generated\prisma in 296ms
+
+prisma generate exit: 0
+
+=== 2/5 npx tsc --noEmit ===
+tsc exit: 0
+
+=== 3/5 npm run lint:changed (now sees uncommitted) ===
+
+> vanguardm.com@0.1.0 lint:changed
+> node scripts/lint-changed.mjs
+
+[lint:changed] Linting 23 changed file(s) vs main:
+  app/api/admin/reports/[id]/sections/route.ts
+  app/api/auth/signup-agency/route.ts
+  app/api/portal/invoices/route.ts
+  app/api/portal/messages/stream/route.ts
+  lib/agent-executor.ts
+  middleware.ts
+  tests/api-middleware.test.ts
+  app/api/admin/onboarding/[id]/invite/route.ts
+  app/api/admin/onboarding/route.ts
+  app/api/auth/login/route.ts
+  app/api/auth/refresh/route.ts
+  app/api/onboarding/[token]/route.ts
+  app/api/onboarding/[token]/submit/route.ts
+  app/auth/sign-in/SignInForm.tsx
+  app/onboarding/[token]/page.tsx
+  lib/api-middleware.ts
+  lib/jwt.ts
+  lib/onboarding-auth.ts
+  lib/safe-callback-url.ts
+  tests/auth-login.test.ts
+  tests/auth-refresh.test.ts
+  tests/onboarding-auth.test.ts
+  tests/safe-callback-url.test.ts
+
+
+C:\Users\james\vanguard-repos\vanguardm-phase-b\app\api\portal\invoices\route.ts
+  5:51  warning  'req' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-b\app\auth\sign-in\SignInForm.tsx
+  12:9  warning  'router' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-b\lib\agent-executor.ts
+  1:10  warning  'execSync' is defined but never used    @typescript-eslint/no-unused-vars
+  2:39  warning  'existsSync' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 4 problems (0 errors, 4 warnings)
+
+lint:changed exit: 0
+
+=== 4/5 npm run test ===
+
+> vanguardm.com@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.2 C:/Users/james/vanguard-repos/vanguardm-phase-b
+
+
+ Test Files  11 passed (11)
+      Tests  85 passed (85)
+   Start at  02:11:23
+   Duration  1.30s (transform 856ms, setup 0ms, import 1.78s, tests 1.04s, environment 1ms)
+
+test exit: 0
+
+=== 5/5 npm audit --omit=dev --package-lock-only ===
+found 0 vulnerabilities
+audit exit: 0
+
+=== GATE SUMMARY (post-sibling-fix) ===
+prisma generate: 0
+tsc:             0
+lint:changed:    0
+test:            0
+audit:           0

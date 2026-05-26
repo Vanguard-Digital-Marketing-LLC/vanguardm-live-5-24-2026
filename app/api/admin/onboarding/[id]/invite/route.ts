@@ -3,6 +3,7 @@ import { prisma } from "@/lib/db";
 import { requireAdminAuth } from "@/lib/api-middleware";
 import { sendEmail } from "@/lib/email";
 import { checkRateLimit } from "@/lib/api-rate-limit";
+import { generateOnboardingTokenPair } from "@/lib/onboarding-auth";
 
 function esc(s: string): string {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -28,11 +29,24 @@ export async function POST(
     return NextResponse.json({ error: "No respondent email set" }, { status: 400 });
   }
 
+  // Rotate the token on every invite send. The DB stores only the sha256 hash
+  // (B.4 invariant), so we can't reconstruct the raw value from `onboarding.token`
+  // to put it in the email URL. Generating a fresh pair has two upsides:
+  //   1. The URL we email is the raw token (validator hashes-then-looks-up).
+  //   2. Any previously-shared invite URL (e.g. on a leaked screenshot) is
+  //      invalidated as a side-effect — same kind of clean rotation behavior
+  //      password-reset uses on every reset request.
+  const { raw: rawToken, hash: tokenHash } = generateOnboardingTokenPair();
+  await prisma.clientOnboarding.update({
+    where: { id },
+    data: { token: tokenHash },
+  });
+
   const agencySlug = request.headers.get("x-agency-slug");
   const baseUrl = agencySlug
     ? `https://${agencySlug}.vanguardm.com`
     : (process.env.NEXTAUTH_URL || "https://vanguardm.com");
-  const link = `${baseUrl}/onboarding/${onboarding.token}`;
+  const link = `${baseUrl}/onboarding/${rawToken}`;
   const recipientName = onboarding.respondentName || "there";
 
   try {
