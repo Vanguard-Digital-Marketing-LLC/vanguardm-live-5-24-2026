@@ -1,7 +1,22 @@
+/**
+ * POST /api/auth/login — API-surface credential login (mobile / external callers).
+ *
+ * NOTE: this is NOT the browser sign-in path. The vanguardm.com web app authenticates
+ * via NextAuth at `/api/auth/callback/credentials` (see `auth.ts`). This route exists
+ * to issue a bearer + refresh token for non-browser clients (mobile, scripts, etc.).
+ *
+ * Tenant claims in the issued JWT mirror the NextAuth session token (`agencyId`,
+ * `agencySlug`, `role`). Without these, anything that trusts this bearer for admin
+ * work (e.g. server middleware that branches on `agencySlug === "vanguard"` for
+ * super-admin checks) would silently bypass tenant isolation: the token would
+ * authenticate the user but carry no tenant scope, so the per-request tenant guard
+ * would either treat the user as cross-tenant or fall through to a permissive
+ * default. Keep these claims in sync with `auth.ts`'s `jwt` callback.
+ */
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 import { prisma } from "@/lib/db";
-import { signAccessToken } from "@/lib/jwt";
+import { signAccessToken, type AccessTokenPayload } from "@/lib/jwt";
 import { rateLimitAsync } from "@/lib/rate-limit";
 import { generateRefreshToken, hashToken } from "@/lib/token-hash";
 
@@ -40,7 +55,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: { agency: { select: { slug: true } } },
+    });
 
     // Generic error for invalid email (don't reveal if account exists)
     if (!user || !user.password) {
@@ -85,14 +103,20 @@ export async function POST(request: NextRequest) {
       data: { failedLoginAttempts: 0, lockedUntil: null },
     });
 
-    // Generate access token
-    const accessToken = await signAccessToken({
+    // Generate access token. Tenant claims (agencyId, agencySlug) mirror the
+    // NextAuth jwt callback in auth.ts so downstream verifiers can enforce
+    // per-tenant authorization against this bearer the same way they do for
+    // browser sessions.
+    const payload: AccessTokenPayload = {
       sub: user.id,
       email: user.email,
       name: user.name,
       role,
       isAdmin,
-    });
+      agencyId: user.agencyId,
+      agencySlug: user.agency?.slug ?? null,
+    };
+    const accessToken = await signAccessToken(payload);
 
     // Generate and hash refresh token
     const rawRefreshToken = generateRefreshToken();
