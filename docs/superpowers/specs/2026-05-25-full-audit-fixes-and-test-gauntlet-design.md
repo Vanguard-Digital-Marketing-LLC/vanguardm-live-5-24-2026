@@ -65,11 +65,15 @@ Using `superpowers:verification-before-completion`:
 - **Per-phase gate** at the end of A, B, C:
   ```
   npx tsc --noEmit
-  npm run lint
+  npm run lint:changed
   npm run test
   npm audit --omit=dev --package-lock-only
   ```
-  All four must exit 0. Output captured to `docs/superpowers/verify-logs/phase-<X>-<utc>.log` and referenced in the phase commit message. The `npm audit` gate exists specifically to detect regressions of the `overrides` block (see §6 Phase C note on `postcss` and `@hono/node-server`): if a future dep bump backs out either override, the per-phase gate fails.
+  All four must exit 0. Output captured to `docs/superpowers/verify-logs/phase-<X>-<utc>.log` and referenced in the phase commit message.
+
+  **Why `lint:changed` instead of `lint`** — the global `npm run lint` carries a pre-existing baseline (143 problems on `main` at e26ebc0; 84 errors + 59 warnings, mostly `any` types from the audit's static health check). Phase A confirmed the baseline is stable (identical count before/after Phase A edits), so the global gate would mask any per-phase regression. `npm run lint:changed` (script: `scripts/lint-changed.mjs`) runs ESLint only on files changed vs `origin/main` — a phase fails only when IT introduces new lint issues. The pre-existing baseline is tracked separately and should be cleaned up in its own PR; the per-phase gate stays clean for the regression signal.
+
+  **Why the `npm audit` gate exists** — to detect regressions of the `overrides` block (see §6 Phase C note on `postcss` and `@hono/node-server`): if a future dep bump backs out either override, the per-phase gate fails.
 - **Phase D gate**: above four plus `npm run test:e2e` plus the aggregated RYG report. Target: ≥36/40 testers green.
 - A failing gate stops the phase. Partial work is committed (no lost progress) but the PR is marked Draft.
 
@@ -332,7 +336,7 @@ Main thread collects all 40 results into `docs/superpowers/verify-logs/gauntlet-
 
 | Phase | Verification | Rollback |
 |---|---|---|
-| A | `tsc --noEmit && lint && test && npm audit --omit=dev --package-lock-only` | `git revert <commit>` |
+| A | `tsc --noEmit && lint:changed && test && npm audit --omit=dev --package-lock-only` | `git revert <commit>` |
 | B | Same + new Vitest cases | Revert each B commit individually |
 | C | Same + Stripe E2E in D's stack; audit gate especially relevant — see §6 note on overrides | Revert C PR |
 | D | Same + Playwright e2e + RYG hard gate (see below) | Revert D PR; infra files only |
