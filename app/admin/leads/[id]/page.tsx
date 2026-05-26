@@ -6,6 +6,7 @@ import { resolveAgencyId } from "@/lib/resolve-agency";
 import LeadScoreCard from "@/components/admin/leads/LeadScoreCard";
 import LeadActivityTimeline from "@/components/admin/leads/LeadActivityTimeline";
 import LeadDetailEditor from "@/components/admin/leads/LeadDetailEditor";
+import LeadAiAssist from "@/components/admin/leads/LeadAiAssist";
 import { ChevronLeft, Mail, Phone, Building2, Globe, Calendar } from "lucide-react";
 
 export const dynamic = "force-dynamic";
@@ -107,6 +108,16 @@ export default async function LeadDetailPage({ params }: Props) {
             initialPhone={lead.phone}
             initialCompany={lead.company}
             assignees={assignees}
+          />
+
+          <LeadAiAssist
+            leadId={lead.id}
+            initialBrief={lead.researchBrief}
+            initialAiScore={lead.aiScore}
+            initialAiReason={lead.aiScoreReason}
+            initialSubject={lead.followupSubject}
+            initialBody={lead.followupBody}
+            initialAnalyzedAt={lead.aiAnalyzedAt ? lead.aiAnalyzedAt.toISOString() : null}
           />
 
           {lead.formResponses.length > 0 && (
