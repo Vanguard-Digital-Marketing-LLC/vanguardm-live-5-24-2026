@@ -20,8 +20,23 @@ echo "→ Generating Prisma client..."
 npx prisma generate
 
 # 3. Apply pending migrations (tracked history; no destructive drift)
+# Baseline guard: if this is a DB that was previously managed by `prisma db push`
+# (no _prisma_migrations table), mark all existing migrations as applied before
+# `migrate deploy` so it doesn't try to re-CREATE tables that already exist.
+if ! psql "$DATABASE_URL" -tAc "SELECT 1 FROM pg_tables WHERE tablename='_prisma_migrations'" 2>/dev/null | grep -q 1; then
+  echo "→ Baselining migrations (no _prisma_migrations table found)..."
+  for m in prisma/migrations/*/; do
+    npx prisma migrate resolve --applied "$(basename "$m")"
+  done
+fi
 echo "→ Applying database migrations..."
 npx prisma migrate deploy
+
+# 3b. Invalidate any in-flight plaintext password-reset tokens (one-time,
+# post hash-migration in PR #12). Remove this block once it has been >1 hour
+# since the first deploy that shipped the SHA-256-on-write change.
+echo "→ Invalidating in-flight password-reset tokens (one-time, post-hash-migration)..."
+psql "$DATABASE_URL" -c "UPDATE \"User\" SET \"resetToken\"=NULL, \"resetTokenExpiry\"=NULL WHERE \"resetToken\" IS NOT NULL;" 2>/dev/null || true
 
 # 4. Build Next.js (standalone mode works on Linux)
 echo "→ Building Next.js..."

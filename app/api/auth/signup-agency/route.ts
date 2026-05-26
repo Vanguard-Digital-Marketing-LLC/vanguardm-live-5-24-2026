@@ -39,8 +39,13 @@ export async function POST(request: NextRequest) {
     slug = `${slug}-${Date.now().toString(36).slice(-4)}`;
   }
 
-  // Reserve "vanguard", "www", "api", "admin", "mail" slugs
-  const reserved = ["vanguard", "www", "api", "admin", "mail", "app", "portal", "test"];
+  // Reserve platform/system slugs so a new agency can't claim a subdomain that
+  // would collide with infra (vercel/staging previews, dev/test sandboxes,
+  // cdn endpoints, www apex, the platform's own "vanguard" tenant).
+  const reserved = [
+    "vanguard", "www", "api", "admin", "mail", "app", "portal", "test",
+    "vercel", "staging", "preview", "dev", "staging-api", "cdn",
+  ];
   if (reserved.includes(slug)) {
     slug = `${slug}-agency`;
   }

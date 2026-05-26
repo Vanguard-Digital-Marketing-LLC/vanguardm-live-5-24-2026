@@ -4,9 +4,12 @@ import { describe, it, expect, vi, beforeEach } from "vitest";
 const mockAuth = vi.fn();
 vi.mock("@/auth", () => ({ auth: () => mockAuth() }));
 
-// Mock rate-limit
+// Mock rate-limit. The real module exports `rateLimitAsync` (and is consumed
+// as such by lib/api-middleware.ts); the prior mock exported `rateLimit`
+// which made this stub a silent no-op — future tests that exercise rate-
+// limited paths would have hit real Redis instead.
 vi.mock("@/lib/rate-limit", () => ({
-  rateLimit: () => ({ allowed: true, remaining: 99, resetIn: 60000 }),
+  rateLimitAsync: async () => ({ allowed: true, remaining: 99, resetIn: 60000 }),
 }));
 
 // requireAdminAuth reads request headers (subdomain agency slug); provide an

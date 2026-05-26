@@ -84,15 +84,16 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
 
   // Scope the mutation to this agency's report — a bare `id: sectionId` would
   // let an admin edit another tenant's section by passing a foreign sectionId.
-  const updated = await prisma.reportSection.updateMany({
+  // `updateManyAndReturn` collapses the prior updateMany + findUnique pair —
+  // the old pattern was vulnerable to a TOCTOU 200-with-null body if the row
+  // was deleted between the two calls.
+  const [section] = await prisma.reportSection.updateManyAndReturn({
     where: { id: body.sectionId, reportId: id },
     data,
   });
-  if (updated.count === 0) {
+  if (!section) {
     return NextResponse.json({ error: "Section not found" }, { status: 404 });
   }
-
-  const section = await prisma.reportSection.findUnique({ where: { id: body.sectionId } });
   return NextResponse.json(section);
 }
 

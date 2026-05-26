@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import { prisma } from "@/lib/db";
-import { auth } from "@/auth";
+import { requirePortalAuth } from "@/lib/api-middleware";
 import { checkRateLimit } from "@/lib/api-rate-limit";
 
 export const dynamic = "force-dynamic";
@@ -26,15 +26,22 @@ export async function GET(req: NextRequest) {
   const blocked = await checkRateLimit(req, "portal");
   if (blocked) return blocked;
 
-  const session = await auth();
-  if (!session?.user?.id || session.user.role !== "CLIENT") {
-    return new Response("Unauthorized", { status: 401 });
+  // CLIENT-role + linked-clientId check via the same helper every other
+  // portal endpoint uses. SSE returns a plain Response (not NextResponse),
+  // so the helper's NextResponse is translated to a plain Response with the
+  // same status. requirePortalAuth does NOT do the agency-fence DB lookup —
+  // keep the explicit lookup below.
+  const portal = await requirePortalAuth();
+  if (portal.errorResponse) {
+    return new Response(portal.errorResponse.statusText || "Unauthorized", {
+      status: portal.errorResponse.status,
+    });
   }
+  const { session, clientId } = portal;
 
-  const clientId = session.user.clientId;
-  if (!clientId) return new Response("No client linked", { status: 403 });
-
-  // Same agency-fence the regular GET applies.
+  // Same agency-fence the regular GET applies. SSE doesn't otherwise touch
+  // Client, so this guards against a stale session referencing a client now
+  // moved out of the user's agency.
   if (session.user.agencyId) {
     const ok = await prisma.client.findFirst({
       where: { id: clientId, agencyId: session.user.agencyId },

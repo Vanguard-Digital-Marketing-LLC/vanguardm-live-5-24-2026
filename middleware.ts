@@ -15,7 +15,10 @@ function withSecurityHeaders(response: NextResponse): NextResponse {
   );
   response.headers.set(
     "Permissions-Policy",
-    "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    // `interest-cohort=()` opts out of FLoC (Chrome, removed mid-2022 but
+    // kept for legacy). `browsing-topics=()` opts out of the replacement
+    // Topics API.
+    "camera=(), microphone=(), geolocation=(), interest-cohort=(), browsing-topics=()"
   );
   response.headers.delete("X-Powered-By");
   return response;
@@ -25,9 +28,30 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // ── Subdomain resolution ──────────────────────
+  // X-Forwarded-Host is intentionally ignored: agency identity is derived from
+  // the connection's own Host header. The Apache .htaccess (and any future
+  // proxy) MUST preserve the original Host (`ProxyPreserveHost On`); if a
+  // proxy rewrites Host, tenant resolution breaks before this line.
   const host = request.headers.get("host") || "";
-  const match = host.split(":")[0].match(/^([a-z0-9-]+)\.vanguardm\.com$/);
-  const agencySlug = (match && match[1] !== "www") ? match[1] : null;
+  const hostNoPort = host.split(":")[0];
+  // Case-insensitive match so `Acme.vanguardm.com` resolves to acme. The
+  // matched group is then lowercased for canonical storage; see the 301 below
+  // for the user-visible canonical URL.
+  const match = hostNoPort.match(/^([a-z0-9-]+)\.vanguardm\.com$/i);
+  const rawSlug = match?.[1] ?? null;
+  const slugLower = rawSlug ? rawSlug.toLowerCase() : null;
+  const agencySlug = (slugLower && slugLower !== "www") ? slugLower : null;
+
+  // Canonicalize: if the raw host has uppercase characters in the subdomain,
+  // 301-redirect GETs (and HEADs) to the all-lowercase canonical host. POST/
+  // PUT/PATCH/DELETE and any /api/* request pass through untouched — redirects
+  // would drop the request body and break webhooks.
+  const isSafeMethod = request.method === "GET" || request.method === "HEAD";
+  if (rawSlug && slugLower && rawSlug !== slugLower && isSafeMethod && !pathname.startsWith("/api/")) {
+    const canonical = new URL(request.url);
+    canonical.hostname = `${slugLower}.vanguardm.com`;
+    return withSecurityHeaders(NextResponse.redirect(canonical, 301));
+  }
 
   // Inject agency slug header for downstream use (API routes, server components).
   // Strip any client-supplied value first — without this, a request on apex/www
