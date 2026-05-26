@@ -162,6 +162,111 @@ The webhook maps Stripe subscription events to
 `Agency.{planTier, subscriptionStatus, maxClients}`, so plan gating
 turns on automatically when a customer upgrades through the portal.
 
+## PM2 process management (as the `vanguardm` user)
+
+All pm2 work for the app should happen inside a real login shell for the
+`vanguardm` user — not via `sudo -u vanguardm pm2 ...` from a root shell.
+
+```bash
+ssh -p 37980 root@103.120.48.66
+su - vanguardm     # full login shell: loads ~/.profile, PATH, NODE_HOME, PM2_HOME
+cd /home/vanguardm/public_html
+```
+
+### Why `su -` and not `sudo -u`
+
+- `su -` (with the dash) starts a **login shell**. It sources
+  `~/.profile`, sets `HOME=/home/vanguardm`, `USER=vanguardm`, and the
+  vanguardm user's PATH — which is where the nvm-installed `node` and
+  the user-local `pm2` live.
+- `sudo -u vanguardm pm2 ...` runs the command with vanguardm's UID but
+  in **root's environment** unless you also pass `-i` or `-H`. With the
+  wrong `HOME` or missing `PM2_HOME`, pm2 will sometimes fork a
+  **second daemon** under root's home (`/root/.pm2`) instead of talking
+  to the vanguardm daemon (`/home/vanguardm/.pm2`). Symptoms: `pm2 list`
+  shows the process under one shell but `pm2 reload vanguardm` from
+  another shell reports "process not found."
+- The deploy commands above (`sudo -u vanguardm npm install`,
+  `sudo -u vanguardm npx prisma ...`) are safe because they don't talk
+  to a long-lived daemon. pm2 does, so it's special.
+
+### First-time pm2 setup (one-off)
+
+Run once, when the VPS is fresh or after a node/nvm upgrade:
+
+```bash
+su - vanguardm
+cd /home/vanguardm/public_html/.next/standalone
+PORT=3010 pm2 start server.js --name vanguardm --env production
+pm2 save                       # persists the current process list
+exit                           # back to root
+pm2 startup systemd -u vanguardm --hp /home/vanguardm
+# pm2 prints a `sudo env PATH=... pm2 startup ...` command — run it as root.
+# That registers /etc/systemd/system/pm2-vanguardm.service.
+systemctl enable pm2-vanguardm
+systemctl status pm2-vanguardm   # should be "active (running)"
+```
+
+After this, the systemd unit boots pm2 on host reboot and pm2 boots the
+saved process list. `pm2 save` is what makes the boot-time restore work
+— if you change the process configuration without running `pm2 save`,
+the next reboot will revert to the previously-saved state.
+
+### Day-to-day pm2 commands (inside `su - vanguardm`)
+
+```bash
+pm2 list                       # see all processes; expect "vanguardm" online
+pm2 logs vanguardm              # tail logs (Ctrl+C to exit, no kill)
+pm2 logs vanguardm --lines 200 --nostream    # last 200 lines, no follow
+pm2 reload vanguardm            # graceful restart (zero-downtime)
+pm2 restart vanguardm           # hard restart (brief outage)
+pm2 describe vanguardm          # config + last restart reason + uptime
+pm2 monit                       # live CPU/memory/log dashboard
+pm2 flush vanguardm             # truncate the log file (rare)
+```
+
+If the daemon itself looks wedged:
+
+```bash
+pm2 kill                        # stops the user's pm2 daemon
+pm2 resurrect                   # re-reads the saved process list
+```
+
+### Verifying the right daemon is being talked to
+
+```bash
+pm2 status                      # should show PM2_HOME=/home/vanguardm/.pm2
+ls -la /home/vanguardm/.pm2/    # expect dump.pm2 + pids + logs
+ps -ef | grep PM2               # exactly one PM2 v… God Daemon per user
+```
+
+If you see two daemons (one with PM2_HOME under `/root/.pm2`, one under
+`/home/vanguardm/.pm2`), kill the wrong one (`PM2_HOME=/root/.pm2 pm2 kill`
+as root) and re-run `pm2 resurrect` as vanguardm.
+
+### Deploy ordering inside `su - vanguardm`
+
+The Step 4 build + reload commands above can be re-run end-to-end from
+within a single `su - vanguardm` session:
+
+```bash
+su - vanguardm
+cd /home/vanguardm/public_html
+npm install --legacy-peer-deps --no-audit --no-fund
+npx prisma generate
+npx prisma migrate deploy
+npm run build
+cp -r .next/static .next/standalone/.next/static
+cp -r public      .next/standalone/public
+pm2 reload vanguardm
+pm2 logs vanguardm --lines 50 --nostream
+exit
+```
+
+This is the preferred shape for any pm2-touching deploy — keeps
+everything inside one user's environment and avoids the dual-daemon
+trap above.
+
 ## Rollback
 
 The repo is git-based locally but production isn't a git working tree —
