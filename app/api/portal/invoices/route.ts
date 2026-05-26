@@ -49,7 +49,7 @@ export const GET = withRateLimit("portal", async (req: NextRequest) => {
 
   // Scope to the client's own agency. Without this, a payment row whose
   // customerEmail happens to match another tenant's client would leak across
-  // agencies. (Scoping by null agencyId is intentional for legacy clients.)
+  // agencies.
   const payments = await prisma.servicePayment.findMany({
     where: {
       customerEmail: { in: uniqueEmails, mode: "insensitive" },

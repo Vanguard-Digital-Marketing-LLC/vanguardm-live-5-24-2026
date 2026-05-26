@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { validateOnboardingToken } from "@/lib/onboarding-auth";
+import { classifyOnboardingToken } from "@/lib/onboarding-auth";
 import { getStepsForServices } from "@/lib/onboarding-steps";
 
 export async function GET(
@@ -7,14 +7,26 @@ export async function GET(
   { params }: { params: Promise<{ token: string }> }
 ) {
   const { token } = await params;
-  const onboarding = await validateOnboardingToken(token);
+  const result = await classifyOnboardingToken(token);
 
-  if (!onboarding) {
+  if (result.kind === "gone") {
+    // Token matched a row whose onboarding is already submitted/completed.
+    // The URL is revoked; surface 410 so the client can show "already
+    // submitted" rather than "broken link".
+    return NextResponse.json(
+      { error: "This onboarding has already been submitted." },
+      { status: 410 }
+    );
+  }
+
+  if (result.kind === "invalid") {
     return NextResponse.json(
       { error: "Invalid or expired onboarding link" },
       { status: 403 }
     );
   }
+
+  const { onboarding } = result;
 
   // Build response map from step responses
   const responsesMap: Record<string, unknown> = {};

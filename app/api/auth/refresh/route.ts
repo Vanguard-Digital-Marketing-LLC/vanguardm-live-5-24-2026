@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import { signAccessToken } from "@/lib/jwt";
+import { signAccessToken, type AccessTokenPayload } from "@/lib/jwt";
 import { rateLimitAsync } from "@/lib/rate-limit";
 import { generateRefreshToken, hashToken } from "@/lib/token-hash";
 
@@ -54,6 +54,18 @@ export async function POST(request: NextRequest) {
 
     const user = storedToken.user;
 
+    // Look up agencySlug to mirror the login route's payload. Without these
+    // tenant claims, a refresh would silently strip the agencyId/agencySlug
+    // that the original `/api/auth/login` token carried — anything that
+    // trusts the bearer for admin work would then bypass tenant isolation
+    // after the first refresh cycle.
+    const agency = user.agencyId
+      ? await prisma.agency.findUnique({
+          where: { id: user.agencyId },
+          select: { slug: true },
+        })
+      : null;
+
     // Rotate: delete old, create new (atomic transaction)
     const rawNewToken = generateRefreshToken();
     const newTokenHash = hashToken(rawNewToken);
@@ -66,13 +78,16 @@ export async function POST(request: NextRequest) {
       }),
     ]);
 
-    const accessToken = await signAccessToken({
+    const payload: AccessTokenPayload = {
       sub: user.id,
       email: user.email,
       name: user.name,
       role: user.role,
       isAdmin: user.isAdmin,
-    });
+      agencyId: user.agencyId,
+      agencySlug: agency?.slug ?? null,
+    };
+    const accessToken = await signAccessToken(payload);
 
     return NextResponse.json({
       accessToken,

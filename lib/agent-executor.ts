@@ -42,8 +42,12 @@ async function refreshOAuthToken(credsPath: string): Promise<string | null> {
     });
 
     if (!res.ok) {
-      // Status only — the response body can echo token-related details.
-      console.error("[agent-executor] Token refresh failed:", res.status);
+      // The Anthropic OAuth endpoint returns structured errors like
+      // {"error":"invalid_grant","error_description":"..."} and never echoes
+      // a token in the error path. Log the `error` code (not the full body)
+      // so operators can distinguish expired vs revoked vs client_id mismatch.
+      const errorCode = await res.clone().json().then((b) => (b as { error?: string })?.error).catch(() => null);
+      console.error("[agent-executor] Token refresh failed:", res.status, errorCode);
       return null;
     }
 

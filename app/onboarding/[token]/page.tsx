@@ -1,6 +1,4 @@
-import { notFound } from "next/navigation";
-import { validateOnboardingToken } from "@/lib/onboarding-auth";
-import { getStepsForServices } from "@/lib/onboarding-steps";
+import { classifyOnboardingToken } from "@/lib/onboarding-auth";
 import OnboardingClientPage from "./OnboardingClientPage";
 
 export default async function OnboardingPage({
@@ -9,24 +7,13 @@ export default async function OnboardingPage({
   params: Promise<{ token: string }>;
 }) {
   const { token } = await params;
-  const onboarding = await validateOnboardingToken(token);
+  const classification = await classifyOnboardingToken(token);
 
-  if (!onboarding) {
-    return (
-      <div className="min-h-screen flex items-center justify-center p-6">
-        <div className="text-center max-w-md">
-          <h1 className="text-2xl font-bold text-white mb-3">Link Unavailable</h1>
-          <p className="text-slate-400 text-sm">
-            This onboarding link has expired, been completed, or is invalid.
-            Please contact your account manager for a new link.
-          </p>
-        </div>
-      </div>
-    );
-  }
-
-  // Already submitted — show thank you
-  if (onboarding.status === "SUBMITTED") {
+  // Show "Thank You" for tokens that hit a terminal state (SUBMITTED /
+  // COMPLETED). buildRevokedTokenData (B.4) pushes tokenExpiresAt to the
+  // epoch on submit, so validateOnboardingToken returns null even for the
+  // freshly-submitted row — classifyOnboardingToken disambiguates that case.
+  if (classification.kind === "gone") {
     return (
       <div className="min-h-screen flex items-center justify-center p-6">
         <div className="text-center max-w-md">
@@ -44,6 +31,22 @@ export default async function OnboardingPage({
       </div>
     );
   }
+
+  if (classification.kind !== "ok") {
+    return (
+      <div className="min-h-screen flex items-center justify-center p-6">
+        <div className="text-center max-w-md">
+          <h1 className="text-2xl font-bold text-white mb-3">Link Unavailable</h1>
+          <p className="text-slate-400 text-sm">
+            This onboarding link has expired or is invalid. Please contact
+            your account manager for a new link.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const onboarding = classification.onboarding;
 
   // Build responses map
   const responsesMap: Record<string, Record<string, unknown>> = {};

@@ -12,6 +12,11 @@ export interface AccessTokenPayload {
   name: string | null;
   role: "ADMIN" | "TEAM" | "USER" | "CLIENT";
   isAdmin: boolean;
+  // Tenant claims so a downstream verifier can enforce per-tenant authorization
+  // against this bearer the same way middleware enforces it for browser
+  // sessions. Both null for platform-only users (no agency).
+  agencyId: string | null;
+  agencySlug: string | null;
 }
 
 export async function signAccessToken(payload: AccessTokenPayload): Promise<string> {

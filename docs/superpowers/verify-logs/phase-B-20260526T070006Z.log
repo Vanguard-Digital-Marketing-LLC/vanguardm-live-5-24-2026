@@ -1,0 +1,108 @@
+=== Phase B verification gate ===
+started: 2026-05-26T07:00:06Z
+branch:  phase-b/auth-fixes @ db26141
+uncommitted files:
+ M app/api/auth/login/route.ts
+ M app/api/onboarding/[token]/route.ts
+ M app/api/onboarding/[token]/submit/route.ts
+ M app/auth/sign-in/SignInForm.tsx
+ M lib/api-middleware.ts
+ M lib/onboarding-auth.ts
+ M middleware.ts
+ M tests/api-middleware.test.ts
+?? docs/superpowers/verify-logs/phase-B-20260526T070006Z.log
+?? lib/safe-callback-url.ts
+?? prisma/migrations/20260526070000_backfill_super_admin_slug/
+?? prisma/migrations/20260526070001_hash_onboarding_tokens/
+?? tests/auth-login.test.ts
+?? tests/onboarding-auth.test.ts
+?? tests/safe-callback-url.test.ts
+
+=========== 1/5 prisma generate (required after schema/migration changes) ===========
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma\schema.prisma.
+
+✔ Generated Prisma Client (7.8.0) to .\lib\generated\prisma in 279ms
+
+prisma generate exit: 0
+
+=========== 2/5 npx tsc --noEmit ===========
+tsc exit: 0
+
+=========== 3/5 npm run lint:changed ===========
+
+> vanguardm.com@0.1.0 lint:changed
+> node scripts/lint-changed.mjs
+
+[lint:changed] Linting 7 changed file(s) vs main:
+  app/api/admin/reports/[id]/sections/route.ts
+  app/api/auth/signup-agency/route.ts
+  app/api/portal/invoices/route.ts
+  app/api/portal/messages/stream/route.ts
+  lib/agent-executor.ts
+  middleware.ts
+  tests/api-middleware.test.ts
+
+
+C:\Users\james\vanguard-repos\vanguardm-phase-b\app\api\portal\invoices\route.ts
+  5:51  warning  'req' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-b\lib\agent-executor.ts
+  1:10  warning  'execSync' is defined but never used    @typescript-eslint/no-unused-vars
+  2:39  warning  'existsSync' is defined but never used  @typescript-eslint/no-unused-vars
+
+✖ 3 problems (0 errors, 3 warnings)
+
+lint:changed exit: 0
+
+=========== 4/5 npm run test (vitest) ===========
+
+> vanguardm.com@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.2 C:/Users/james/vanguard-repos/vanguardm-phase-b
+
+
+ Test Files  10 passed (10)
+      Tests  83 passed (83)
+   Start at  02:01:19
+   Duration  1.25s (transform 754ms, setup 0ms, import 1.51s, tests 980ms, environment 1ms)
+
+test exit: 0
+
+=========== 5/5 npm audit --omit=dev --package-lock-only ===========
+found 0 vulnerabilities
+audit exit: 0
+
+=== GATE SUMMARY ===
+prisma generate: 0
+tsc:             0
+lint:changed:    0
+test:            0
+audit:           0
+
+=========== 3b/5 ESLint on UNCOMMITTED B-only files (lint:changed gap) ===========
+B-only files:
+  app/api/auth/login/route.ts
+  app/api/onboarding/[token]/route.ts
+  app/api/onboarding/[token]/submit/route.ts
+  app/auth/sign-in/SignInForm.tsx
+  lib/api-middleware.ts
+  lib/onboarding-auth.ts
+  middleware.ts
+  tests/api-middleware.test.ts
+  lib/safe-callback-url.ts
+  tests/auth-login.test.ts
+  tests/onboarding-auth.test.ts
+  tests/safe-callback-url.test.ts
+
+
+C:\Users\james\vanguard-repos\vanguardm-phase-b\app\auth\sign-in\SignInForm.tsx
+  12:9  warning  'router' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+✖ 1 problem (0 errors, 1 warning)
+
+
+uncommitted-file lint exit: 0

@@ -4,7 +4,11 @@ import { prisma } from "@/lib/db";
 import type { PlanTier, SubStatus } from "@/lib/generated/prisma/client";
 
 function getStripe() {
-  return new Stripe(process.env.STRIPE_SECRET_KEY!);
+  // Pinned to a known v22-compatible API version for predictability.
+  // Bump deliberately when adopting new Stripe API features.
+  return new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: "2026-04-22.dahlia",
+  });
 }
 
 // Map Stripe price IDs to plan tiers + maxClients

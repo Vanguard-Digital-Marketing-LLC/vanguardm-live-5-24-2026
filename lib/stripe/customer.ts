@@ -3,7 +3,11 @@ import { prisma } from "@/lib/db";
 import { decryptSecret } from "@/lib/crypto";
 
 function getStripe() {
-  return new Stripe(process.env.STRIPE_SECRET_KEY!);
+  // Pinned to a known v22-compatible API version for predictability.
+  // Bump deliberately when adopting new Stripe API features.
+  return new Stripe(process.env.STRIPE_SECRET_KEY!, {
+    apiVersion: "2026-04-22.dahlia",
+  });
 }
 
 /** Cache of Stripe instances keyed by agencyId */
@@ -25,7 +29,7 @@ export async function getStripeForAgency(agencyId: string): Promise<Stripe> {
 
   if (agency?.stripeSecretKeyEnc) {
     const secretKey = decryptSecret(agency.stripeSecretKeyEnc);
-    const instance = new Stripe(secretKey);
+    const instance = new Stripe(secretKey, { apiVersion: "2026-04-22.dahlia" });
     stripeCache.set(agencyId, instance);
     return instance;
   }

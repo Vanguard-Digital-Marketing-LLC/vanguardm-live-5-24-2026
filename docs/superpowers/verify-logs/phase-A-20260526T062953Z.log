@@ -1,0 +1,1282 @@
+=== Phase A verification gate ===
+started: 2026-05-26T06:29:53Z
+branch: phase-a/low-risk-fixes @ e26ebc0
+
+
+=========== 1/4 npx prisma generate (needed for tsc against lib/generated/prisma) ===========
+Loaded Prisma config from prisma.config.ts.
+
+Prisma schema loaded from prisma\schema.prisma.
+
+✔ Generated Prisma Client (7.8.0) to .\lib\generated\prisma in 301ms
+
+
+=========== 2/5 npx tsc --noEmit ===========
+tsc exit: 0
+
+=========== 3/5 npm run lint ===========
+
+> vanguardm.com@0.1.0 lint
+> eslint
+
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\academy\[slug]\page.tsx
+  176:18  error  Error: Cannot create components during render
+
+Components created during render will reset their state each time they are created. Declare components outside of render.
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\academy\[slug]\page.tsx:176:18
+  174 |             <article className="prose-custom space-y-6 md:space-y-8">
+  175 |               {LessonComponent ? (
+> 176 |                 <LessonComponent />
+      |                  ^^^^^^^^^^^^^^^ This component is created during render
+  177 |               ) : (
+  178 |                 <p className="text-slate-400">Lesson content coming soon.</p>
+  179 |               )}
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\academy\[slug]\page.tsx:49:27
+  47 |   if (!course) notFound();
+  48 |
+> 49 |   const LessonComponent = getLessonContent(slug);
+     |                           ^^^^^^^^^^^^^^^^^^^^^^ The component is created during render here
+  50 |
+  51 |   const courseIndex = COURSES.findIndex((c) => c.slug === slug);
+  52 |  react-hooks/static-components
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\admin\blog\[id]\edit\page.tsx
+  39:7  error  'html' is never reassigned. Use 'const' instead  prefer-const
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\admin\blog\page.tsx
+  84:26  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  85:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\admin\clients\page.tsx
+  196:50  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\admin\forms\page.tsx
+  2:8  warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\admin\onboarding\[id]\page.tsx
+  7:41  warning  'Copy' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\admin\page.tsx
+  18:8  warning  'Link' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\admin\reports\ReportsTable.tsx
+  48:10  warning  'fetchErrors' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\admin\reports\new\page.tsx
+  168:9  warning  'isSingleMode' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\admin\settings\AdminSettingsClient.tsx
+  4:10  warning  'User' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\admin\blog\categories\route.ts
+  15:50  warning  'req' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\admin\blog\tags\route.ts
+  15:50  warning  'req' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\admin\clients\[id]\invite\route.ts
+  14:13  warning  'session' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\admin\clients\[id]\jobs\route.ts
+  30:5  warning  'totalJobs' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\admin\clients\[id]\messages\route.ts
+  11:13  warning  'session' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\admin\clients\[id]\notes\route.ts
+  9:11  warning  'session' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\admin\leads\[id]\route.ts
+   20:11  warning  'session' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  114:11  warning  'session' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\admin\leads\pipeline\route.ts
+  17:11  warning  'session' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  40:36  error    Unexpected any. Specify a different type      @typescript-eslint/no-explicit-any
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\admin\leads\route.ts
+  15:11  warning  'session' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\admin\messages\unread\route.ts
+  7:10  warning  'req' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\admin\seo\social\[id]\route.ts
+  20:11  warning  'session' is assigned a value but never used  @typescript-eslint/no-unused-vars
+  46:11  warning  'session' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\admin\tasks\[id]\route.ts
+  160:11  warning  'session' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\admin\tickets\[id]\route.ts
+  86:11  warning  'session' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\admin\tickets\route.ts
+  40:11  warning  'session' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\admin\users\[id]\route.ts
+  10:11  warning  'session' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\billing\portal\route.ts
+  5:28  warning  'request' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\portal\dashboard\route.ts
+  5:51  warning  'req' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\portal\invoices\route.ts
+  5:51  warning  'req' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\portal\messages\route.ts
+  6:51  warning  'req' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\portal\reports\route.ts
+  5:51  warning  'req' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\auth\client-invite\[token]\page.tsx
+  10:9   warning  'router' is assigned a value but never used          @typescript-eslint/no-unused-vars
+  15:10  warning  'turnstileToken' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\auth\sign-in\SignInForm.tsx
+  11:9  warning  'router' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\onboarding\[token]\page.tsx
+  1:10  warning  'notFound' is defined but never used             @typescript-eslint/no-unused-vars
+  3:10  warning  'getStepsForServices' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\approvals\[id]\page.tsx
+  76:9  warning  'router' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx
+   54:9   error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:54:9
+  52 |     if (!userEmail) {
+  53 |       return (
+> 54 |         <div className="space-y-8">
+     |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 55 |           <div>
+     | ^^^^^^^^^^^^^^^
+> 56 |             <h1 className="font-display text-2xl font-bold text-white">Invoices & Payments</h1>
+     | ^^^^^^^^^^^^^^^
+> 57 |             <p className="text-sm text-slate-400 mt-1">Payment history for your account</p>
+     | ^^^^^^^^^^^^^^^
+> 58 |           </div>
+     | ^^^^^^^^^^^^^^^
+> 59 |           <div className="bg-[#111827] border border-white/6 rounded-xl p-12 text-center">
+     | ^^^^^^^^^^^^^^^
+> 60 |             <p className="text-slate-500">No payments found for your account.</p>
+     | ^^^^^^^^^^^^^^^
+> 61 |           </div>
+     | ^^^^^^^^^^^^^^^
+> 62 |         </div>
+     | ^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  63 |       );
+  64 |     }
+  65 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react-hooks/error-boundaries
+   55:11  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:55:11
+  53 |       return (
+  54 |         <div className="space-y-8">
+> 55 |           <div>
+     |           ^^^^^
+> 56 |             <h1 className="font-display text-2xl font-bold text-white">Invoices & Payments</h1>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 57 |             <p className="text-sm text-slate-400 mt-1">Payment history for your account</p>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 58 |           </div>
+     | ^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  59 |           <div className="bg-[#111827] border border-white/6 rounded-xl p-12 text-center">
+  60 |             <p className="text-slate-500">No payments found for your account.</p>
+  61 |           </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       react-hooks/error-boundaries
+   56:13  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:56:13
+  54 |         <div className="space-y-8">
+  55 |           <div>
+> 56 |             <h1 className="font-display text-2xl font-bold text-white">Invoices & Payments</h1>
+     |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  57 |             <p className="text-sm text-slate-400 mt-1">Payment history for your account</p>
+  58 |           </div>
+  59 |           <div className="bg-[#111827] border border-white/6 rounded-xl p-12 text-center">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/error-boundaries
+   57:13  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:57:13
+  55 |           <div>
+  56 |             <h1 className="font-display text-2xl font-bold text-white">Invoices & Payments</h1>
+> 57 |             <p className="text-sm text-slate-400 mt-1">Payment history for your account</p>
+     |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  58 |           </div>
+  59 |           <div className="bg-[#111827] border border-white/6 rounded-xl p-12 text-center">
+  60 |             <p className="text-slate-500">No payments found for your account.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/error-boundaries
+   59:11  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:59:11
+  57 |             <p className="text-sm text-slate-400 mt-1">Payment history for your account</p>
+  58 |           </div>
+> 59 |           <div className="bg-[#111827] border border-white/6 rounded-xl p-12 text-center">
+     |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 60 |             <p className="text-slate-500">No payments found for your account.</p>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 61 |           </div>
+     | ^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  62 |         </div>
+  63 |       );
+  64 |     }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             react-hooks/error-boundaries
+   60:13  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:60:13
+  58 |           </div>
+  59 |           <div className="bg-[#111827] border border-white/6 rounded-xl p-12 text-center">
+> 60 |             <p className="text-slate-500">No payments found for your account.</p>
+     |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  61 |           </div>
+  62 |         </div>
+  63 |       );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        react-hooks/error-boundaries
+   85:7   error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:85:7
+   83 |
+   84 |     return (
+>  85 |       <div className="space-y-8">
+      |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  86 |         <div>
+      | ^^^^^^^^^^^^^
+>  87 |           <h1 className="font-display text-2xl font-bold text-white">Invoices & Payments</h1>
+      …
+      | ^^^^^^^^^^^^^
+> 159 |         </div>
+      | ^^^^^^^^^^^^^
+> 160 |       </div>
+      | ^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  161 |     );
+  162 |   } catch (error) {
+  163 |     console.error("Failed to load invoices:", error);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 react-hooks/error-boundaries
+   86:9   error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:86:9
+  84 |     return (
+  85 |       <div className="space-y-8">
+> 86 |         <div>
+     |         ^^^^^
+> 87 |           <h1 className="font-display text-2xl font-bold text-white">Invoices & Payments</h1>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 88 |           <p className="text-sm text-slate-400 mt-1">
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 89 |             Payment history for your account
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 90 |           </p>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 91 |         </div>
+     | ^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  92 |
+  93 |         {/* Summary */}
+  94 |         <div className="flex flex-wrap gap-4">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   react-hooks/error-boundaries
+   87:11  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:87:11
+  85 |       <div className="space-y-8">
+  86 |         <div>
+> 87 |           <h1 className="font-display text-2xl font-bold text-white">Invoices & Payments</h1>
+     |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  88 |           <p className="text-sm text-slate-400 mt-1">
+  89 |             Payment history for your account
+  90 |           </p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   react-hooks/error-boundaries
+   88:11  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:88:11
+  86 |         <div>
+  87 |           <h1 className="font-display text-2xl font-bold text-white">Invoices & Payments</h1>
+> 88 |           <p className="text-sm text-slate-400 mt-1">
+     |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 89 |             Payment history for your account
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 90 |           </p>
+     | ^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  91 |         </div>
+  92 |
+  93 |         {/* Summary */}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             react-hooks/error-boundaries
+   94:9   error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:94:9
+   92 |
+   93 |         {/* Summary */}
+>  94 |         <div className="flex flex-wrap gap-4">
+      |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  95 |           <div className="bg-[#111827] border border-white/6 rounded-xl px-5 py-3">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |             <span className="text-xs text-slate-500 uppercase tracking-wider">Total Payments</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  97 |             <p className="text-lg font-bold text-white">{totalCount}</p>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  98 |           </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  99 |           <div className="bg-[#111827] border border-white/6 rounded-xl px-5 py-3">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 100 |             <span className="text-xs text-slate-500 uppercase tracking-wider">Total Paid</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 101 |             <p className="text-lg font-bold text-teal">{formatCurrency(totalPaid)}</p>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 102 |           </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 103 |         </div>
+      | ^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  104 |
+  105 |         {/* Payment table */}
+  106 |         <div className="bg-[#111827] border border-white/6 rounded-xl overflow-hidden">  react-hooks/error-boundaries
+   95:11  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:95:11
+   93 |         {/* Summary */}
+   94 |         <div className="flex flex-wrap gap-4">
+>  95 |           <div className="bg-[#111827] border border-white/6 rounded-xl px-5 py-3">
+      |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  96 |             <span className="text-xs text-slate-500 uppercase tracking-wider">Total Payments</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  97 |             <p className="text-lg font-bold text-white">{totalCount}</p>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  98 |           </div>
+      | ^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+   99 |           <div className="bg-[#111827] border border-white/6 rounded-xl px-5 py-3">
+  100 |             <span className="text-xs text-slate-500 uppercase tracking-wider">Total Paid</span>
+  101 |             <p className="text-lg font-bold text-teal">{formatCurrency(totalPaid)}</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        react-hooks/error-boundaries
+   96:13  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:96:13
+  94 |         <div className="flex flex-wrap gap-4">
+  95 |           <div className="bg-[#111827] border border-white/6 rounded-xl px-5 py-3">
+> 96 |             <span className="text-xs text-slate-500 uppercase tracking-wider">Total Payments</span>
+     |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  97 |             <p className="text-lg font-bold text-white">{totalCount}</p>
+  98 |           </div>
+  99 |           <div className="bg-[#111827] border border-white/6 rounded-xl px-5 py-3">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        react-hooks/error-boundaries
+   97:13  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:97:13
+   95 |           <div className="bg-[#111827] border border-white/6 rounded-xl px-5 py-3">
+   96 |             <span className="text-xs text-slate-500 uppercase tracking-wider">Total Payments</span>
+>  97 |             <p className="text-lg font-bold text-white">{totalCount}</p>
+      |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+   98 |           </div>
+   99 |           <div className="bg-[#111827] border border-white/6 rounded-xl px-5 py-3">
+  100 |             <span className="text-xs text-slate-500 uppercase tracking-wider">Total Paid</span>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/error-boundaries
+   99:11  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:99:11
+   97 |             <p className="text-lg font-bold text-white">{totalCount}</p>
+   98 |           </div>
+>  99 |           <div className="bg-[#111827] border border-white/6 rounded-xl px-5 py-3">
+      |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 100 |             <span className="text-xs text-slate-500 uppercase tracking-wider">Total Paid</span>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 101 |             <p className="text-lg font-bold text-teal">{formatCurrency(totalPaid)}</p>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 102 |           </div>
+      | ^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  103 |         </div>
+  104 |
+  105 |         {/* Payment table */}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 react-hooks/error-boundaries
+  100:13  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:100:13
+   98 |           </div>
+   99 |           <div className="bg-[#111827] border border-white/6 rounded-xl px-5 py-3">
+> 100 |             <span className="text-xs text-slate-500 uppercase tracking-wider">Total Paid</span>
+      |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  101 |             <p className="text-lg font-bold text-teal">{formatCurrency(totalPaid)}</p>
+  102 |           </div>
+  103 |         </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             react-hooks/error-boundaries
+  101:13  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:101:13
+   99 |           <div className="bg-[#111827] border border-white/6 rounded-xl px-5 py-3">
+  100 |             <span className="text-xs text-slate-500 uppercase tracking-wider">Total Paid</span>
+> 101 |             <p className="text-lg font-bold text-teal">{formatCurrency(totalPaid)}</p>
+      |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  102 |           </div>
+  103 |         </div>
+  104 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       react-hooks/error-boundaries
+  106:9   error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:106:9
+  104 |
+  105 |         {/* Payment table */}
+> 106 |         <div className="bg-[#111827] border border-white/6 rounded-xl overflow-hidden">
+      |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 107 |           {payments.length > 0 ? (
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 108 |             <div className="overflow-x-auto">
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 158 |           </Suspense>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 159 |         </div>
+      | ^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  160 |       </div>
+  161 |     );
+  162 |   } catch (error) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             react-hooks/error-boundaries
+  108:13  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:108:13
+  106 |         <div className="bg-[#111827] border border-white/6 rounded-xl overflow-hidden">
+  107 |           {payments.length > 0 ? (
+> 108 |             <div className="overflow-x-auto">
+      |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 109 |               <table className="w-full" role="table">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 110 |                 <thead>
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 147 |               </table>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 148 |             </div>
+      | ^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  149 |           ) : (
+  150 |             <div className="p-12 text-center">
+  151 |               <p className="text-slate-500">No payments found for your account.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         react-hooks/error-boundaries
+  109:15  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:109:15
+  107 |           {payments.length > 0 ? (
+  108 |             <div className="overflow-x-auto">
+> 109 |               <table className="w-full" role="table">
+      |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 110 |                 <thead>
+      | ^^^^^^^^^^^^^^^^^^^^^^^
+> 111 |                   <tr className="border-b border-white/6">
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^
+> 146 |                 </tbody>
+      | ^^^^^^^^^^^^^^^^^^^^^^^
+> 147 |               </table>
+      | ^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  148 |             </div>
+  149 |           ) : (
+  150 |             <div className="p-12 text-center">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react-hooks/error-boundaries
+  110:17  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:110:17
+  108 |             <div className="overflow-x-auto">
+  109 |               <table className="w-full" role="table">
+> 110 |                 <thead>
+      |                 ^^^^^^^
+> 111 |                   <tr className="border-b border-white/6">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 112 |                     <th scope="col" className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 124 |                   </tr>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 125 |                 </thead>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  126 |                 <tbody>
+  127 |                   {payments.map((payment) => (
+  128 |                     <tr key={payment.id} className="border-b border-white/4 hover:bg-white/5 transition-colors">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/error-boundaries
+  111:19  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:111:19
+  109 |               <table className="w-full" role="table">
+  110 |                 <thead>
+> 111 |                   <tr className="border-b border-white/6">
+      |                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 112 |                     <th scope="col" className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 113 |                       Date
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 123 |                     </th>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 124 |                   </tr>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  125 |                 </thead>
+  126 |                 <tbody>
+  127 |                   {payments.map((payment) => (                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/error-boundaries
+  112:21  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:112:21
+  110 |                 <thead>
+  111 |                   <tr className="border-b border-white/6">
+> 112 |                     <th scope="col" className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+      |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 113 |                       Date
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 114 |                     </th>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  115 |                     <th scope="col" className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+  116 |                       Description
+  117 |                     </th>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      react-hooks/error-boundaries
+  115:21  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:115:21
+  113 |                       Date
+  114 |                     </th>
+> 115 |                     <th scope="col" className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+      |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 116 |                       Description
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 117 |                     </th>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  118 |                     <th scope="col" className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+  119 |                       Amount
+  120 |                     </th>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/error-boundaries
+  118:21  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:118:21
+  116 |                       Description
+  117 |                     </th>
+> 118 |                     <th scope="col" className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+      |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 119 |                       Amount
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 120 |                     </th>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  121 |                     <th scope="col" className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+  122 |                       Status
+  123 |                     </th>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              react-hooks/error-boundaries
+  121:21  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:121:21
+  119 |                       Amount
+  120 |                     </th>
+> 121 |                     <th scope="col" className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wider text-slate-400">
+      |                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 122 |                       Status
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 123 |                     </th>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  124 |                   </tr>
+  125 |                 </thead>
+  126 |                 <tbody>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    react-hooks/error-boundaries
+  126:17  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:126:17
+  124 |                   </tr>
+  125 |                 </thead>
+> 126 |                 <tbody>
+      |                 ^^^^^^^
+> 127 |                   {payments.map((payment) => (
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 128 |                     <tr key={payment.id} className="border-b border-white/4 hover:bg-white/5 transition-colors">
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 145 |                   ))}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 146 |                 </tbody>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  147 |               </table>
+  148 |             </div>
+  149 |           ) : (                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                react-hooks/error-boundaries
+  150:13  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:150:13
+  148 |             </div>
+  149 |           ) : (
+> 150 |             <div className="p-12 text-center">
+      |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 151 |               <p className="text-slate-500">No payments found for your account.</p>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 152 |             </div>
+      | ^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  153 |           )}
+  154 |
+  155 |           {/* Pagination */}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               react-hooks/error-boundaries
+  151:15  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:151:15
+  149 |           ) : (
+  150 |             <div className="p-12 text-center">
+> 151 |               <p className="text-slate-500">No payments found for your account.</p>
+      |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  152 |             </div>
+  153 |           )}
+  154 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  react-hooks/error-boundaries
+  156:11  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:156:11
+  154 |
+  155 |           {/* Pagination */}
+> 156 |           <Suspense fallback={null}>
+      |           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 157 |             <Pagination totalCount={totalCount} page={page} limit={limit} />
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 158 |           </Suspense>
+      | ^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  159 |         </div>
+  160 |       </div>
+  161 |     );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        react-hooks/error-boundaries
+  157:13  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\invoices\page.tsx:157:13
+  155 |           {/* Pagination */}
+  156 |           <Suspense fallback={null}>
+> 157 |             <Pagination totalCount={totalCount} page={page} limit={limit} />
+      |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  158 |           </Suspense>
+  159 |         </div>
+  160 |       </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           react-hooks/error-boundaries
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\reports\page.tsx
+   61:7   error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\reports\page.tsx:61:7
+   59 |
+   60 |     return (
+>  61 |       <div className="space-y-8">
+      |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  62 |         <div>
+      | ^^^^^^^^^^^^^
+>  63 |           <h1 className="font-display text-2xl font-bold text-white">Reports</h1>
+      …
+      | ^^^^^^^^^^^^^
+> 130 |         </Suspense>
+      | ^^^^^^^^^^^^^
+> 131 |       </div>
+      | ^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  132 |     );
+  133 |   } catch (error) {
+  134 |     console.error("Failed to load reports:", error);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react-hooks/error-boundaries
+   62:9   error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\reports\page.tsx:62:9
+  60 |     return (
+  61 |       <div className="space-y-8">
+> 62 |         <div>
+     |         ^^^^^
+> 63 |           <h1 className="font-display text-2xl font-bold text-white">Reports</h1>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 64 |           <p className="text-sm text-slate-400 mt-1">
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 65 |             Performance reports and analytics for your account
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 66 |           </p>
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 67 |         </div>
+     | ^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  68 |
+  69 |         {reports.length > 0 ? (
+  70 |           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      react-hooks/error-boundaries
+   63:11  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\reports\page.tsx:63:11
+  61 |       <div className="space-y-8">
+  62 |         <div>
+> 63 |           <h1 className="font-display text-2xl font-bold text-white">Reports</h1>
+     |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  64 |           <p className="text-sm text-slate-400 mt-1">
+  65 |             Performance reports and analytics for your account
+  66 |           </p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            react-hooks/error-boundaries
+   64:11  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\reports\page.tsx:64:11
+  62 |         <div>
+  63 |           <h1 className="font-display text-2xl font-bold text-white">Reports</h1>
+> 64 |           <p className="text-sm text-slate-400 mt-1">
+     |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 65 |             Performance reports and analytics for your account
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 66 |           </p>
+     | ^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  67 |         </div>
+  68 |
+  69 |         {reports.length > 0 ? (                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                react-hooks/error-boundaries
+   70:11  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\reports\page.tsx:70:11
+   68 |
+   69 |         {reports.length > 0 ? (
+>  70 |           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  71 |             {reports.map((report) => {
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  72 |               const sectionTypes = [...new Set(report.sections.map((s) => s.type))];
+      …
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 115 |             })}
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 116 |           </div>
+      | ^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  117 |         ) : (
+  118 |           <div className="bg-[#111827] border border-white/6 rounded-xl p-12 text-center">
+  119 |             <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center mx-auto mb-4">                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          react-hooks/error-boundaries
+  118:11  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\reports\page.tsx:118:11
+  116 |           </div>
+  117 |         ) : (
+> 118 |           <div className="bg-[#111827] border border-white/6 rounded-xl p-12 text-center">
+      |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 119 |             <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center mx-auto mb-4">
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 120 |               <FileText size={24} className="text-slate-500" />
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 121 |             </div>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 122 |             <p className="text-slate-500 mb-1">No reports available yet</p>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 123 |             <p className="text-xs text-slate-600">Reports will appear here once they are published by your team.</p>
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 124 |           </div>
+      | ^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  125 |         )}
+  126 |
+  127 |         {/* Pagination */}  react-hooks/error-boundaries
+  119:13  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\reports\page.tsx:119:13
+  117 |         ) : (
+  118 |           <div className="bg-[#111827] border border-white/6 rounded-xl p-12 text-center">
+> 119 |             <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center mx-auto mb-4">
+      |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 120 |               <FileText size={24} className="text-slate-500" />
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 121 |             </div>
+      | ^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  122 |             <p className="text-slate-500 mb-1">No reports available yet</p>
+  123 |             <p className="text-xs text-slate-600">Reports will appear here once they are published by your team.</p>
+  124 |           </div>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  react-hooks/error-boundaries
+  120:15  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\reports\page.tsx:120:15
+  118 |           <div className="bg-[#111827] border border-white/6 rounded-xl p-12 text-center">
+  119 |             <div className="w-12 h-12 rounded-lg bg-white/5 flex items-center justify-center mx-auto mb-4">
+> 120 |               <FileText size={24} className="text-slate-500" />
+      |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  121 |             </div>
+  122 |             <p className="text-slate-500 mb-1">No reports available yet</p>
+  123 |             <p className="text-xs text-slate-600">Reports will appear here once they are published by your team.</p>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 react-hooks/error-boundaries
+  122:13  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\reports\page.tsx:122:13
+  120 |               <FileText size={24} className="text-slate-500" />
+  121 |             </div>
+> 122 |             <p className="text-slate-500 mb-1">No reports available yet</p>
+      |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  123 |             <p className="text-xs text-slate-600">Reports will appear here once they are published by your team.</p>
+  124 |           </div>
+  125 |         )}                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                react-hooks/error-boundaries
+  123:13  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\reports\page.tsx:123:13
+  121 |             </div>
+  122 |             <p className="text-slate-500 mb-1">No reports available yet</p>
+> 123 |             <p className="text-xs text-slate-600">Reports will appear here once they are published by your team.</p>
+      |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  124 |           </div>
+  125 |         )}
+  126 |                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       react-hooks/error-boundaries
+  128:9   error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\reports\page.tsx:128:9
+  126 |
+  127 |         {/* Pagination */}
+> 128 |         <Suspense fallback={null}>
+      |         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 129 |           <Pagination totalCount={totalCount} page={page} limit={limit} />
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 130 |         </Suspense>
+      | ^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  131 |       </div>
+  132 |     );
+  133 |   } catch (error) {                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     react-hooks/error-boundaries
+  129:11  error  Error: Avoid constructing JSX within try/catch
+
+React does not immediately render components when JSX is rendered, so any errors from this component will not be caught by the try/catch. To catch errors in rendering a given component, wrap that component in an error boundary. (https://react.dev/reference/react/Component#catching-rendering-errors-with-an-error-boundary).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\portal\reports\page.tsx:129:11
+  127 |         {/* Pagination */}
+  128 |         <Suspense fallback={null}>
+> 129 |           <Pagination totalCount={totalCount} page={page} limit={limit} />
+      |           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Avoid constructing JSX within try/catch
+  130 |         </Suspense>
+  131 |       </div>
+  132 |     );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                react-hooks/error-boundaries
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\academy\PaymentGate.tsx
+  21:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\academy\PaymentGate.tsx:21:5
+  19 |   useEffect(() => {
+  20 |     checkUrlForPurchase(course.slug);
+> 21 |     setUserHasAccess(hasAccess(course.slug));
+     |     ^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  22 |     setLoading(false);
+  23 |   }, [course.slug]);
+  24 |  react-hooks/set-state-in-effect
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\academy\QuizComponent.tsx
+  13:52  warning  'courseTitle' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\blog\PostEditor.tsx
+  46:7  error  'html' is never reassigned. Use 'const' instead  prefer-const
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\clients\ClientChat.tsx
+  23:48  warning  'currentUserId' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\layout\AdminHeader.tsx
+  47:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\layout\AdminHeader.tsx:47:5
+  45 |   const [isMac, setIsMac] = useState(false);
+  46 |   useEffect(() => {
+> 47 |     setIsMac(/Mac|iPhone|iPad/.test(navigator.platform));
+     |     ^^^^^^^^ Avoid calling setState() directly within an effect
+  48 |   }, []);
+  49 |   const triggerPalette = () => {
+  50 |     window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true }));  react-hooks/set-state-in-effect
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\layout\AdminSidebar.tsx
+  148:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\layout\UnreadMessagesBadge.tsx
+  33:5  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\layout\UnreadMessagesBadge.tsx:33:5
+  31 |
+  32 |   useEffect(() => {
+> 33 |     fetchUnread();
+     |     ^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  34 |     const interval = setInterval(fetchUnread, 30000);
+  35 |     return () => clearInterval(interval);
+  36 |   }, [fetchUnread]);  react-hooks/set-state-in-effect
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\onboarding\steps\BusinessInfoStep.tsx
+  10:24  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  11:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\onboarding\steps\PpcStep.tsx
+  10:24  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  11:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\onboarding\steps\SeoStep.tsx
+  10:24  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  11:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\onboarding\steps\SmaStep.tsx
+  20:24  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  21:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\onboarding\steps\WebStep.tsx
+  10:24  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  11:36  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\projects\ProjectsClient.tsx
+  13:7  warning  'PROJECT_STATUSES' is assigned a value but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\reports\ReportView.tsx
+  146:46  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  460:37  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\shared\AgentButton.tsx
+  31:3  error  Error: Cannot access refs during render
+
+React refs are values that are not needed for rendering. Refs should only be accessed outside of render, such as in event handlers or effects. Accessing a ref value (the `current` property) during render can cause your component not to update as expected (https://react.dev/reference/react/useRef).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\shared\AgentButton.tsx:31:3
+  29 |   const logEndRef = useRef<HTMLDivElement>(null);
+  30 |   const onCompleteRef = useRef(onComplete);
+> 31 |   onCompleteRef.current = onComplete;
+     |   ^^^^^^^^^^^^^^^^^^^^^ Cannot update ref during render
+  32 |
+  33 |   const stopPolling = useCallback(() => {
+  34 |     if (pollRef.current) {  react-hooks/refs
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\tickets\TicketBoard.tsx
+  68:45  warning  'userId' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\tickets\TicketThread.tsx
+   54:5   error    Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\admin\tickets\TicketThread.tsx:54:5
+  52 |
+  53 |   useEffect(() => {
+> 54 |     fetchMessages();
+     |     ^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  55 |     // Poll every 10 seconds for new messages
+  56 |     const interval = setInterval(fetchMessages, 10000);
+  57 |     return () => clearInterval(interval);  react-hooks/set-state-in-effect
+  158:17  warning  'isSelf' is assigned a value but never used                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\portal\PortalSidebar.tsx
+  46:11  warning  Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\portal\desktop\InstallButton.tsx
+  28:21  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\portal\desktop\InstallButton.tsx:28:21
+  26 |       // @ts-expect-error iOS Safari
+  27 |       window.navigator.standalone === true;
+> 28 |     if (standalone) setInstalled(true);
+     |                     ^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  29 |
+  30 |     const onPrompt = (e: Event) => {
+  31 |       e.preventDefault();  react-hooks/set-state-in-effect
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\reports\sections\MarketingSection.tsx
+  24:10  warning  'MetricCard' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\reports\sections\SeoSection.tsx
+   84:9  warning  The 'keywordRankings' logical expression could make the dependencies of useMemo Hook (at line 123) change on every render. To fix this, wrap the initialization of 'keywordRankings' in its own useMemo() Hook  react-hooks/exhaustive-deps
+  184:6  warning  React Hook useMemo has a missing dependency: 'CHANNEL_MAP'. Either include it or remove the dependency array                                                                                                    react-hooks/exhaustive-deps
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\reports\sections\SocialSection.tsx
+  104:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  109:38  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\three\MarketingIcons.tsx
+  242:12  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\three\MarketingIcons.tsx:242:12
+  240 |         geometryIdx: i % ICON_BUILDERS.length,
+  241 |         position: [
+> 242 |           (Math.random() - 0.5) * 12,
+      |            ^^^^^^^^^^^^^ Cannot call impure function
+  243 |           (Math.random() - 0.5) * 14,
+  244 |           -1.5 - Math.random() * 2,
+  245 |         ],                                                 react-hooks/purity
+  243:12  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\three\MarketingIcons.tsx:243:12
+  241 |         position: [
+  242 |           (Math.random() - 0.5) * 12,
+> 243 |           (Math.random() - 0.5) * 14,
+      |            ^^^^^^^^^^^^^ Cannot call impure function
+  244 |           -1.5 - Math.random() * 2,
+  245 |         ],
+  246 |         rotation: Math.random() * Math.PI * 2,                                                 react-hooks/purity
+  244:18  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\three\MarketingIcons.tsx:244:18
+  242 |           (Math.random() - 0.5) * 12,
+  243 |           (Math.random() - 0.5) * 14,
+> 244 |           -1.5 - Math.random() * 2,
+      |                  ^^^^^^^^^^^^^ Cannot call impure function
+  245 |         ],
+  246 |         rotation: Math.random() * Math.PI * 2,
+  247 |         speed: 0.03 + Math.random() * 0.04,                   react-hooks/purity
+  246:19  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\three\MarketingIcons.tsx:246:19
+  244 |           -1.5 - Math.random() * 2,
+  245 |         ],
+> 246 |         rotation: Math.random() * Math.PI * 2,
+      |                   ^^^^^^^^^^^^^ Cannot call impure function
+  247 |         speed: 0.03 + Math.random() * 0.04,
+  248 |         rotSpeed: (Math.random() - 0.5) * 0.08,
+  249 |         phase: Math.random() * Math.PI * 2,  react-hooks/purity
+  247:23  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\three\MarketingIcons.tsx:247:23
+  245 |         ],
+  246 |         rotation: Math.random() * Math.PI * 2,
+> 247 |         speed: 0.03 + Math.random() * 0.04,
+      |                       ^^^^^^^^^^^^^ Cannot call impure function
+  248 |         rotSpeed: (Math.random() - 0.5) * 0.08,
+  249 |         phase: Math.random() * Math.PI * 2,
+  250 |         color: iconDef.color,    react-hooks/purity
+  248:20  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\three\MarketingIcons.tsx:248:20
+  246 |         rotation: Math.random() * Math.PI * 2,
+  247 |         speed: 0.03 + Math.random() * 0.04,
+> 248 |         rotSpeed: (Math.random() - 0.5) * 0.08,
+      |                    ^^^^^^^^^^^^^ Cannot call impure function
+  249 |         phase: Math.random() * Math.PI * 2,
+  250 |         color: iconDef.color,
+  251 |       });        react-hooks/purity
+  249:16  error  Error: Cannot call impure function during render
+
+`Math.random` is an impure function. Calling an impure function can produce unstable results that update unpredictably when the component happens to re-render. (https://react.dev/reference/rules/components-and-hooks-must-be-pure#components-and-hooks-must-be-idempotent).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\three\MarketingIcons.tsx:249:16
+  247 |         speed: 0.03 + Math.random() * 0.04,
+  248 |         rotSpeed: (Math.random() - 0.5) * 0.08,
+> 249 |         phase: Math.random() * Math.PI * 2,
+      |                ^^^^^^^^^^^^^ Cannot call impure function
+  250 |         color: iconDef.color,
+  251 |       });
+  252 |     }                                                     react-hooks/purity
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\three\ParticleField.tsx
+  45:7  warning  Unused eslint-disable directive (no problems were reported from 'react-hooks/immutability')
+  47:7  warning  Unused eslint-disable directive (no problems were reported from 'react-hooks/immutability')
+  49:7  warning  Unused eslint-disable directive (no problems were reported from 'react-hooks/immutability')
+  60:9  warning  Unused eslint-disable directive (no problems were reported from 'react-hooks/immutability')
+  62:9  warning  Unused eslint-disable directive (no problems were reported from 'react-hooks/immutability')
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\three\Scene.tsx
+  16:40  warning  'scrollProgress' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\three\ScrollController.tsx
+  20:5  warning  Unused eslint-disable directive (no problems were reported from 'react-hooks/immutability')
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\ui\AnimatedCounter.tsx
+  28:7  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\ui\AnimatedCounter.tsx:28:7
+  26 |   useEffect(() => {
+  27 |     if (reduced || !ref.current) {
+> 28 |       setDisplay(value);
+     |       ^^^^^^^^^^ Avoid calling setState() directly within an effect
+  29 |       return;
+  30 |     }
+  31 |  react-hooks/set-state-in-effect
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\ui\ExitPopup.tsx
+  81:52  error  Error: Cannot access variable before it is declared
+
+`handleMouseLeave` is accessed before it is declared, which prevents the earlier access from updating when this value changes over time.
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\ui\ExitPopup.tsx:81:52
+  79 |         sessionStorage.setItem("exit_popup_shown", "1");
+  80 |         // Remove listener after showing once
+> 81 |         document.removeEventListener("mouseleave", handleMouseLeave);
+     |                                                    ^^^^^^^^^^^^^^^^ `handleMouseLeave` accessed before it is declared
+  82 |       }
+  83 |     },
+  84 |     [config],
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\ui\ExitPopup.tsx:72:3
+  70 |
+  71 |   // Exit intent detection
+> 72 |   const handleMouseLeave = useCallback(
+     |   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> 73 |     (e: MouseEvent) => {
+     | ^^^^^^^^^^^^^^^^^^^^^^^^
+> 74 |       if (!config) return;
+     …
+     | ^^^^^^^^^^^^^^^^^^^^^^^^
+> 84 |     [config],
+     | ^^^^^^^^^^^^^^^^^^^^^^^^
+> 85 |   );
+     | ^^^^^ `handleMouseLeave` is declared here
+  86 |
+  87 |   useEffect(() => {
+  88 |     if (!config) return;  react-hooks/immutability
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\components\ui\PageTransition.tsx
+  43:5  warning  Unused eslint-disable directive (no problems were reported from 'react-hooks/set-state-in-effect')
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\hooks\useGsapReveal.ts
+  5:16  warning  'ScrollTrigger' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\hooks\useGsapStagger.ts
+  5:16  warning  'ScrollTrigger' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\lib\agent-executor.ts
+  1:10  warning  'execSync' is defined but never used    @typescript-eslint/no-unused-vars
+  2:39  warning  'existsSync' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\lib\lead-scoring.ts
+  95:11  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\lib\storage.ts
+  20:3  warning  '_contentType' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\lib\ticket-agent.ts
+  28:45  warning  '_ticketId' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\prisma\update-clients.ts
+  193:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\public\portal-desktop\sw.js
+  4:35  warning  'event' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\services\google.ts
+  22:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+  23:19  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\services\stripe.ts
+  4:31  error  Unexpected any. Specify a different type  @typescript-eslint/no-explicit-any
+
+✖ 143 problems (84 errors, 59 warnings)
+  2 errors and 7 warnings potentially fixable with the `--fix` option.
+
+lint exit: 1
+
+=========== 4/5 npm run test ===========
+
+> vanguardm.com@0.1.0 test
+> vitest run
+
+
+ RUN  v4.1.2 C:/Users/james/vanguard-repos/vanguardm-phase-a
+
+
+ Test Files  7 passed (7)
+      Tests  50 passed (50)
+   Start at  01:31:33
+   Duration  1.17s (transform 476ms, setup 0ms, import 925ms, tests 919ms, environment 1ms)
+
+test exit: 0
+
+=========== 5/5 npm audit --omit=dev --package-lock-only ===========
+found 0 vulnerabilities
+audit exit: 0
+
+=== GATE SUMMARY ===
+tsc exit:   <see above>
+lint exit:  1
+test exit:  0
+audit exit: 0
+
+=========== LINT BASELINE COMPARISON ===========
+Baseline (main, stash test): 143 problems (84 errors, 59 warnings)
+Current (phase-a/low-risk-fixes): 143 problems (84 errors, 59 warnings)
+Delta: 0 new errors, 0 new warnings — Phase A introduces nothing new.
+
+=========== SCOPED LINT ON PHASE A FILES ===========
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\app\api\portal\invoices\route.ts
+  5:51  warning  'req' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\lib\agent-executor.ts
+  1:10  warning  'execSync' is defined but never used    @typescript-eslint/no-unused-vars
+  2:39  warning  'existsSync' is defined but never used  @typescript-eslint/no-unused-vars
+
+C:\Users\james\vanguard-repos\vanguardm-phase-a\scripts\deploy-vps.sh
+  0:0  warning  File ignored because no matching configuration was supplied
+
+✖ 4 problems (0 errors, 4 warnings)
+
+scoped lint exit: 0
+
+=========== FINAL GATE STATE ===========
+tsc --noEmit:                                       PASS (0)
+npm run lint (global):                              FAIL (1) — entirely pre-existing baseline (143 problems on main)
+npm run lint (scoped to Phase A files):             see above — warnings only, all pre-existing
+npm run test (vitest, 50 tests, 7 files):           PASS (0)
+npm audit --omit=dev --package-lock-only:           PASS (0)  — 0 vulnerabilities

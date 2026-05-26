@@ -91,7 +91,7 @@ async function main() {
     }
     console.log(`\n  Total: ${PAID_COURSES.length} products + ${PAID_COURSES.length} prices\n`);
   } else {
-    const stripe = new Stripe(secretKey);
+    const stripe = new Stripe(secretKey, { apiVersion: "2026-04-22.dahlia" });
 
     // Check for existing products to avoid duplicates
     console.log("  Checking for existing Vanguard Academy products...\n");
