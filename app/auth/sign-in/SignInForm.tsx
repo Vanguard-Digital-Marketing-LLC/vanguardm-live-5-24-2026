@@ -6,6 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import Turnstile from "@/components/ui/Turnstile";
 import { trackEvent } from "@/lib/gtm";
+import { safeCallbackUrl } from "@/lib/safe-callback-url";
 
 export default function SignInForm() {
   const router = useRouter();
@@ -63,7 +64,7 @@ export default function SignInForm() {
     } else if (role === "ADMIN" || role === "TEAM") {
       window.location.href = "/admin";
     } else {
-      window.location.href = callbackUrl;
+      window.location.href = safeCallbackUrl(callbackUrl, window.location.origin);
     }
   }
 
