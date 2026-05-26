@@ -67,9 +67,10 @@ Using `superpowers:verification-before-completion`:
   npx tsc --noEmit
   npm run lint
   npm run test
+  npm audit --omit=dev --package-lock-only
   ```
-  All three must exit 0. Output captured to `docs/superpowers/verify-logs/phase-<X>-<utc>.log` and referenced in the phase commit message.
-- **Phase D gate**: above three plus `npm run test:e2e` plus the aggregated RYG report. Target: ≥36/40 testers green.
+  All four must exit 0. Output captured to `docs/superpowers/verify-logs/phase-<X>-<utc>.log` and referenced in the phase commit message. The `npm audit` gate exists specifically to detect regressions of the `overrides` block (see §6 Phase C note on `postcss` and `@hono/node-server`): if a future dep bump backs out either override, the per-phase gate fails.
+- **Phase D gate**: above four plus `npm run test:e2e` plus the aggregated RYG report. Target: ≥36/40 testers green.
 - A failing gate stops the phase. Partial work is committed (no lost progress) but the PR is marked Draft.
 
 ### Risk controls
@@ -200,6 +201,19 @@ Each subagent owns one fix end-to-end (code + tests + migration if any). All fou
 
 ## 6. Phase C — SDK Upgrades (3 sequential subagents, 3 commits)
 
+> **Pre-existing `overrides` cover two advisories** — confirmed 2026-05-26 by
+> resolving `node_modules/postcss/package.json` in a healthy sibling install:
+>
+> | Advisory | Vulnerable version | Override floor (current `package.json`) | Resolved version |
+> |---|---|---|---|
+> | [GHSA-qx2v-qp2m-jg93](https://github.com/advisories/GHSA-qx2v-qp2m-jg93) (postcss `</style>` XSS in `stringify`, bundled by `next` ≤ 16.3.0-canary.5) | postcss ≤ 8.4.31 | `^8.5.13` | postcss `8.5.15` ✅ |
+> | [GHSA-92pp-h63x-v22m](https://github.com/advisories/GHSA-92pp-h63x-v22m) (`@hono/node-server` serveStatic bypass, reachable via `prisma@7.x` → `@prisma/dev`) | `@hono/node-server` ≤ 1.19.11 | `^1.19.13` | not bundled — see note ⬇ |
+>
+> The `@hono/node-server` chain only fires when `prisma dev` is invoked; grep across `package.json`, `scripts/`, `docs/`, `README.md`, `DEPLOY.md` finds zero references. The override is belt + suspenders.
+>
+> **Keep both overrides in `package.json` until** (a) the upgrade lands `next@16.3.x` (which closes the postcss issue at source) and `prisma@7.9.0+` (which closes the `@hono/node-server` chain). At that point the overrides can be dropped in a follow-up commit; until then the per-phase `npm audit --omit=dev --package-lock-only` gate catches a regression of either override.
+
+
 ### C.1 Stripe SDK 20 → 22
 - Bump `stripe` to `^22.x` in `package.json`.
 - Set `apiVersion` in the Stripe client constructor to the current stable (verify against v22 release notes).
@@ -318,9 +332,9 @@ Main thread collects all 40 results into `docs/superpowers/verify-logs/gauntlet-
 
 | Phase | Verification | Rollback |
 |---|---|---|
-| A | `tsc --noEmit && lint && test` | `git revert <commit>` |
+| A | `tsc --noEmit && lint && test && npm audit --omit=dev --package-lock-only` | `git revert <commit>` |
 | B | Same + new Vitest cases | Revert each B commit individually |
-| C | Same + Stripe E2E in D's stack | Revert C PR |
+| C | Same + Stripe E2E in D's stack; audit gate especially relevant — see §6 note on overrides | Revert C PR |
 | D | Same + Playwright e2e + RYG hard gate (see below) | Revert D PR; infra files only |
 
 ### Phase D RYG hard gate
