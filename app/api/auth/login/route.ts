@@ -23,11 +23,17 @@ import { generateRefreshToken, hashToken } from "@/lib/token-hash";
 const LOCKOUT_THRESHOLD = 10;
 const LOCKOUT_DURATION_MS = 15 * 60 * 1000; // 15 minutes
 
+// A valid bcrypt hash (cost 12) used to equalize timing when no user is found,
+// so a missing account doesn't respond faster than a wrong password (which would
+// leak which emails are registered). Computed once at module load.
+const DUMMY_PASSWORD_HASH = bcrypt.hashSync("timing-equalizer-not-a-real-password", 12);
+
 export async function POST(request: NextRequest) {
   try {
     // Rate limit by IP: 5 attempts per 15 minutes
-    const ip = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
-      || request.headers.get("cf-connecting-ip")
+    // Trust only proxy-set headers; the X-Forwarded-For first hop is client-spoofable.
+    const ip = request.headers.get("cf-connecting-ip")
+      || request.headers.get("x-real-ip")
       || "unknown";
     const { allowed, remaining, resetIn } = await rateLimitAsync(`login:${ip}`, 5, 15 * 60 * 1000);
 
@@ -60,8 +66,11 @@ export async function POST(request: NextRequest) {
       include: { agency: { select: { slug: true } } },
     });
 
-    // Generic error for invalid email (don't reveal if account exists)
+    // Generic error for invalid email (don't reveal if account exists). Run a
+    // dummy bcrypt compare so this path takes the same time as a wrong password
+    // — otherwise response latency leaks which emails are registered.
     if (!user || !user.password) {
+      await bcrypt.compare(password, DUMMY_PASSWORD_HASH);
       return NextResponse.json(
         { error: "Invalid email or password." },
         { status: 401, headers: { "X-RateLimit-Remaining": String(remaining) } }
